@@ -1,0 +1,39 @@
+<%- include('./layouts/userheader.ejs') %> 
+<div class="container-fluid login-container">
+    <div class="row login-row d-flex justify-content-center align-items-center justify-content-space-around my-5">
+        <div class="col-lg-4 align-items-center">
+            <div class="login-div mx-auto signup-div">
+              <form action="/signup" class="text-center" method="post">
+                    <img  class="banner" src="/images/png-transparent-running-logo-sneakers-shoe-sports-shoes-footwear-clothing-aqua-electric-blue-removebg-preview.png" alt="">
+                    <p class="text-danger fw-bold m-0"><%=locals.error%></p>
+                    <input class="login-input my-2" type="text" placeholder="Name" required="" name="name">
+                    <input class="login-input my-2" type="number" placeholder="phone" required="" name="phone">                   
+                    <input class="login-input my-2" type="text" placeholder="Email Address" required="" name="email" pattern="^(([-\w\d]+)(\.[-\w\d]+)*@([-\w\d]+)(\.[-\w\d]+)*(\.([a-zA-Z]{2,5}|[\d]{1,3})){1,2})$">                   
+                    <input class="login-input my-2" type="password" placeholder="Password" required="" id="password" name="password" onkeyup="check()">                   
+                    <input class="login-input my-2" type="password" placeholder="Confirm Password" required="" id="confirm_password" name="confirmpassword" onkeyup="check()"> 
+                    <p id="message"></p>
+                    <p class="px-4 small-text">I Agree the terms and conditions</p>                 
+                    <button class="login-button signup-button" type="submit">Register</button>
+                    <p class="px-4"><a href="login">Sign In</a></p>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-4 login-banner">
+            <img class="login-image d-none d-lg-block"  src="/images/air-kukini-se-shoes-mGmph3-removebg-preview.png" alt="">
+        </div>
+    </div>
+</div>
+
+<script>
+        var check = function() {
+        if (document.getElementById('password').value ==
+            document.getElementById('confirm_password').value) {
+            document.getElementById('message').style.color = 'green';
+            document.getElementById('message').innerHTML = 'matching';
+        } else {
+            document.getElementById('message').style.color = 'red';
+            document.getElementById('message').innerHTML = 'not matching';
+        }
+        }
+</script>
+<%- include('./layouts/userfooter.ejs') %> 

@@ -1,0 +1,73 @@
+<%- include('./layouts/adminheader.ejs') %> 
+
+
+<!-- <button><a href="/addProduct">add product</a></button> -->
+<% if(details !=null) { %>
+    <section>
+      <!--for demo wrap-->
+      <!-- <form class="ssearch-box">
+        <input id="filterSearch" type="text" placeholder="Name/Email"/>
+        <button type="reset"></button>
+      </form> -->
+      <a href="/addProduct"><div class="box-3">
+        <div class="btn btn-three button-pad">
+          <span>ADD PRODUCT</span>
+        </div>
+      </div>  
+    </a>  
+      <h1>PRODUCT DETAILS</h1>
+      <div class="tbl-header">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Image</th>
+              <th>price</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Color</th>
+              <th>Size</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="tbl-content">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody id="table_body">
+            <% details.forEach(function(item){ %>
+              <tr>
+                <td><%= item.Name %></td>
+                <td><img class="productImg" src="/images/productImage/<%= item.Image1 %>" alt=""></td>
+                <td><%= item.Price %></td>
+                <td><%= item.Description %></td>
+                <td><%= item.Category %></td>
+                <td><%= item.Color %></td>
+                <td><%= item.Size %></td>
+              </tr>
+              <% }) %>
+              </tbody>
+            </table>
+            <% } %>
+    </div>
+  </section>
+
+    
+<!-- <input type="search" id="gfg"> -->
+<script>
+$(document).ready(function(){
+$("#filterSearch").on("keyup", function() {
+  var value = $(this).val().toLowerCase();
+  $("#table_body tr").filter(function() {
+    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+  });
+});
+});
+
+
+
+</script>
+
+
+
+
+<%- include('./layouts/adminfooter.ejs') %> 

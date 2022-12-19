@@ -1,0 +1,27 @@
+<%- include('./layouts/userheader.ejs') %> 
+<div class="container-fluid login-container">
+    <div class="row login-row d-flex justify-content-center align-items-center my-5">
+        <div class="col-lg-4 align-items-center">
+            <div class="login-div mx-auto">
+                <form action="/login" class="text-center" method="post">
+                    <img  class="banner" src="/images/png-transparent-running-logo-sneakers-shoe-sports-shoes-footwear-clothing-aqua-electric-blue-removebg-preview.png" alt="">
+                    <input class="login-input my-2" type="text" name="email" placeholder="Email Address" pattern="^(([-\w\d]+)(\.[-\w\d]+)*@([-\w\d]+)(\.[-\w\d]+)*(\.([a-zA-Z]{2,5}|[\d]{1,3})){1,2})$">
+                    <input class="login-input my-2" type="password" name="password" placeholder="Password">
+                    <div class="d-flex justify-content-around my-2">
+                        <p class="px-4"><a href="signup">Sign Up</a></p>
+                        <p class="px-4"><a href="">Forgot Password</a></p>
+                    </div>
+                    <p class="px-4"><a href="">Sign In with OTP</a></p>
+                    <p class="px-4 small-text">By logging in, you agree to run in style’s Privacy Policy and Terms of Use.</p>
+                    <p class="text-danger fw-bold"><%=locals.error%></p>
+                    <button class="login-button" type="submit">Sign In</button>
+                    <p class="px-4 imadminbutton"><a href="adminlogin">Im an admin</a></p>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-4 login-banner">
+            <img class="login-image d-none d-lg-block"  src="/images/71w-wMJ+XdL._UX695_-removebg-preview.png" alt="">
+        </div>
+    </div>
+</div>
+<%- include('./layouts/userfooter.ejs') %> 

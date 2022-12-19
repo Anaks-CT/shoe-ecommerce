@@ -1,0 +1,20 @@
+<%- include('./layouts/userheader.ejs') %> 
+
+<div class="container-fluid login-container">
+    <div class="row login-row d-flex justify-content-center align-items-center justify-content-space-around my-5">
+        <div class="col-lg-8 align-items-center">
+            <div class="login-div mx-auto">
+                <form action="/adminlogin" class="text-center adminsignin-form" method="post">
+                    <img  class="banner" src="/images/png-transparent-running-logo-sneakers-shoe-sports-shoes-footwear-clothing-aqua-electric-blue-removebg-preview.png" alt="">
+                    <p class="adminsignin-banner">Admin SignIn</p>
+                    <p class="text-danger fw-bold"><%=locals.error%></p>
+                    <input class="login-input my-2" type="text" placeholder="Email Address" name="email">
+                    <input class="login-input my-2" type="password" placeholder="Password" name="password">
+                    <button class="login-button" type="submit">Sign In</button>
+                    <p class="px-4 imadminbutton"><a href="login">Im a user</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('./layouts/userfooter.ejs') %> 

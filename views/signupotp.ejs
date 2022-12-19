@@ -1,0 +1,19 @@
+<%- include('./layouts/userheader.ejs') %> 
+
+<div class="container-fluid login-container">
+    <div class="row login-row d-flex justify-content-center align-items-center justify-content-space-around my-5">
+        <div class="col-lg-4 align-items-center">
+            <div class="login-div mx-auto d-flex otpdiv">
+                <form action="/signupotp" class="text-center align-items-center" method="post">
+                    <img  class="banner" src="/images/png-transparent-running-logo-sneakers-shoe-sports-shoes-footwear-clothing-aqua-electric-blue-removebg-preview.png" alt="">
+                    <p class="message">Enter the 4-digit OTP sent to your Email</p>
+                    <p class="text-danger fw-bold m-0"><%=locals.error%></p>
+                    <input class="login-input my-2" type="text" placeholder="OTP" required="" name="otp">                    
+                    <button class="login-button otpbutton" type="submit">Submit OTP</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('./layouts/userfooter.ejs') %> 

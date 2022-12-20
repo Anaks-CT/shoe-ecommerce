@@ -1,6 +1,5 @@
 const express = require('express')
 const router=express.Router()
-// const Register = require('../src/models/database')
 const adminController = require('../controller/adminController')
 const upload = require('../utility/multer')
 

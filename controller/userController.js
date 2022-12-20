@@ -149,6 +149,10 @@ function userwelcome2 (req, res)  {
     }
 }
 
+function accountDetails (req, res) {
+    res.render('user-accountDetails')
+}
+
 
 module.exports = {
     welcome,
@@ -159,5 +163,6 @@ module.exports = {
     userwelcome,
     userwelcome2,
     signupotp,
-    postsignupotp
+    postsignupotp,
+    accountDetails
 }

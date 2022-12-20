@@ -1,7 +1,6 @@
 const express = require('express')
 const hbs = require('hbs')
 const router=express.Router()
-const Register= require('../src/models/database')
 const userController = require('../controller/userController')
 
 
@@ -14,5 +13,6 @@ router.get('/login2', userController.userwelcome)
 router.get('/login3', userController.userwelcome2)
 router.get('/signupotp', userController.signupotp)
 router.post('/signupotp', userController.postsignupotp)
+router.get('/accountDetails', userController.accountDetails)
 
 module.exports=router

@@ -1,0 +1,43 @@
+<%- include('./layouts/adminheader.ejs') %> 
+
+
+<div class="container">
+    <div class=" text-center mt-5 ">
+        <h1 >Add Category</h1>        
+    </div>
+    <div class="row ">
+        <div class="col-lg-7 mx-auto">
+            <div class="card mt-2 mx-auto p-4 bg-light">
+                <div class="card-body bg-light">   
+                    <div class = "container">
+                        <form id="contact-form" role="form" method="post" action="/addCategory">
+                            <div class="controls">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="form_name">Category name *</label>
+                                                <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter Category name *" required="required" data-error="product name is required.">                                                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">   
+                                    <div class="col-md-6">                                        
+                                        <input type="submit" class="btn btn-success btn-send  pt-2 btn-block
+                                            " value="Add Category" >                                    
+                                    </div>
+                                </form>
+                                    <div class="col-md-6">                                        
+                                        <a href="/categoryDetails" class="btn btn-success btn-send pt-2 btn-block">CANCEL</a>                                
+                                    </div>
+                                </div>                                          
+                            </div>
+                       
+                    </div>
+                </div>                                
+            </div>                                       
+        </div>                                  
+    </div>
+ </div>
+
+
+<%- include('./layouts/adminfooter.ejs') %> 

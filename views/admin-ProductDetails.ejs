@@ -27,6 +27,7 @@
               <th>Category</th>
               <th>Color</th>
               <th>Size</th>
+              <th></th>
             </tr>
           </thead>
         </table>
@@ -43,6 +44,14 @@
                 <td><%= item.Category %></td>
                 <td><%= item.Color %></td>
                 <td><%= item.Size %></td>
+                <td>
+                  <a href="/editProduct?id=<%= item._id %>"><div class="box-3">
+                  <div class="btn btn-three">
+                    <span><i class="fa-solid fa-pen-to-square"></i></span>
+                  </div>
+                </div>
+              </a>
+              </td>
               </tr>
               <% }) %>
               </tbody>

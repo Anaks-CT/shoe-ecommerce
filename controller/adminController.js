@@ -68,7 +68,7 @@ async function productDetail(req, res) {
 
 async function addProduct(req, res) {
     const category = await newCategory.find({})
-    res.render("admin-addProduct",{category});
+    res.render('admin-addProduct', {category})
 }
 
 function postAddProduct(req, res) {
@@ -87,6 +87,46 @@ function postAddProduct(req, res) {
 
 }
 
+async function categoryDetails (req, res) {
+    const category = await newCategory.find({})
+    res.render('admin-categoryDetails', {category})
+}
+
+function addCategory (req, res) {
+  res.render('admin-addCategory')
+}
+
+function postAddCategory(req, res) {
+  const category = {
+      Name : req.body.name
+  }
+   newCategory.insertMany([category])
+  res.redirect('/categoryDetails')
+}
+
+async function editProduct (req, res) {
+   let id = req.query.id
+  const category = await newCategory.find({})
+  const product = await newProduct.findById({_id : id})
+  // console.log(product);
+  res.render('admin-editProduct', {product,category})
+}
+ 
+ async function post_editProduct (req, res) {
+  // let product = await newProduct.findById({ _id : req.body.idd})
+   
+  await newProduct.updateOne({_id : req.body.idd},{$set : {
+      Name : req.body.name,
+      Description : req.body.description,
+      Size : req.body.size,
+      Price : req.body.price,
+      Category : req.body.category,
+      Color : req.body.color,
+      Image1 : req.file.filename
+  }})
+  res.redirect('/productDetail')
+}
+
 module.exports = {
   adminsignin,
   adminsignin2,
@@ -95,4 +135,9 @@ module.exports = {
   productDetail,
   addProduct,
   postAddProduct,
+  categoryDetails,
+  addCategory,
+  postAddCategory,
+  editProduct,
+  post_editProduct
 };

@@ -212,7 +212,7 @@ header{
     width: 369px;
     height: 549px;
     background: #91C4D4;
-    border-radius: 82px;
+    border-radius: 40px;
 }
 .login-image{
     width: 465px;
@@ -225,7 +225,7 @@ header{
     border: none;
 }
 .banner{
-    width: 175px;
+    width: 120px;
 }
 .small-text{
     font-size: 12px;
@@ -280,4 +280,14 @@ header{
     padding-top: 41px;
 }
 
+.vertical {
+    border-left: 1px solid rgba(0, 0, 0, 0.262);
+    height: 264px;
+    /* position:absolute; */
+    /* left: 50%; */
+}
+
+.yourAccount{
+    color: #1A408A !important;
+}
 

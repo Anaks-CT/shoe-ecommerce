@@ -4,7 +4,7 @@
         <div class="col-lg-4 align-items-center">
             <div class="login-div mx-auto signup-div">
               <form action="/signup" class="text-center" method="post">
-                    <img  class="banner" src="/images/png-transparent-running-logo-sneakers-shoe-sports-shoes-footwear-clothing-aqua-electric-blue-removebg-preview.png" alt="">
+                    <img  class="banner py-2" src="/images/RIS circle WHITE.png" alt="">
                     <p class="text-danger fw-bold m-0"><%=locals.error%></p>
                     <input class="login-input my-2" type="text" placeholder="Name" required="" name="name">
                     <input class="login-input my-2" type="number" placeholder="phone" required="" name="phone">                   
@@ -29,7 +29,7 @@
         if (document.getElementById('password').value ==
             document.getElementById('confirm_password').value) {
             document.getElementById('message').style.color = 'green';
-            document.getElementById('message').innerHTML = 'matching';
+            document.getElementById('message').innerHTML = '';
         } else {
             document.getElementById('message').style.color = 'red';
             document.getElementById('message').innerHTML = 'not matching';

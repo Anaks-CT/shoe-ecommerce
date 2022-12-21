@@ -7,5 +7,5 @@ mongoose.connect("mongodb://127.0.0.1:27017/ecommerce_userdetails", {
 }).then(() =>{
     console.log(`connection successful`)
 }).catch((e)=>{
-    console.log(`connection failed`)
+    console.log(`connection failed ${e}`)
 })

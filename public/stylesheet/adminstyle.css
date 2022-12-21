@@ -83,6 +83,8 @@ margin: 0%;
 }
 .admin-header-banner{
   width: 143px;
+  padding-top: 8px;
+  padding-right: 7px;
 }
 
 /* user datatable  */
@@ -455,3 +457,4 @@ color: white !important;
   opacity: 1;
   transform: scale(1,1);
 }
+

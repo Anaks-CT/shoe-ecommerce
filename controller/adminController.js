@@ -1,6 +1,6 @@
 const Register = require("../src/models/database");
 const newProduct = require("../src/models/products");
-const newCategory = require('../src/models/category')
+const newCategory = require("../src/models/category");
 
 function adminsignin(req, res) {
   if (req.session.admin) {
@@ -36,15 +36,7 @@ function adminPostSignin(req, res) {
 
 async function userdetails(req, res) {
   if (req.session.admin) {
-    // const save = Register.find({}, (err, logindetails) => {
-    //   if (err) {
-    //     console.log(err);
-    //   } else {
-    //     res.render("admin-userdetails", { details: logindetails });
-    //   }
-    // });
-
-    const details = await Register.find({})
+    const details = await Register.find({});
     res.render("admin-userdetails", { details });
     console.log(details);
   } else {
@@ -53,78 +45,70 @@ async function userdetails(req, res) {
 }
 
 async function productDetail(req, res) {
-    // if(req.session.admin){
-    // const products = newProduct.find({}, (err, productDetails)  => {
-    //     if (err) {
-    //         console.log(err);
-    //     } else {
-    //         res.render("admin-ProductDetails", { details : productDetails} );
-    //     }
-    // })   
-    const details = await newProduct.find({})
-    
-    res.render('admin-productDetails', {details})
+  const details = await newProduct.find({});
+  res.render("admin-productDetails", { details });
 }
 
 async function addProduct(req, res) {
-    const category = await newCategory.find({})
-    res.render('admin-addProduct', {category})
+  const category = await newCategory.find({});
+  res.render("admin-addProduct", { category });
 }
 
 function postAddProduct(req, res) {
-    const product = {
-        Name : req.body.name,
-        Description : req.body.description,
-        Size : req.body.size,
-        Price : req.body.price,
-        Category : req.body.category,
-        Color : req.body.color,
-        Image1 : req.file.filename
-    }
-     newProduct.insertMany([product])
-    res.redirect('/productDetail')
-
-
+  const product = {
+    Name: req.body.name,
+    Description: req.body.description,
+    Size: req.body.size,
+    Price: req.body.price,
+    Category: req.body.category,
+    Color: req.body.color,
+    Image1: req.file.filename,
+  };
+  newProduct.insertMany([product]);
+  res.redirect("/productDetail");
 }
 
-async function categoryDetails (req, res) {
-    const category = await newCategory.find({})
-    res.render('admin-categoryDetails', {category})
+async function categoryDetails(req, res) {
+  const category = await newCategory.find({});
+  res.render("admin-categoryDetails", { category });
 }
 
-function addCategory (req, res) {
-  res.render('admin-addCategory')
+function addCategory(req, res) {
+  res.render("admin-addCategory");
 }
 
 function postAddCategory(req, res) {
   const category = {
-      Name : req.body.name
-  }
-   newCategory.insertMany([category])
-  res.redirect('/categoryDetails')
+    Name: req.body.name,
+  };
+  newCategory.insertMany([category]);
+  res.redirect("/categoryDetails");
 }
 
-async function editProduct (req, res) {
-   let id = req.query.id
-  const category = await newCategory.find({})
-  const product = await newProduct.findById({_id : id})
+async function editProduct(req, res) {
+  let id = req.query.id;
+  const category = await newCategory.find({});
+  const product = await newProduct.findById({ _id: id });
   // console.log(product);
-  res.render('admin-editProduct', {product,category})
+  res.render("admin-editProduct", { product, category });
 }
- 
- async function post_editProduct (req, res) {
-  // let product = await newProduct.findById({ _id : req.body.idd})
-   
-  await newProduct.updateOne({_id : req.body.idd},{$set : {
-      Name : req.body.name,
-      Description : req.body.description,
-      Size : req.body.size,
-      Price : req.body.price,
-      Category : req.body.category,
-      Color : req.body.color,
-      Image1 : req.file.filename
-  }})
-  res.redirect('/productDetail')
+
+async function post_editProduct(req, res) {
+  await newProduct.updateOne(
+    { _id: req.body.idd },
+    {
+      $set: {
+        Name: req.body.name,
+        Description: req.body.description,
+        Size: req.body.size,
+        Price: req.body.price,
+        Category: req.body.category,
+        Color: req.body.color,
+        Image1: req.file.filename,
+      },
+    }
+  );
+  res.redirect("/productDetail");
 }
 
 module.exports = {
@@ -139,5 +123,5 @@ module.exports = {
   addCategory,
   postAddCategory,
   editProduct,
-  post_editProduct
+  post_editProduct,
 };

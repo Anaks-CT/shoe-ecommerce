@@ -225,6 +225,10 @@ async function postUserNewPassword(req, res) {
   res.redirect("/login");
 }
 
+function userAddress (req,res) {
+  res.render('user-address')
+}
+
 module.exports = {
   welcome,
   register,
@@ -242,4 +246,5 @@ module.exports = {
   postForgotPasswordOTP,
   userNewPassword,
   postUserNewPassword,
+  userAddress
 };

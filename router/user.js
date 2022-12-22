@@ -17,8 +17,8 @@ router.get('/forgotPassword-OTP',userController.forgotPasswordOTP)
 router.post('/forgotPassword-OTP',userController.postForgotPasswordOTP)
 router.get('/userNewPassword',userController.userNewPassword)
 router.post('/userNewPassword',userController.postUserNewPassword)
-
 router.get("/accountDetails", userController.accountDetails);
+router.get('/userAddress',userController.userAddress)
 
 
 module.exports = router;

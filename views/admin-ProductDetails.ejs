@@ -4,11 +4,6 @@
 <!-- <button><a href="/addProduct">add product</a></button> -->
 <% if(details !=null) { %>
     <section>
-      <!--for demo wrap-->
-      <!-- <form class="ssearch-box">
-        <input id="filterSearch" type="text" placeholder="Name/Email"/>
-        <button type="reset"></button>
-      </form> -->
       <a href="/addProduct"><div class="box-3">
         <div class="btn btn-three button-pad">
           <span>ADD PRODUCT</span>
@@ -16,8 +11,8 @@
       </div>  
     </a>  
       <h1>PRODUCT DETAILS</h1>
-      <div class="tbl-header">
-        <table cellpadding="0" cellspacing="0" border="0">
+      <!-- <div class="tbl-header"> -->
+        <table id="example" class="display" style="width:100%">
           <thead>
             <tr>
               <th>Name</th>
@@ -30,10 +25,6 @@
               <th></th>
             </tr>
           </thead>
-        </table>
-      </div>
-      <div class="tbl-content">
-        <table cellpadding="0" cellspacing="0" border="0">
           <tbody id="table_body">
             <% details.forEach(function(item){ %>
               <tr>
@@ -57,7 +48,6 @@
               </tbody>
             </table>
             <% } %>
-    </div>
   </section>
 
     
@@ -71,7 +61,11 @@ $("#filterSearch").on("keyup", function() {
   });
 });
 });
-
+$(document).ready(function () {
+    $('#example').DataTable({
+        pagingType: 'full_numbers',
+    });
+});
 
 
 </script>

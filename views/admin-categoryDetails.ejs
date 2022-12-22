@@ -1,7 +1,6 @@
 <%- include('./layouts/adminheader.ejs') %> 
 
   <section>
-    <!--for demo wrap-->
     <a href="/addCategory"><div class="box-3">
       <div class="btn btn-three button-pad">
         <span>ADD CATEGORY</span>
@@ -9,8 +8,7 @@
     </div>  
   </a>   
     <h1>category DETAILS</h1>
-    <div class="tbl-header">
-      <table cellpadding="0" cellspacing="0" border="0">
+      <table id="example" class="display" style="width:100%">
         <thead>
           <tr>
             <th>#</th>
@@ -18,10 +16,6 @@
             <th>Status</th>
           </tr>
         </thead>
-      </table>
-    </div>
-    <div class="tbl-content">
-      <table cellpadding="0" cellspacing="0" border="0">
         <tbody id="table_body">
           <% category.forEach(function(item,i){ %>
             <tr>
@@ -38,9 +32,25 @@
             <% }) %>
             </tbody>
           </table>
-  </div>
 </section>
 
+<script>
+  $(document).ready(function(){
+  $("#filterSearch").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#table_body tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+  });
+  $(document).ready(function () {
+      $('#example').DataTable({
+          pagingType: 'full_numbers',
+      });
+  });
+  
+  
+  </script>
   
 
 

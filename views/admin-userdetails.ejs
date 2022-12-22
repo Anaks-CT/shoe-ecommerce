@@ -3,16 +3,15 @@
 
 
 
-        <% if(details !=null) { %>
+        <!-- <% if(details !=null) { %>
         <section>
-          <!--for demo wrap-->
           <form class="ssearch-box">
             <input id="filterSearch" type="text" placeholder="Name/Email"/>
             <button type="reset"></button>
           </form>    
           <h1>USER DETAILS</h1>
           <div class="tbl-header">
-            <table cellpadding="0" cellspacing="0" border="0">
+            <table id="example" cellpadding="0" cellspacing="0" border="0">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -34,7 +33,7 @@
                     <td>
                       <div class="box-2">
                         <div class="btn btn-two">
-                          <span>ACTIVE</span>
+                          <a class="block_button" href=""><span>ACTIVE</span></a>
                         </div>
                       </div>                    
                     </td>
@@ -44,13 +43,42 @@
                 </table>
                 <% } %>
         </div>
-      </section>
+      </section> -->
 
         
+      <% if(details !=null) { %>
+      <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="table_body">
+          <% details.forEach(function(item){ %>
+            <tr>
+              <td><%= item.firstname %></td>
+              <td><%= item.Email %></td>
+              <td><%= item.Phone %></td>
+              <td>
+                <div class="box-2">
+                  <div class="btn btn-two">
+                    <a class="block_button" href=""><span>ACTIVE</span></a>
+                  </div>
+                </div>                    
+              </td>
+            </tr>
+            <% }) %>
+        </tbody>
+      </table>
+      <% } %>
+      
 <!-- <input type="search" id="gfg"> -->
 <script>
   $(document).ready(function(){
-    $("#filterSearch").on("keyup", function() {
+    $("#example_filter").on("keyup", function() {
       var value = $(this).val().toLowerCase();
       $("#table_body tr").filter(function() {
         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
@@ -58,7 +86,11 @@
     });
   });
 
-
+  $(document).ready(function () {
+    $('#example').DataTable({
+        pagingType: 'full_numbers',
+    });
+});
 
   </script>
 

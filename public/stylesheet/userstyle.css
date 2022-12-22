@@ -216,6 +216,12 @@ header {
   height: 47px;
   border: none;
 }
+.login-inputt {
+  border-radius: 7px;
+  width: 323px;
+  height: 49px;
+  border: none;
+}
 .banner {
   width: 120px;
 }
@@ -273,7 +279,7 @@ header {
 
 .vertical {
   border-left: 1px solid rgba(0, 0, 0, 0.262);
-  height: 264px;
+  height: 384px;
   /* position:absolute; */
   /* left: 50%; */
 }
@@ -287,4 +293,12 @@ header {
 .newPassworddiv {
   height: 459px;
   margin-top: 46px;
+}
+.logout-btn{
+  font-size: larger !important;
+  font-weight: bolder !important;
+}
+.address-input{
+  height: 138px;
+  /* margin-top: -17px; */
 }

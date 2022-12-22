@@ -17,32 +17,56 @@
             </div>
             <hr>
             <div>
-                <a href="">Account details</a>
+                <a class="text-dark" href="">Address</a>
             </div>
             <hr>
             <div>
-                <a href="">Account details</a>
+                <a class="text-dark" href="">Orders</a>
             </div>
             <hr>
             <div>
-                <a href="">Account details</a>
+                <a class="text-dark" href="">Wishlist</a>
             </div>
             <hr>
             <div>
-                <a href="">Account details</a>
+                <a class="text-dark logout-btn" href="">LOGOUT</a>
             </div>
         </div>
         <div class = "vertical col-1"></div>
         <div class="col-9">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        
+                <div class="row yourAccount-row">
+                    <div class="col-lg-6">
+                        <div>
+                            <form action="/signup" class="d-flex flex-column" method="post" >
+                                <div class="flex-start"><label for="name">Name</label></div>                                                                                             
+                                <div><input readonly class="login-inputt mb-3" type="text" placeholder="Name" required="" name="name" id="name"></div>
+                                <div><label for="phone">Phone</label></div> 
+                                <div><input readonly class="login-inputt mb-3" type="number" placeholder="phone" required="" name="phone" id="phone"></div>                                                                                                  
+                                <div><label class="">Address</label></div>                              
+                                <div class="login-inputt address-input bg-light"><p></p></div>  
+                            </form>
                     </div>
-                    <div class="col-md-6"></div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div>
+                            <div> 
+                                 
+                                <div><label for="phone">Password</label></div> 
+                                <div><input readonly class="login-inputt mb-3" type="password" placeholder="Password"  name="phone" id="phone" value="124578dsfsdf56"></div>                                                                                                                                
+                                <div><a href=""><button class="login-button signup-button my-3 ">change Password</button></a></div>
+                            </div>
+                    </div>
+                </div>
+                <div class="col-12 ">
+                    <div><a href="/forgotPassword"><button class="login-button signup-button my-3 ">Change Details</button></a></div>
                 </div>
             </div>
+            
         </div>
     </div>
 </div>
+</div>
+
+
 <%- include('./layouts/userfooter.ejs') %> 

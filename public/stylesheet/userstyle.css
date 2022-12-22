@@ -290,4 +290,10 @@ header{
 .yourAccount{
     color: #1A408A !important;
 }
-
+.forgotPassword-OTP{
+    height: 420px;
+}
+.newPassworddiv{
+    height: 459px;
+    margin-top: 46px;
+}

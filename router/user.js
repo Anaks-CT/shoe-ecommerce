@@ -11,6 +11,14 @@ router.get("/login2", userController.userwelcome);
 router.get("/login3", userController.userwelcome2);
 router.get("/signupotp", userController.signupotp);
 router.post("/signupotp", userController.postsignupotp);
+router.get('/forgotPassword',userController.forgotPassword)
+router.post('/forgotPassword',userController.postforgotPassword)
+router.get('/forgotPassword-OTP',userController.forgotPasswordOTP)
+router.post('/forgotPassword-OTP',userController.postForgotPasswordOTP)
+router.get('/userNewPassword',userController.userNewPassword)
+router.post('/userNewPassword',userController.postUserNewPassword)
+
 router.get("/accountDetails", userController.accountDetails);
+
 
 module.exports = router;

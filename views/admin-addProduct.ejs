@@ -12,6 +12,9 @@
                         <form id="contact-form" role="form" method="post" action="/addProduct" enctype="multipart/form-data">
                             <div class="controls">
                                 <div class="row">
+                                    <p class="text-danger"><%=locals.error%></p>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="form_name">Product name *</label>

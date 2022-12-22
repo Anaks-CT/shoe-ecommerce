@@ -3,10 +3,10 @@
 const express = require("express");
 const session = require("express-session");
 const path = require("path");
-// const ejs = require("ejs");
-// const mongoose = require("mongoose");
-// const validator = require("validator");
-// const multer = require("multer");
+const ejs = require("ejs");
+const mongoose = require("mongoose");
+const validator = require("validator");
+const multer = require("multer");
 
 //requiring router modules
 const userRouter = require("../router/user");

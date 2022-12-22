@@ -43,7 +43,6 @@ async function postRegister(req, res) {
         if (Phone != userphone.Phone) {
           // otpgenerate
           otpgen = Math.floor(1000 + Math.random() * 9000);
-          // const otpgen = Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000;
           console.log(otpgen);
           // email
           var transporter = nodemailer.createTransport({
@@ -110,21 +109,30 @@ function login(req, res) {
     res.render("login");
   }
 }
+
 async function postLogin(req, res) {
   try {
     const email = req.body.email;
     // const password = req.body.password
     const user = await Register.findOne({ Email: email });
-    const comparepassword = bcrypt.compare(req.body.email, user.Email);
-    if (comparepassword) {
-      req.session.user = email;
-      console.log("session created");
-      res.redirect("/login2");
+    console.log(user.active);
+    if (user.active == true) {
+      const comparepassword = await bcrypt.compare(
+        req.body.password,
+        user.Password
+      );
+      if (comparepassword) {
+        req.session.user = email;
+        console.log("session created");
+        res.redirect("/login2");
+      } else {
+        res.render("login", { error: "Invalid login details" });
+      }
     } else {
-      res.render("login", { error: "Invalid login details" });
+      res.render("login", { error: "unauthorised user" });
     }
   } catch (error) {
-    res.render("login", { error: "Invalid login details" });
+    res.render("login", { error: "user not found" });
   }
 }
 
@@ -148,6 +156,78 @@ function accountDetails(req, res) {
   res.render("user-accountDetails");
 }
 
+
+function forgotPassword (req, res) {
+  res.render('user-forgotPassword-email')
+}
+
+let emailCheck
+let currentEmail
+let forgotpasswordotp
+async function postforgotPassword (req, res) {
+  try {
+    currentEmail = req.body.email
+     emailCheck = await Register.findOne({Email : req.body.email})
+  if (emailCheck.Email == req.body.email) {
+     // otpgenerate
+     forgotpasswordotp = Math.floor(1000 + Math.random() * 9000);
+     console.log(forgotpasswordotp);
+     // email
+     var transporter = nodemailer.createTransport({
+       service: "gmail",
+       auth: {
+         user: "anaksthayyil30@gmail.com",
+         pass: "ojuwgqbiwgjxplqf",
+       },
+     });
+     var mailOptions = {
+       from: "anaksthayyil30@gmail.com",
+       to: req.body.email,
+       // subject: user.firstname,
+       //   text: enterotp
+       html: `<p>${forgotpasswordotp}</p>`,
+     };
+     await transporter.sendMail(mailOptions, function (error, info) {
+       if (error) {
+         console.log(error);
+       } else {
+         console.log("Email sent: " + info.response);
+         res.redirect("/forgotPassword-OTP");
+       }
+     });
+  } else {
+    res.render('user-forgotPassword-email', {error : 'Email not registered!!'})
+  }
+  } catch (error) {
+    res.render('user-forgotPassword-email', {error : 'Email not registered!!'})
+  }
+  
+}
+
+function forgotPasswordOTP (req, res) {
+  res.render('user-forgotPasswordOTP')
+}
+
+function postForgotPasswordOTP (req, res) {
+  if(forgotpasswordotp == req.body.otp){
+    res.redirect('/userNewPassword')
+  }else{
+    res.render('user-forgotPasswordOTP', {error : "OTP entered is incorrect" })
+  }
+}
+
+function userNewPassword (req, res) {
+  res.render('user-newPassword')
+}
+
+async function postUserNewPassword (req, res) {
+  const hashPassword = await bcrypt.hash(req.body.password,10)
+  await Register.updateOne({Email : currentEmail},{$set : {
+    Password : hashPassword
+  }})
+  res.redirect('/login')
+}
+
 module.exports = {
   welcome,
   register,
@@ -159,4 +239,10 @@ module.exports = {
   signupotp,
   postsignupotp,
   accountDetails,
+  forgotPassword,
+  postforgotPassword,
+  forgotPasswordOTP,
+  postForgotPasswordOTP,
+  userNewPassword,
+  postUserNewPassword
 };

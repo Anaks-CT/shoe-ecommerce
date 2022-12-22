@@ -24,7 +24,6 @@ function adminPostSignin(req, res) {
     const password = 123;
     if (email == req.body.email && password == req.body.password) {
       req.session.admin = req.body.email;
-      console.log("admin session created");
       res.redirect("/adminredirect");
     } else {
       res.render("adminsignin", { error: "invalid login details" });
@@ -38,7 +37,6 @@ async function userdetails(req, res) {
   if (req.session.admin) {
     const details = await Register.find({});
     res.render("admin-userdetails", { details });
-    console.log(details);
   } else {
     res.redirect("/adminlogin");
   }
@@ -54,7 +52,12 @@ async function addProduct(req, res) {
   res.render("admin-addProduct", { category });
 }
 
-function postAddProduct(req, res) {
+async function postAddProduct(req, res) {
+  const category = await newCategory.find({});
+  res.render("admin-addProduct", {
+    error: "product aldready present",
+    category,
+  });
   const product = {
     Name: req.body.name,
     Description: req.body.description,
@@ -77,19 +80,25 @@ function addCategory(req, res) {
   res.render("admin-addCategory");
 }
 
-function postAddCategory(req, res) {
-  const category = {
-    Name: req.body.name,
-  };
-  newCategory.insertMany([category]);
-  res.redirect("/categoryDetails");
+async function postAddCategory(req, res) {
+  const currentCategory = newCategory.find({ Name: req.body.name });
+  if (currentCategory) {
+    res.render("admin-addCategory", {
+      error: "    category aldready present!",
+    });
+  } else {
+    const category = {
+      Name: req.body.name,
+    };
+    await newCategory.insertMany([category]);
+    res.redirect("/categoryDetails");
+  }
 }
 
 async function editProduct(req, res) {
   let id = req.query.id;
   const category = await newCategory.find({});
   const product = await newProduct.findById({ _id: id });
-  // console.log(product);
   res.render("admin-editProduct", { product, category });
 }
 

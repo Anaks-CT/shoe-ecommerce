@@ -15,5 +15,6 @@ router.get('/addCategory', adminController.addCategory)
 router.post('/addCategory', adminController.postAddCategory)
 router.get('/editProduct', adminController.editProduct)
 router.post('/editProduct', upload.single('image'),adminController.post_editProduct)
-
+router.get('/blockUser',adminController.blockUser)
+router.get('/unblockUser',adminController.unblockUser)
 module.exports=router

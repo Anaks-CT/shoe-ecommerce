@@ -25,13 +25,9 @@ async function postRegister(req, res) {
     const firstname = req.body.name;
     const Phone = req.body.phone;
     const email = req.body.email;
-    console.log("checking password");
-    // const useremail = await Register.findOne({Email: email})
     const useremail = Register.findOne({ Email: email });
     const userphone = Register.findOne({ Phone: Phone });
-    console.log(email + " " + useremail.Email);
     if (password === cpassword) {
-      console.log("password and cpassword equal");
       user = {
         firstname: firstname,
         Phone: Phone,
@@ -59,11 +55,10 @@ async function postRegister(req, res) {
             //   text: enterotp
             html: `<p>${otpgen}</p>`,
           };
-          await transporter.sendMail(mailOptions, function (error, info) {
+          await transporter.sendMail(mailOptions, function (error) {
             if (error) {
               console.log(error);
             } else {
-              console.log("Email sent: " + info.response);
               res.redirect("/signupotp");
             }
           });
@@ -79,9 +74,7 @@ async function postRegister(req, res) {
       res.render("register", { error: "passwords not matching" });
     }
   } catch (error) {
-    //    res.render('render', {error : 'email id taken'})
     res.send("passwords not matching");
-    console.log(error);
   }
 }
 
@@ -114,7 +107,6 @@ async function postLogin(req, res) {
   try {
     const email = req.body.email;
     const user = await Register.findOne({ Email: email });
-    console.log(user.active);
     if (user.active == true) {
       const comparepassword = await bcrypt.compare(
         req.body.password,
@@ -122,7 +114,6 @@ async function postLogin(req, res) {
       );
       if (comparepassword) {
         req.session.user = email;
-        console.log("session created");
         res.redirect("/login2");
       } else {
         res.render("login", { error: "Invalid login details" });

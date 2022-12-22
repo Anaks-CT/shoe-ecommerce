@@ -63,11 +63,20 @@
               <td><%= item.Email %></td>
               <td><%= item.Phone %></td>
               <td>
+                <% if (item.active==true) { %>
                 <div class="box-2">
-                  <div class="btn btn-two">
-                    <a class="block_button" href=""><span>ACTIVE</span></a>
-                  </div>
+                  <a class="block_button" href="/blockUser?id=<%= item._id %>">
+                    <div class="btn btn-two">
+                    <span>ACTIVE</span>
+                  </div></a>
                 </div>                    
+                <% } else { %>
+                  <div class="box-1 bg-danger">
+                    <a class="block_button" href="/unblockUser?id=<%= item.id %>"><div class="btn btn-one">
+                      <span class="text-light">BLOCKED</span>
+                    </div></a>
+                  </div>
+                  <% } %>
               </td>
             </tr>
             <% }) %>

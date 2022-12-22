@@ -120,6 +120,22 @@ async function post_editProduct(req, res) {
   res.redirect("/productDetail");
 }
 
+async function blockUser (req, res) {
+  let id = req.query.id
+  await Register.updateOne({ _id : id},{$set : {
+    active : false
+  }})
+  res.redirect('/userdetails')
+}
+
+async function unblockUser (req, res) {
+  let id = req.query.id
+  await Register.updateOne({ _id : id},{$set : {
+    active : true
+  }})
+  res.redirect('/userdetails')
+}
+
 module.exports = {
   adminsignin,
   adminsignin2,
@@ -133,4 +149,6 @@ module.exports = {
   postAddCategory,
   editProduct,
   post_editProduct,
+  blockUser,
+  unblockUser
 };

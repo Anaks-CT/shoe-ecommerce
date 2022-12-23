@@ -22,6 +22,26 @@ const user = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  mainAddress: [
+    {
+      addressLine1: String,
+
+      addressLine2: String,
+
+      state: String,
+
+      country: String,
+
+      pin: Number,
+
+      telephone: Number,
+
+      status : {
+        type : Boolean,
+        default : false
+      }
+    },
+  ],
 });
 
 const Register = new mongoose.model("detailsofusers", user);

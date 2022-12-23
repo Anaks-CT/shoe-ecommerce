@@ -136,6 +136,8 @@ async function unblockUser (req, res) {
   res.redirect('/userdetails')
 }
 
+
+
 module.exports = {
   adminsignin,
   adminsignin2,
@@ -150,5 +152,6 @@ module.exports = {
   editProduct,
   post_editProduct,
   blockUser,
-  unblockUser
+  unblockUser,
+ 
 };

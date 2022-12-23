@@ -19,6 +19,8 @@ router.get('/userNewPassword',userController.userNewPassword)
 router.post('/userNewPassword',userController.postUserNewPassword)
 router.get("/accountDetails", userController.accountDetails);
 router.get('/userAddress',userController.userAddress)
+router.get('/addAddress',userController.addAddress)
+router.post('/addAddress',userController.postAddAddress)
 
 
 module.exports = router;

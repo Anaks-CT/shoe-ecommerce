@@ -136,14 +136,10 @@ async function userwelcome(req, res) {
 
 function userwelcome2(req, res) {
   if (req.session.user) {
-    res.render("userwelcome");
+    res.redirect("/accountDetails");
   } else {
-    res.render("login");
+    res.redirect("/login");
   }
-}
-
-function accountDetails(req, res) {
-  res.render("user-accountDetails");
 }
 
 function forgotPassword(req, res) {
@@ -225,8 +221,43 @@ async function postUserNewPassword(req, res) {
   res.redirect("/login");
 }
 
-function userAddress (req,res) {
-  res.render('user-address')
+async function accountDetails(req, res) {
+  if (req.session.user) {
+    const email = req.session.user
+    const userDetails = await Register.findOne({Email : email})
+    // console.log(userDetails);
+    res.render("user-accountDetails", {userDetails});
+    console.log(req.session.user);
+  }else{
+    res.render("login");
+  }
+}
+async function userAddress(req, res) {
+  const email = req.session.user
+  const userDetails = await Register.findOne({Email : email})
+  const mainAddress = userDetails.mainAddress
+  const currentAddress = mainAddress.addressLine1
+  console.log(mainAddress.addressLine1);
+  res.render("user-address",{mainAddress});
+}
+
+function addAddress (req, res ) {
+  res.render('user-addAddress')
+} 
+
+async function postAddAddress (req, res) {
+  const email = req.session.user
+  const userDetails = await Register.findOne({Email : email})
+  // console.log(userDetails.mainAddress[1].addressLine1);
+  await Register.updateOne({Email : email}, {$push : { mainAddress : {
+    addressLine1 : req.body.addressline1,
+    addressLine2 : req.body.addressline2,
+    state : req.body.state,
+    country : req.body.Country,
+    pin : req.body.pin,
+    telephone : req.body.Phone
+  }}})
+  res.redirect('/userAddress')
 }
 
 module.exports = {
@@ -246,5 +277,7 @@ module.exports = {
   postForgotPasswordOTP,
   userNewPassword,
   postUserNewPassword,
-  userAddress
+  userAddress,
+  addAddress,
+  postAddAddress
 };

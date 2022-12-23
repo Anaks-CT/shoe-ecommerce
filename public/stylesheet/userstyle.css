@@ -302,3 +302,14 @@ header {
   height: 138px;
   /* margin-top: -17px; */
 }
+
+.addAddressdiv {
+  width: -webkit-fill-available;
+  height: 201.8px;
+  background: rgba(255, 255, 255, 0.42);
+  border: 2px dashed #00C2FF;
+
+}
+.pluc-icon{
+  font-size: 42px !important;
+}

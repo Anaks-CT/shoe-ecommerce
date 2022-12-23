@@ -1,0 +1,67 @@
+<%- include('./layouts/userheader.ejs') %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 py-5">
+            <div>
+                <h1 class="yourAccount">YOUR ACCOUNT</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+            <div>
+                <a class="text-dark" href="/accountDetails">Account details</a>
+            </div>
+            <hr>
+            <div>
+                <a  href="/userAddress">Address</a>
+            </div>
+            <hr>
+            <div>
+                <a class="text-dark" href="">Orders</a>
+            </div>
+            <hr>
+            <div>
+                <a class="text-dark" href="">Wishlist</a>
+            </div>
+            <hr>
+            <div>
+                <a class="text-dark logout-btn" href="">LOGOUT</a>
+            </div>
+        </div>
+        <div class = "vertical col-1"></div>
+        <div class="col-9">
+            <div class="container">
+                <div class="row ">
+                    <div class="col-lg-6">
+                        <form action="/addAddress" method="post">
+                                <div class="flex-start"><label for="addressline1">Address line 1</label></div>                                                                                             
+                                <div><input class="login-inputt mb-3" type="text" placeholder="addressline1 *" required="" name="addressline1" id="addressline1"></div>
+                                <div><label for="addressline2">address line 2</label></div> 
+                                <div><input class="login-inputt mb-3" type="text" placeholder="addressline2" required="" name="addressline2" id="addressline2"></div>                   
+                                <div><label for="state">State</label></div>                              
+                                <div><input class="login-inputt mb-3" type="text" placeholder="State *" required="" name="state" id="state" ></div>                                                  
+                                <div><label for="Country">Country</label></div>                              
+                                <div><input class="login-inputt mb-3" type="text" placeholder="Country *" required="" name="Country" id="Country" ></div>                                                  
+                                <div><label for="pin">Zip/pin</label></div>                              
+                                <div><input class="login-inputt mb-3" type="number" placeholder="pin *" required="" name="pin" id="pin" ></div>                                                  
+                                <div><label for="Phone">Contact Number</label></div>                              
+                                <div><input class="login-inputt mb-3" type="number" placeholder="Contact number *" required="" name="Phone" id="Phone" ></div>                                                  
+                                
+                        
+                    </div>
+                    <div class="col-12">
+                        <button class="login-button signup-button my-3 " type="submit">SUBMIT</button>
+                    </form>
+                    </div>
+                </div>            
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%- include('./layouts/userfooter.ejs') %> 

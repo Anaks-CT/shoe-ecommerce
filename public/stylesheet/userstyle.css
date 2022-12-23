@@ -78,7 +78,7 @@ header {
     margin-top: -125px;
   }
   .login-image {
-    width: 465px;
+    width: 420px;
     padding-left: 52px;
     margin-top: -146px;
   }
@@ -218,7 +218,7 @@ header {
 }
 .login-inputt {
   border-radius: 7px;
-  width: 323px;
+  width: -webkit-fill-available;
   height: 49px;
   border: none;
 }
@@ -237,6 +237,9 @@ header {
   border: none;
   color: white;
   margin-top: 10px;
+}
+.edit-button{
+  width: -webkit-fill-available;
 }
 .signup-button {
   margin-top: -14px;

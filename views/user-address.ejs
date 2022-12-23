@@ -11,7 +11,7 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-2">
+        <div class="col-3 col-md-2">
             <div>
                 <a class="text-dark" href="/accountDetails">Account details</a>
             </div>
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class = "vertical col-1"></div>
-        <div class="col-9">
+        <div class="col-8 col-md-9">
             <div class="container">
                 <div class="row ">
                     <% mainAddress.forEach(function(mainAddress,i) { %>
@@ -43,7 +43,7 @@
                               <div class="d-flex justify-content-between"><h4 class="card-title">Address <%= i+1 %></h4>
                               <a href=""><i class="fa-solid fa-trash"></i></a></div>
                               <div><p class="card-text"><%= mainAddress.addressLine1 %> <%= mainAddress.addressLine2 %> <%= mainAddress.state %> <%= mainAddress.country %> <%= mainAddress.pin %> <%= mainAddress.telephone %></p></div>
-                              <div class="d-flex justify-content-between align-items-center"><a href="/forgotPassword"><button class="login-button signup-button my-3 ">Edit Address</button></a>
+                              <div class="d-flex justify-content-between align-items-center"><a href="/forgotPassword"><button class="login-button signup-button my-3 edit-button">Edit Address</button></a>
                               <a href="#" class="card-link">Set as default</a></div>
                             </div>
                           </div>                          

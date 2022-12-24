@@ -223,41 +223,96 @@ async function postUserNewPassword(req, res) {
 
 async function accountDetails(req, res) {
   if (req.session.user) {
-    const email = req.session.user
-    const userDetails = await Register.findOne({Email : email})
-    // console.log(userDetails);
-    res.render("user-accountDetails", {userDetails});
-    console.log(req.session.user);
-  }else{
+    const email = req.session.user;
+    const userDetails = await Register.findOne({ Email: email });
+    res.render("user-accountDetails", { userDetails });
+  } else {
     res.render("login");
   }
 }
 async function userAddress(req, res) {
-  const email = req.session.user
-  const userDetails = await Register.findOne({Email : email})
-  const mainAddress = userDetails.mainAddress
-  const currentAddress = mainAddress.addressLine1
-  console.log(mainAddress.addressLine1);
-  res.render("user-address",{mainAddress});
+  const email = req.session.user;
+  const userDetails = await Register.findOne({ Email: email });
+  const mainAddress = userDetails.mainAddress;
+  res.render("user-address", { mainAddress });
 }
 
-function addAddress (req, res ) {
-  res.render('user-addAddress')
-} 
+async function addAddress(req, res) {
+  res.render("user-addAddress");
+}
 
-async function postAddAddress (req, res) {
-  const email = req.session.user
-  const userDetails = await Register.findOne({Email : email})
-  // console.log(userDetails.mainAddress[1].addressLine1);
-  await Register.updateOne({Email : email}, {$push : { mainAddress : {
-    addressLine1 : req.body.addressline1,
-    addressLine2 : req.body.addressline2,
-    state : req.body.state,
-    country : req.body.Country,
-    pin : req.body.pin,
-    telephone : req.body.Phone
-  }}})
-  res.redirect('/userAddress')
+async function postAddAddress(req, res) {
+  const email = req.session.user;
+  await Register.updateOne(
+    { Email: email },
+    {
+      $push: {
+        mainAddress: {
+          addressLine1: req.body.addressline1,
+          addressLine2: req.body.addressline2,
+          state: req.body.state,
+          country: req.body.Country,
+          pin: req.body.pin,
+          telephone: req.body.Phone,
+        },
+      },
+    }
+  );
+  res.redirect("/userAddress");
+}
+
+let id;
+async function editAddress(req, res) {
+  try {
+    const email = req.session.user;
+    id = req.query.id;
+    const userDetails = await Register.findOne({ Email: email });
+    const mainAddress = userDetails.mainAddress[id];
+    res.render("user-editAddress", { mainAddress });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function postEditAddress(req, res) {
+  const email = req.session.user;
+  const id = req.query.idd;
+  await Register.updateOne(
+    { Email: email, "mainAddress._id": id },
+    {
+      $set: {
+        "mainAddress.$.addressLine1": req.body.addressline1,
+        "mainAddress.$.addressLine2": req.body.addressline2,
+        "mainAddress.$.state": req.body.state,
+        "mainAddress.$.country": req.body.Country,
+        "mainAddress.$.pin": req.body.pin,
+        "mainAddress.$.telephone": req.body.Phone,
+      },
+    }
+  );
+  res.redirect("/userAddress");
+}
+
+async function deleteAddress(req, res) {
+  const email = req.session.user;
+  const user = await Register.findOne({ Email: email });
+  const i = req.query.i;
+  await Register.updateOne(
+    { Email: email },
+    {
+      $pull: {
+        mainAddress: {
+          addressLine1: user.mainAddress[i].addressLine1,
+          addressLine2: user.mainAddress[i].addressLine2,
+          state: user.mainAddress[i].state,
+          country: user.mainAddress[i].country,
+          pin: user.mainAddress[i].pin,
+          telephone: user.mainAddress[i].telephone,
+        },
+      },
+    }
+  );
+  res.redirect("/userAddress");
 }
 
 module.exports = {
@@ -279,5 +334,8 @@ module.exports = {
   postUserNewPassword,
   userAddress,
   addAddress,
-  postAddAddress
+  postAddAddress,
+  editAddress,
+  postEditAddress,
+  deleteAddress,
 };

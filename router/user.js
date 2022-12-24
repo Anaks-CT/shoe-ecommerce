@@ -21,6 +21,7 @@ router.get("/accountDetails", userController.accountDetails);
 router.get('/userAddress',userController.userAddress)
 router.get('/addAddress',userController.addAddress)
 router.post('/addAddress',userController.postAddAddress)
-
-
+router.get('/editAddress',userController.editAddress)
+router.post('/editAddress',userController.postEditAddress)
+router.get('/deleteAddress',userController.deleteAddress)
 module.exports = router;

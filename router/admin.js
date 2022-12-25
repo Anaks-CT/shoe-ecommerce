@@ -17,4 +17,6 @@ router.get('/editProduct', adminController.editProduct)
 router.post('/editProduct', upload.single('image'),adminController.post_editProduct)
 router.get('/blockUser',adminController.blockUser)
 router.get('/unblockUser',adminController.unblockUser)
+router.get('/blockCategory',adminController.blockCategory)
+router.get('/unblockCategory',adminController.unblockCategory)
 module.exports=router

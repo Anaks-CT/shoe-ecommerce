@@ -120,23 +120,62 @@ async function post_editProduct(req, res) {
   res.redirect("/productDetail");
 }
 
-async function blockUser (req, res) {
-  let id = req.query.id
-  await Register.updateOne({ _id : id},{$set : {
-    active : false
-  }})
-  res.redirect('/userdetails')
+async function blockUser(req, res) {
+  let id = req.query.id;
+  await Register.updateOne(
+    { _id: id },
+    {
+      $set: {
+        active: false,
+      },
+    }
+  );
+  res.redirect("/userdetails");
 }
 
-async function unblockUser (req, res) {
-  let id = req.query.id
-  await Register.updateOne({ _id : id},{$set : {
-    active : true
-  }})
-  res.redirect('/userdetails')
+async function unblockUser(req, res) {
+  let id = req.query.id;
+  await Register.updateOne(
+    { _id: id },
+    {
+      $set: {
+        active: true,
+      },
+    }
+  );
+  res.redirect("/userdetails");
 }
 
+async function blockCategory(req, res) {
+  try {
+    const name = req.query.name;
+  await newCategory.updateOne(
+    { Name: name },
+    {
+      $set: {
+        active: false,
+      },
+    }
+  );
+  res.redirect("/categoryDetails");
+  } catch (error) {
+    res.send(error)
+  }
+  
+}
 
+async function unblockCategory(req, res) {
+  const name = req.query.name;
+  await newCategory.updateOne(
+    { Name: name },
+    {
+      $set: {
+        active: true,
+      },
+    }
+  );
+  res.redirect("/categoryDetails");
+}
 
 module.exports = {
   adminsignin,
@@ -153,5 +192,6 @@ module.exports = {
   post_editProduct,
   blockUser,
   unblockUser,
- 
+  blockCategory,
+  unblockCategory,
 };

@@ -22,11 +22,20 @@
               <td><%= i+1 %></td>
               <td><%= item.Name %></td>
               <td>
-                <div class="box-2">
-                  <div class="btn btn-two">
-                    <span>ACTIVE</span>
-                  </div>
-                </div>                    
+                <% if (item.active==true) { %>
+                  <div class="box-2">
+                    <a class="block_button" href="/blockCategory?name=<%= item.Name %>">
+                      <div class="btn btn-two">
+                      <span>ACTIVE</span>
+                    </div></a>
+                  </div>                    
+                  <% } else { %>
+                    <div class="box-1 bg-danger">
+                      <a class="block_button" href="/unblockCategory?name=<%= item.Name %>"><div class="btn btn-one">
+                        <span class="text-light">BLOCKED</span>
+                      </div></a>
+                    </div>
+                    <% } %>                   
               </td>
             </tr>
             <% }) %>

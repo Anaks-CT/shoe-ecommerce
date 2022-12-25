@@ -220,12 +220,44 @@ async function postUserNewPassword(req, res) {
   );
   res.redirect("/login");
 }
-
+let i
+async function setasdefault(req, res) {
+  try {
+    const email = req.session.user;
+    // const user = await Register.findOne({ Email: email });
+    i = req.query.i
+    console.log(i);
+    const addressid = req.query.addressid;
+    console.log(addressid);
+    await Register.updateMany(
+      { Email: email, "mainAddress.status": true },
+      {
+        $set: {
+          "mainAddress.$.status": false,
+        },
+      }
+    );
+    await Register.updateOne(
+      { Email: email, "mainAddress._id": addressid },
+      {
+        $set: {
+          "mainAddress.$.status": true,
+        },
+      }
+    );
+    res.redirect("/userAddress");
+  } catch (error) {
+    console.log(error);
+  }
+}
 async function accountDetails(req, res) {
   if (req.session.user) {
     const email = req.session.user;
     const userDetails = await Register.findOne({ Email: email });
-    res.render("user-accountDetails", { userDetails });
+    const mainAddress = userDetails.mainAddress[i];
+    console.log(mainAddress);
+    console.log(i);
+    res.render("user-accountDetails", { userDetails,mainAddress});
   } else {
     res.render("login");
   }
@@ -315,6 +347,8 @@ async function deleteAddress(req, res) {
   res.redirect("/userAddress");
 }
 
+
+
 module.exports = {
   welcome,
   register,
@@ -338,4 +372,5 @@ module.exports = {
   editAddress,
   postEditAddress,
   deleteAddress,
+  setasdefault,
 };

@@ -1,0 +1,161 @@
+<%- include('./layouts/userheader.ejs') %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+            <h1 class="headings py-4">WOMEN'S WARE</h1>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-12">
+            <div class="container">
+                <div class="row">
+                    <% productDetails1.forEach(function(item){ %>
+                    <div class="col-6 col-md-4 py-3">
+                        <div class="product-grid">
+                            <div class="product-image">
+                                <a href="#" class="image">
+                                    <img class="pic-1" src="/images/productImage/<%= item.Image1 %>">
+                                    <img class="pic-2" src="/images/productImage/<%= item.Image1 %>">
+                                </a>
+                                 <span class="product-sale-label">sale!</span>
+                                <ul class="social">
+                                    <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                    <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                                </ul>
+                                <div class="product-rating">
+                                    <ul class="rating">
+                                        <li class="fas fa-star"></li>
+                                        <li class="fas fa-star"></li>
+                                        <li class="fas fa-star"></li>
+                                        <li class="far fa-star"></li>
+                                        <li class="far fa-star"></li>
+                                    </ul>
+                                    <a class="add-to-cart" href="#"> ADD TO CART </a>
+                                </div>
+                            </div>
+                            <div class="product-content">
+                                <h3 class="title"><a href="#"><%= item.Name %></a></h3>
+                                <div class="price"><span>$28.00</span>><%= item.Price %></div>
+                            </div>
+                    </div>
+                    </div>
+                    
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-0">
+            <div class="container d-none d-lg-block">
+                <div class="row d-flex flex-column justify-content-center">
+                    <!-- <div class="col-3 gap-col-1"></div> -->
+                    <div class="col-9 d-flex justify-content-center">
+                        <div><img class="SideImage1" src="/images/08c4455d-2025-478f-8618-8086e65e6878-transformed.png" alt=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid py-5">
+    <div class="row">
+        <img class="BigImage1" src="/images/pexels-photo-5861344.jpeg" alt="">
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-0">
+            <div class="container d-none d-lg-block">
+                <div class="row d-flex flex-column justify-content-center">
+                    <!-- <div class="col-3 gap-col-1"></div> -->
+                    <div class="col-9 d-flex justify-content-center">
+                        <div><img class="sideImage1" src="/images/pexels-photo-7319044-transformed.jpg" alt=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-12">
+            <div class="container">
+                <div class="row">
+                    <% productDetails2.forEach(function(item){ %>
+                    <div class="col-6 col-md-4 py-3">
+                        <div class="product-grid">
+                            <div class="product-image">
+                                <a href="#" class="image">
+                                    <img class="pic-1" src="/images/productImage/<%= item.Image1 %>">
+                                    <img class="pic-2" src="/images/productImage/<%= item.Image1 %>">
+                                </a>
+                                 <span class="product-sale-label">sale!</span>
+                                <ul class="social">
+                                    <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                    <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                                </ul>
+                                <div class="product-rating">
+                                    <ul class="rating">
+                                        <li class="fas fa-star"></li>
+                                        <li class="fas fa-star"></li>
+                                        <li class="fas fa-star"></li>
+                                        <li class="far fa-star"></li>
+                                        <li class="far fa-star"></li>
+                                    </ul>
+                                    <a class="add-to-cart" href="#"> ADD TO CART </a>
+                                </div>
+                            </div>
+                            <div class="product-content">
+                                <h3 class="title"><a href="#"><%= item.Name %></a></h3>
+                                <div class="price"><span>$28.00</span>><%= item.Price %></div>
+                            </div>
+                    </div>
+                    </div>
+                    
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid py-5">
+    <div class="row">
+        <img class="BigImage2" src="/images/sports-women-model-ass-legs-jean-shorts-41911-wallhere.com.jpg" alt="">
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        
+            <% productDetails3.forEach(function(item){ %>
+                <div class="col-6 col-md-4 col-lg-3 py-3">
+                <div class="product-grid">
+                    <div class="product-image">
+                        <a href="#" class="image">
+                            <img class="pic-1" src="/images/productImage/<%= item.Image1 %>">
+                            <img class="pic-2" src="/images/productImage/<%= item.Image1 %>">
+                        </a>
+                         <span class="product-sale-label">sale!</span>
+                        <ul class="social">
+                            <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                            <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                        </ul>
+                        <div class="product-rating">
+                            <ul class="rating">
+                                <li class="fas fa-star"></li>
+                                <li class="fas fa-star"></li>
+                                <li class="fas fa-star"></li>
+                                <li class="far fa-star"></li>
+                                <li class="far fa-star"></li>
+                            </ul>
+                            <a class="add-to-cart" href="#"> ADD TO CART </a>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="title"><a href="#"><%= item.Name %></a></h3>
+                        <div class="price"><span>$28.00</span>><%= item.Price %></div>
+                    </div>
+            </div>
+        </div>
+
+            <% }) %>    
+    </div>
+</div>
+<%- include('./layouts/userfooter.ejs') %> 

@@ -479,4 +479,17 @@ header {
   padding: 0 !important;
   border-radius: 414.5px 10px 10px 10px;
 }
+.BigImage1{
+  border-radius: 173px;
+  margin: 111px !important;
+  width: -webkit-fill-available !important;
+}
+.BigImage2{
+  border-radius: 124px;
+}
+.SideImage1{
+  padding-left: 76px;
+  padding-top: 22px;
+}
+
 

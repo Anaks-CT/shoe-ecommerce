@@ -345,14 +345,27 @@ async function deleteAddress(req, res) {
       },
     }
   );
+  console.log('dfdsf');
   res.redirect("/userAddress");
 }
 
 async function men(req, res) {
-  const productDetails1 = await newProduct.find({Category : "Men"}).limit(6)
-  const productDetails2 = await newProduct.find({Category : "Men"}).skip(6).limit(6)
-  const productDetails3 = await newProduct.find({Category : "Men"}).skip(12)
-  res.render('men',{productDetails1,productDetails2,productDetails3})
+  const productDetails1 = await newProduct.find({ Category: "Men" }).limit(6);
+  const productDetails2 = await newProduct
+    .find({ Category: "Men" })
+    .skip(6)
+    .limit(6);
+  const productDetails3 = await newProduct.find({ Category: "Men" }).skip(12);
+  res.render("men", { productDetails1, productDetails2, productDetails3 });
+}
+async function women(req, res) {
+  const productDetails1 = await newProduct.find({ Category: "Women" }).limit(6);
+  const productDetails2 = await newProduct
+    .find({ Category: "Women" })
+    .skip(6)
+    .limit(6);
+  const productDetails3 = await newProduct.find({ Category: "Women" }).skip(12);
+  res.render("women", { productDetails1, productDetails2, productDetails3 });
 }
 
 module.exports = {
@@ -379,5 +392,6 @@ module.exports = {
   postEditAddress,
   deleteAddress,
   setasdefault,
-  men
+  men,
+  women,
 };

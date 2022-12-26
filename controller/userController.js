@@ -1,6 +1,7 @@
 const Register = require("../src/models/database");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
+const newProduct = require("../src/models/products");
 function welcome(req, res) {
   res.render("welcome");
 }
@@ -220,12 +221,12 @@ async function postUserNewPassword(req, res) {
   );
   res.redirect("/login");
 }
-let i
+let i;
 async function setasdefault(req, res) {
   try {
     const email = req.session.user;
     // const user = await Register.findOne({ Email: email });
-    i = req.query.i
+    i = req.query.i;
     console.log(i);
     const addressid = req.query.addressid;
     console.log(addressid);
@@ -257,7 +258,7 @@ async function accountDetails(req, res) {
     const mainAddress = userDetails.mainAddress[i];
     console.log(mainAddress);
     console.log(i);
-    res.render("user-accountDetails", { userDetails,mainAddress});
+    res.render("user-accountDetails", { userDetails, mainAddress });
   } else {
     res.render("login");
   }
@@ -347,7 +348,12 @@ async function deleteAddress(req, res) {
   res.redirect("/userAddress");
 }
 
-
+async function men(req, res) {
+  const productDetails1 = await newProduct.find({Category : "Men"}).limit(6)
+  const productDetails2 = await newProduct.find({Category : "Men"}).skip(6).limit(6)
+  const productDetails3 = await newProduct.find({Category : "Men"}).skip(12)
+  res.render('men',{productDetails1,productDetails2,productDetails3})
+}
 
 module.exports = {
   welcome,
@@ -373,4 +379,5 @@ module.exports = {
   postEditAddress,
   deleteAddress,
   setasdefault,
+  men
 };

@@ -25,4 +25,5 @@ router.get('/editAddress',userController.editAddress)
 router.post('/editAddress',userController.postEditAddress)
 router.get('/deleteAddress',userController.deleteAddress)
 router.get('/setasdefault',userController.setasdefault)
+router.get('/men',userController.men)
 module.exports = router;

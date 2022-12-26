@@ -53,11 +53,6 @@ async function addProduct(req, res) {
 }
 
 async function postAddProduct(req, res) {
-  const category = await newCategory.find({});
-  res.render("admin-addProduct", {
-    error: "product aldready present",
-    category,
-  });
   const product = {
     Name: req.body.name,
     Description: req.body.description,

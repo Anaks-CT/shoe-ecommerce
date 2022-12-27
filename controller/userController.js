@@ -345,19 +345,45 @@ async function deleteAddress(req, res) {
       },
     }
   );
-  console.log('dfdsf');
+  console.log("dfdsf");
   res.redirect("/userAddress");
 }
 
 async function men(req, res) {
-  const productDetails1 = await newProduct.find({ Category: "Men" }).limit(6);
-  const productDetails2 = await newProduct
-    .find({ Category: "Men" })
-    .skip(6)
-    .limit(6);
-  const productDetails3 = await newProduct.find({ Category: "Men" }).skip(12);
-  res.render("men", { productDetails1, productDetails2, productDetails3 });
+  if (req.session.user) {
+    const email = req.session.user;
+    const userDetails = await Register.findOne({ Email: email });
+    // const now = userDetails.cart.items[0].productId
+    // console.log(userDetails.cart.items[0].productId);
+    const product = userDetails.cart.items;
+    // const details = await Register.aggregate([{$match : {Email:email}},{$project:{id:"$cart.items.productId"}},{$group:{_id:{id:"$id"}}},{$unwind:"$id"}])
+    // const details = await Register.aggregate([{$match : {Email:email}},{$project:{id:"$cart.items.productId"}},{$group:{_id:{id:"$id"}}}])
+    // console.log(details);
+    const fullProducts = await newProduct.find({});
+    const productDetails1 = await newProduct.find({ Category: "Men" }).limit(6);
+    const productDetails2 = await newProduct
+      .find({ Category: "Men" })
+      .skip(6)
+      .limit(6);
+    const productDetails3 = await newProduct.find({ Category: "Men" }).skip(12);
+    res.render("men", {
+      productDetails1,
+      productDetails2,
+      productDetails3,
+      fullProducts,
+      product,
+    });
+  } else {
+    const productDetails1 = await newProduct.find({ Category: "Men" }).limit(6);
+    const productDetails2 = await newProduct
+      .find({ Category: "Men" })
+      .skip(6)
+      .limit(6);
+    const productDetails3 = await newProduct.find({ Category: "Men" }).skip(12);
+    res.render("men", { productDetails1, productDetails2, productDetails3 });
+  }
 }
+
 async function women(req, res) {
   const productDetails1 = await newProduct.find({ Category: "Women" }).limit(6);
   const productDetails2 = await newProduct
@@ -366,6 +392,106 @@ async function women(req, res) {
     .limit(6);
   const productDetails3 = await newProduct.find({ Category: "Women" }).skip(12);
   res.render("women", { productDetails1, productDetails2, productDetails3 });
+}
+function cart(req, res) {
+  res.render("user-cart");
+}
+
+async function addToCart(req, res) {
+  if (req.session.user) {
+    const email = req.session.user;
+    const id = req.query.id;
+    const productDetails = await newProduct.findOne({ _id: id });
+    const user = await Register.findOne({ Email: email });
+    console.log(user.cart.totalQty);
+    // const details = await Register.aggregate([{$match : {Email:email}},{$project:{id:"$cart.items.productId"}},{$unwind:"$id"},{$match:{id:id}}])
+    const details = await Register.aggregate([
+      { $match: { Email: email } },
+      { $project: { id: "$cart.items.productId" } },
+      { $unwind: "$id" },
+    ]);
+    // console.log(details[0]._id.id[1]);
+    // console.log(details[0].id);
+    let flag;
+    if (user.cart.totalQty == 0) {
+      console.log("entered first if condition");
+      await Register.updateOne(
+        { Email: email },
+        {
+          $push: {
+            "cart.items": {
+              productId: id,
+              quantity: 1,
+              price: productDetails.Price,
+            },
+          },
+          $inc: {
+            "cart.totalPrice": productDetails.Price,
+            "cart.totalQty": 1,
+          },
+        }
+      );
+      res.redirect("/men");
+    } else {
+      console.log(id);
+      console.log("entered first else condition");
+      for (let i = 0; i < user.cart.totalQty; i++) {
+        // console.log(details[i].id);
+        let detailsID = await new String(details[i].id).trim();
+        console.log(detailsID);
+        console.log(i);
+        if (detailsID == id) {
+          flag = i;
+          break;
+        } else {
+          flag = 14545;
+        }
+      }
+      if (flag == 14545) {
+        console.log("entered if condition inside first else");
+        await Register.updateOne(
+          { Email: email },
+          {
+            $push: {
+              "cart.items": {
+                productId: id,
+                quantity: 1,
+                price: productDetails.Price,
+              },
+            },
+            $inc: {
+              "cart.totalPrice": productDetails.Price,
+              "cart.totalQty": 1,
+            },
+          }
+        );
+        res.redirect("/men");
+      } else {
+        console.log("entered elseif condition inside first else");
+        await Register.updateMany(
+          {
+            Email: email,
+            "cart.items": {
+              $elemMatch: {
+                productId: id,
+              },
+            },
+          },
+          {
+            $inc: {
+              "cart.totalPrice": productDetails.Price,
+              "cart.totalQty": 1,
+              "cart.items.$.quantity": 1,
+              "cart.items.$.price": productDetails.Price,
+            },
+          }
+        );
+        res.redirect("/men");
+      }
+    }
+  } else {
+    res.redirect("/login");
+  }
 }
 
 module.exports = {
@@ -394,4 +520,6 @@ module.exports = {
   setasdefault,
   men,
   women,
+  cart,
+  addToCart,
 };

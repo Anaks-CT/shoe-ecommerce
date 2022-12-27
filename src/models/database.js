@@ -42,6 +42,31 @@ const user = new mongoose.Schema({
       },
     },
   ],
+  cart: {
+    items: [
+      {
+        productId: {
+          type: mongoose.Types.ObjectId,
+          ref: "productDetails",
+        },
+        quantity: {
+          type: Number,
+          default: 0,
+        },
+        price: {
+          type: Number,
+        },
+      },
+    ],
+    totalPrice: {
+      type: Number,
+      default: 0,
+    },
+    totalQty: {
+      type: Number,
+      default: 0,
+    },
+  },
 });
 
 const Register = new mongoose.model("detailsofusers", user);

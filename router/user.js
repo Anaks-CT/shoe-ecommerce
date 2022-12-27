@@ -27,4 +27,6 @@ router.get('/deleteAddress',userController.deleteAddress)
 router.get('/setasdefault',userController.setasdefault)
 router.get('/men',userController.men)
 router.get('/women',userController.women)
+router.get('/cart',userController.cart)
+router.get('/addToCart',userController.addToCart)
 module.exports = router;

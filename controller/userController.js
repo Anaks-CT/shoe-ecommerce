@@ -2,17 +2,23 @@ const Register = require("../src/models/database");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const newProduct = require("../src/models/products");
-function welcome(req, res) {
-  res.render("welcome");
+
+async function welcome(req, res) {
+  let cartDetails;
+  if (req.session.user) {
+    const user = await Register.findOne({ Email: req.session.user });
+    cartDetails = user.cart.totalQty;
+  } else {
+    cartDetails = null;
+  }
+  res.render("welcome",{cartDetails});
 }
 
-function register(req, res) {
-  if (req.session.user) {
-    res.redirect("/");
-  } else {
-    res.render("register");
+async function register(req, res) {
+     let cartDetails = null;   
+    res.render("register", { cartDetails });
   }
-}
+
 
 let flag;
 let otpgen;
@@ -66,41 +72,105 @@ async function postRegister(req, res) {
 
           flag = 1;
         } else {
-          res.render("register", { error: "Phone no. aldready taken" });
+          let cartDetails;
+          if (req.session.user) {
+            const user = await Register.findOne({ Email: req.session.user });
+            cartDetails = user.cart.totalQty;
+          } else {
+            cartDetails = null;
+          }
+          res.render("register", {
+            error: "Phone no. aldready taken",
+            cartDetails,
+          });
         }
       } else {
-        res.render("register", { error: "Email ID aldready taken" });
+        let cartDetails;
+        if (req.session.user) {
+          const user = await Register.findOne({ Email: req.session.user });
+          cartDetails = user.cart.totalQty;
+        } else {
+          cartDetails = null;
+        }
+        res.render("register", {
+          error: "Email ID aldready taken",
+          cartDetails,
+        });
       }
     } else {
-      res.render("register", { error: "passwords not matching" });
+      let cartDetails;
+      if (req.session.user) {
+        const user = await Register.findOne({ Email: req.session.user });
+        cartDetails = user.cart.totalQty;
+      } else {
+        cartDetails = null;
+      }
+      res.render("register", { error: "passwords not matching", cartDetails });
     }
   } catch (error) {
     res.send("passwords not matching");
   }
 }
 
-function signupotp(req, res) {
+async function signupotp(req, res) {
   if (flag == 1) {
-    res.render("signupotp");
+    let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+    res.render("signupotp", { cartDetails });
   } else {
-    res.render("register");
+    let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+    res.render("register", { cartDetails });
   }
 }
 
-function postsignupotp(req, res) {
+async function postsignupotp(req, res) {
   if (otpgen == req.body.otp) {
     Register.insertMany([user]);
-    res.render("login");
+    let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+    res.render("login", { cartDetails });
   } else {
-    res.render("signupotp", { error: "OTP entered is incorrect" });
+    let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+    res.render("signupotp", { error: "OTP entered is incorrect", cartDetails });
   }
 }
 
-function login(req, res) {
+async function login(req, res) {
   if (req.session.user) {
     res.redirect("/");
   } else {
-    res.render("login");
+    let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+    console.log(cartDetails);
+
+    res.render("login", { cartDetails });
   }
 }
 
@@ -117,22 +187,46 @@ async function postLogin(req, res) {
         req.session.user = email;
         res.redirect("/login2");
       } else {
-        res.render("login", { error: "Invalid login details" });
+        let cartDetails;
+        if (req.session.user) {
+          const user = await Register.findOne({ Email: req.session.user });
+          cartDetails = user.cart.totalQty;
+        } else {
+          cartDetails = null;
+        }
+        res.render("login", { error: "Invalid login details", cartDetails });
       }
     } else {
-      res.render("login", { error: "unauthorised user" });
+      let cartDetails;
+      if (req.session.user) {
+        const user = await Register.findOne({ Email: req.session.user });
+        cartDetails = user.cart.totalQty;
+      } else {
+        cartDetails = null;
+      }
+      res.render("login", { error: "unauthorised user", cartDetails });
     }
   } catch (error) {
-    res.render("login", { error: "user not found" });
+    let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+    res.render("login", { error: "user not found", cartDetails });
   }
 }
 
 async function userwelcome(req, res) {
+  let cartDetails;
   if (req.session.user) {
-    res.render("userwelcome");
+    const user = await Register.findOne({ Email: req.session.user });
+    cartDetails = user.cart.totalQty;
   } else {
-    res.redirect("/");
+    cartDetails = null;
   }
+  res.render("userwelcome", { cartDetails });
 }
 
 function userwelcome2(req, res) {
@@ -143,8 +237,15 @@ function userwelcome2(req, res) {
   }
 }
 
-function forgotPassword(req, res) {
-  res.render("user-forgotPassword-email");
+async function forgotPassword(req, res) {
+  let cartDetails;
+  if (req.session.user) {
+    const user = await Register.findOne({ Email: req.session.user });
+    cartDetails = user.cart.totalQty;
+  } else {
+    cartDetails = null;
+  }
+  res.render("user-forgotPassword-email", { cartDetails });
 }
 
 let emailCheck;
@@ -182,31 +283,68 @@ async function postforgotPassword(req, res) {
         }
       });
     } else {
+      let cartDetails;
+      if (req.session.user) {
+        const user = await Register.findOne({ Email: req.session.user });
+        cartDetails = user.cart.totalQty;
+      } else {
+        cartDetails = null;
+      }
       res.render("user-forgotPassword-email", {
         error: "Email not registered!!",
+        cartDetails,
       });
     }
   } catch (error) {
+    let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
     res.render("user-forgotPassword-email", {
       error: "Email not registered!!",
+      cartDetails,
     });
   }
 }
 
-function forgotPasswordOTP(req, res) {
-  res.render("user-forgotPasswordOTP");
+async function forgotPasswordOTP(req, res) {
+  let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+  res.render("user-forgotPasswordOTP",{cartDetails});
 }
 
-function postForgotPasswordOTP(req, res) {
+async function postForgotPasswordOTP(req, res) {
   if (forgotpasswordotp == req.body.otp) {
     res.redirect("/userNewPassword");
   } else {
-    res.render("user-forgotPasswordOTP", { error: "OTP entered is incorrect" });
+    let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+    res.render("user-forgotPasswordOTP", { error: "OTP entered is incorrect" ,cartDetails});
   }
 }
 
-function userNewPassword(req, res) {
-  res.render("user-newPassword");
+async function userNewPassword(req, res) {
+  let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+  res.render("user-newPassword",{cartDetails});
 }
 
 async function postUserNewPassword(req, res) {
@@ -258,20 +396,48 @@ async function accountDetails(req, res) {
     const mainAddress = userDetails.mainAddress[i];
     console.log(mainAddress);
     console.log(i);
-    res.render("user-accountDetails", { userDetails, mainAddress });
+    let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+    res.render("user-accountDetails", { userDetails, mainAddress,cartDetails });
   } else {
-    res.render("login");
+    let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+    res.render("login",{cartDetails});
   }
 }
 async function userAddress(req, res) {
   const email = req.session.user;
   const userDetails = await Register.findOne({ Email: email });
   const mainAddress = userDetails.mainAddress;
-  res.render("user-address", { mainAddress });
+  let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+  res.render("user-address", { mainAddress,cartDetails });
 }
 
 async function addAddress(req, res) {
-  res.render("user-addAddress");
+  let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+  res.render("user-addAddress",{cartDetails});
 }
 
 async function postAddAddress(req, res) {
@@ -301,7 +467,14 @@ async function editAddress(req, res) {
     id = req.query.id;
     const userDetails = await Register.findOne({ Email: email });
     const mainAddress = userDetails.mainAddress[id];
-    res.render("user-editAddress", { mainAddress });
+    let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+    res.render("user-editAddress", { mainAddress,cartDetails });
   } catch (error) {
     console.log(error);
   }
@@ -366,12 +539,20 @@ async function men(req, res) {
       .skip(6)
       .limit(6);
     const productDetails3 = await newProduct.find({ Category: "Men" }).skip(12);
+    let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
     res.render("men", {
       productDetails1,
       productDetails2,
       productDetails3,
       fullProducts,
       product,
+      cartDetails
     });
   } else {
     const productDetails1 = await newProduct.find({ Category: "Men" }).limit(6);
@@ -380,7 +561,14 @@ async function men(req, res) {
       .skip(6)
       .limit(6);
     const productDetails3 = await newProduct.find({ Category: "Men" }).skip(12);
-    res.render("men", { productDetails1, productDetails2, productDetails3 });
+    let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+    res.render("men", { productDetails1, productDetails2, productDetails3,cartDetails });
   }
 }
 
@@ -391,27 +579,54 @@ async function women(req, res) {
     .skip(6)
     .limit(6);
   const productDetails3 = await newProduct.find({ Category: "Women" }).skip(12);
-  res.render("women", { productDetails1, productDetails2, productDetails3 });
+  let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+  res.render("women", { productDetails1, productDetails2, productDetails3 ,cartDetails});
 }
-function cart(req, res) {
-  res.render("user-cart");
+async function cart(req, res) {
+  if (req.session.user) {
+    const email = req.session.user;
+    const user = await Register.findOne({ Email: email });
+    // const cartDetails = user.cart.items
+    // console.log(user);
+    const data = await user.populate("cart.items.productId");
+    // console.log(data.cart.items[0].productId);
+    const product = data.cart.items;
+    console.log(product.items);
+    // console.log(product.items[0].productId.Name);
+    let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+    res.render("user-cart", { product,cartDetails });
+  } else {
+    res.redirect("/login");
+  }
 }
 
 async function addToCart(req, res) {
   if (req.session.user) {
+    
+
     const email = req.session.user;
-    const id = req.query.id;
+    const id = req.params.id;
+    console.log(id);
     const productDetails = await newProduct.findOne({ _id: id });
     const user = await Register.findOne({ Email: email });
-    console.log(user.cart.totalQty);
-    // const details = await Register.aggregate([{$match : {Email:email}},{$project:{id:"$cart.items.productId"}},{$unwind:"$id"},{$match:{id:id}}])
+    console.log(user.cart.items.length);
     const details = await Register.aggregate([
       { $match: { Email: email } },
       { $project: { id: "$cart.items.productId" } },
       { $unwind: "$id" },
     ]);
-    // console.log(details[0]._id.id[1]);
-    // console.log(details[0].id);
     let flag;
     if (user.cart.totalQty == 0) {
       console.log("entered first if condition");
@@ -431,13 +646,12 @@ async function addToCart(req, res) {
           },
         }
       );
-      res.redirect("/men");
+      const currentUser = await Register.findOne({Email : req.session.user})
+      const count=currentUser.cart.totalQty
+      res.json({status:count})
     } else {
-      console.log(id);
-      console.log("entered first else condition");
-      for (let i = 0; i < user.cart.totalQty; i++) {
-        // console.log(details[i].id);
-        let detailsID = await new String(details[i].id).trim();
+      for (let i = 0; i < user.cart.items.length; i++) {
+        let detailsID = new String(details[i].id).trim();
         console.log(detailsID);
         console.log(i);
         if (detailsID == id) {
@@ -448,7 +662,6 @@ async function addToCart(req, res) {
         }
       }
       if (flag == 14545) {
-        console.log("entered if condition inside first else");
         await Register.updateOne(
           { Email: email },
           {
@@ -465,9 +678,11 @@ async function addToCart(req, res) {
             },
           }
         );
-        res.redirect("/men");
+        // res.redirect("/men");
+        const currentUser = await Register.findOne({Email : req.session.user})
+      const count=currentUser.cart.totalQty
+      res.json({status:count})
       } else {
-        console.log("entered elseif condition inside first else");
         await Register.updateMany(
           {
             Email: email,
@@ -486,14 +701,42 @@ async function addToCart(req, res) {
             },
           }
         );
-        res.redirect("/men");
+        // res.redirect("/men");
+        const currentUser = await Register.findOne({Email : req.session.user})
+      const count=currentUser.cart.totalQty
+      res.json({status:count})
       }
     }
   } else {
     res.redirect("/login");
   }
 }
-
+async function deleteCartItem(req, res) {
+  if (req.session.user) {
+    const email = req.session.user;
+    const user = await Register.findOne({ Email: email });
+    const i = req.query.i;
+    await Register.updateMany(
+      { Email: email },
+      {
+        $pull: {
+          "cart.items": {
+            productId: user.cart.items[i].productId,
+            quantity: user.cart.items[i].quantity,
+            price: user.cart.items[i].price,
+          },
+        },
+        $inc: {
+          "cart.totalPrice": -user.cart.items[i].price,
+          "cart.totalQty": -user.cart.items[i].quantity,
+        },
+      }
+    );
+    res.redirect("/cart");
+  } else {
+    res.redirect("/login");
+  }
+}
 module.exports = {
   welcome,
   register,
@@ -522,4 +765,5 @@ module.exports = {
   women,
   cart,
   addToCart,
+  deleteCartItem,
 };

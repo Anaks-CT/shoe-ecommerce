@@ -60,9 +60,15 @@ async function postAddProduct(req, res) {
     Price: req.body.price,
     Category: req.body.category,
     Color: req.body.color,
-    Image1: req.file.filename,
+    stock: req.body.stock,
+    Image1: req.files.image[0].filename,
+    Image2: req.files.image2[0].filename,
+    Image3: req.files.image3[0].filename,
+    Image4: req.files.image4[0].filename,
+    Image5: req.files.image5[0].filename,
+    Image6: req.files.image6[0].filename,
   };
-  newProduct.insertMany([product]);
+  await newProduct.insertMany([product]);
   res.redirect("/productDetail");
 }
 
@@ -144,19 +150,18 @@ async function unblockUser(req, res) {
 async function blockCategory(req, res) {
   try {
     const name = req.query.name;
-  await newCategory.updateOne(
-    { Name: name },
-    {
-      $set: {
-        active: false,
-      },
-    }
-  );
-  res.redirect("/categoryDetails");
+    await newCategory.updateOne(
+      { Name: name },
+      {
+        $set: {
+          active: false,
+        },
+      }
+    );
+    res.redirect("/categoryDetails");
   } catch (error) {
-    res.send(error)
+    res.send(error);
   }
-  
 }
 
 async function unblockCategory(req, res) {

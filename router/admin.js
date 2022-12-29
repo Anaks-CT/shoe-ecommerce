@@ -9,7 +9,14 @@ router.post('/adminlogin', adminController.adminPostSignin)
 router.get('/userdetails',adminController.userdetails)
 router.get('/productDetail',adminController.productDetail)
 router.get('/addProduct',adminController.addProduct)
-router.post('/addProduct',upload.single('image') ,adminController.postAddProduct)
+router.post('/addProduct',upload.fields([
+    { name: 'image', maxCount: 1},
+    { name: 'image2', maxCount: 1},
+    { name: 'image3', maxCount: 1},
+    { name: 'image4', maxCount: 1},
+    { name: 'image5', maxCount: 1},
+    { name: 'image6', maxCount: 1},
+]),adminController.postAddProduct)
 router.get('/categoryDetails',adminController.categoryDetails)
 router.get('/addCategory', adminController.addCategory)
 router.post('/addCategory', adminController.postAddCategory)

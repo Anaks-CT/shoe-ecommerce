@@ -24,6 +24,9 @@ const product = new mongoose.Schema({
     type: String,
     required: true,
   },
+  stock : {
+    type : Number
+  },
   Image1: {
     type: String,
     required: true,
@@ -38,6 +41,9 @@ const product = new mongoose.Schema({
     type: String,
   },
   Image5: {
+    type: String,
+  },
+  Image6: {
     type: String,
   },
   active: {

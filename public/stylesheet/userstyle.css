@@ -491,5 +491,21 @@ header {
   padding-left: 76px;
   padding-top: 22px;
 }
-
-
+.cart_image{
+  width: -webkit-fill-available
+}
+.cart-price{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+}
+.cart-totalprice{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  margin: 0;
+}

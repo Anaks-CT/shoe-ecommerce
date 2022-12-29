@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controller/userController");
+const userMiddleware = require('../middlewares/userSession')
 
 router.get("/", userController.welcome);
 router.get("/signup", userController.register);
 router.post("/signup", userController.postRegister);
 router.get("/login", userController.login);
 router.post("/login", userController.postLogin);
-router.get("/login2", userController.userwelcome);
+router.get("/login2",userMiddleware, userController.userwelcome);
 router.get("/login3", userController.userwelcome2);
 router.get("/signupotp", userController.signupotp);
 router.post("/signupotp", userController.postsignupotp);
@@ -28,5 +29,6 @@ router.get('/setasdefault',userController.setasdefault)
 router.get('/men',userController.men)
 router.get('/women',userController.women)
 router.get('/cart',userController.cart)
-router.get('/addToCart',userController.addToCart)
+router.get('/addToCart/:id',userController.addToCart)
+router.get('/deleteCartItem',userController.deleteCartItem)
 module.exports = router;

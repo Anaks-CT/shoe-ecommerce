@@ -215,7 +215,7 @@ async function postLogin(req, res) {
       );
       if (comparepassword) {
         req.session.user = email;
-        res.redirect("/login2");
+        res.redirect("/");
       } else {
         let cartDetails;
         if (req.session.user) {
@@ -677,24 +677,21 @@ async function cart(req, res) {
   if (req.session.user) {
     const email = req.session.user;
     const user = await Register.findOne({ Email: email });
-    // const cartDetails = user.cart.items
-    // console.log(user);
-    // console.log(data.cart.items[0].productId);
+    const totalPrice = user.cart
     const data = await user.populate("cart.items.productId"); 
     const product = data.cart.items;
-    console.log(product.items);
-    // console.log(product.items[0].productId.Name);
+    console.log(product);
     let cartDetails;
     if (req.session.user) {
-      const user = await Register.findOne({ Email: req.session.user });
-      cartDetails = user.cart.totalQty;
+      const User = await Register.findOne({ Email: req.session.user });
+      cartDetails = User.cart.totalQty;
     } else {
       cartDetails = null;
     }
     if(cartDetails==0){
       cartDetails=null
     }
-    res.render("user-cart", { product,cartDetails });
+    res.render("user-cart", { product,cartDetails,totalPrice });
   } else {
     res.redirect("/login");
   }
@@ -802,6 +799,8 @@ async function addToCart(req, res) {
     res.redirect("/login");
   }
 }
+
+
 async function deleteCartItem(req, res) {
   if (req.session.user) {
     const email = req.session.user;
@@ -827,6 +826,25 @@ async function deleteCartItem(req, res) {
   } else {
     res.redirect("/login");
   }
+}
+async function productPage (req, res) {
+  const productId = req.query.id
+  const productDetails = await newProduct.findOne({_id : productId})
+  console.log(productDetails);
+  let cartDetails;
+  if (req.session.user) {
+    const user = await Register.findOne({ Email: req.session.user });
+    cartDetails = user.cart.totalQty;
+  } else {
+    cartDetails = null;
+  }
+  if(cartDetails==0){
+    cartDetails=null
+  }
+  res.render('item-productPage',{cartDetails,productDetails})
+}
+async function backButton (req,res ){
+  
 }
 module.exports = {
   welcome,
@@ -857,4 +875,6 @@ module.exports = {
   cart,
   addToCart,
   deleteCartItem,
+  productPage,
+  backButton
 };

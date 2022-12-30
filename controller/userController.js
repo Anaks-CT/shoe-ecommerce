@@ -11,20 +11,19 @@ async function welcome(req, res) {
   } else {
     cartDetails = null;
   }
-  if(cartDetails==0){
-    cartDetails=null
+  if (cartDetails == 0) {
+    cartDetails = null;
   }
-  const product = await newProduct.find({})
-  const product2 = await newProduct.find({}).skip(6)
-  const product3 = await newProduct.find({}).skip(12)
-  res.render("welcome",{cartDetails,product,product2,product3});
+  const product = await newProduct.find({});
+  const product2 = await newProduct.find({}).skip(6);
+  const product3 = await newProduct.find({}).skip(12);
+  res.render("welcome", { cartDetails, product, product2, product3 });
 }
 
 async function register(req, res) {
-     let cartDetails = null;   
-    res.render("register", { cartDetails });
-  }
-
+  let cartDetails = null;
+  res.render("register", { cartDetails });
+}
 
 let flag;
 let otpgen;
@@ -37,7 +36,7 @@ async function postRegister(req, res) {
     const cpassword = req.body.confirmpassword;
     const firstname = req.body.name;
     const Phone = req.body.phone;
-    const email = req.body.email;
+    const email = req.body.email.toLowerCase();
     const useremail = Register.findOne({ Email: email });
     const userphone = Register.findOne({ Phone: Phone });
     if (password === cpassword) {
@@ -85,8 +84,8 @@ async function postRegister(req, res) {
           } else {
             cartDetails = null;
           }
-          if(cartDetails==0){
-            cartDetails=null
+          if (cartDetails == 0) {
+            cartDetails = null;
           }
           res.render("register", {
             error: "Phone no. aldready taken",
@@ -101,8 +100,8 @@ async function postRegister(req, res) {
         } else {
           cartDetails = null;
         }
-        if(cartDetails==0){
-          cartDetails=null
+        if (cartDetails == 0) {
+          cartDetails = null;
         }
         res.render("register", {
           error: "Email ID aldready taken",
@@ -117,8 +116,8 @@ async function postRegister(req, res) {
       } else {
         cartDetails = null;
       }
-      if(cartDetails==0){
-        cartDetails=null
+      if (cartDetails == 0) {
+        cartDetails = null;
       }
       res.render("register", { error: "passwords not matching", cartDetails });
     }
@@ -136,8 +135,8 @@ async function signupotp(req, res) {
     } else {
       cartDetails = null;
     }
-    if(cartDetails==0){
-      cartDetails=null
+    if (cartDetails == 0) {
+      cartDetails = null;
     }
     res.render("signupotp", { cartDetails });
   } else {
@@ -148,8 +147,8 @@ async function signupotp(req, res) {
     } else {
       cartDetails = null;
     }
-    if(cartDetails==0){
-      cartDetails=null
+    if (cartDetails == 0) {
+      cartDetails = null;
     }
     res.render("register", { cartDetails });
   }
@@ -165,8 +164,8 @@ async function postsignupotp(req, res) {
     } else {
       cartDetails = null;
     }
-    if(cartDetails==0){
-      cartDetails=null
+    if (cartDetails == 0) {
+      cartDetails = null;
     }
     res.render("login", { cartDetails });
   } else {
@@ -177,8 +176,8 @@ async function postsignupotp(req, res) {
     } else {
       cartDetails = null;
     }
-    if(cartDetails==0){
-      cartDetails=null
+    if (cartDetails == 0) {
+      cartDetails = null;
     }
     res.render("signupotp", { error: "OTP entered is incorrect", cartDetails });
   }
@@ -195,8 +194,8 @@ async function login(req, res) {
     } else {
       cartDetails = null;
     }
-    if(cartDetails==0){
-      cartDetails=null
+    if (cartDetails == 0) {
+      cartDetails = null;
     }
     console.log(cartDetails);
 
@@ -206,7 +205,7 @@ async function login(req, res) {
 
 async function postLogin(req, res) {
   try {
-    const email = req.body.email;
+    const email = req.body.email.toLowerCase();
     const user = await Register.findOne({ Email: email });
     if (user.active == true) {
       const comparepassword = await bcrypt.compare(
@@ -224,8 +223,8 @@ async function postLogin(req, res) {
         } else {
           cartDetails = null;
         }
-        if(cartDetails==0){
-          cartDetails=null
+        if (cartDetails == 0) {
+          cartDetails = null;
         }
         res.render("login", { error: "Invalid login details", cartDetails });
       }
@@ -237,8 +236,8 @@ async function postLogin(req, res) {
       } else {
         cartDetails = null;
       }
-      if(cartDetails==0){
-        cartDetails=null
+      if (cartDetails == 0) {
+        cartDetails = null;
       }
       res.render("login", { error: "unauthorised user", cartDetails });
     }
@@ -250,8 +249,8 @@ async function postLogin(req, res) {
     } else {
       cartDetails = null;
     }
-    if(cartDetails==0){
-      cartDetails=null
+    if (cartDetails == 0) {
+      cartDetails = null;
     }
     res.render("login", { error: "user not found", cartDetails });
   }
@@ -265,8 +264,8 @@ async function userwelcome(req, res) {
   } else {
     cartDetails = null;
   }
-  if(cartDetails==0){
-    cartDetails=null
+  if (cartDetails == 0) {
+    cartDetails = null;
   }
   res.render("userwelcome", { cartDetails });
 }
@@ -287,8 +286,8 @@ async function forgotPassword(req, res) {
   } else {
     cartDetails = null;
   }
-  if(cartDetails==0){
-    cartDetails=null
+  if (cartDetails == 0) {
+    cartDetails = null;
   }
   res.render("user-forgotPassword-email", { cartDetails });
 }
@@ -335,8 +334,8 @@ async function postforgotPassword(req, res) {
       } else {
         cartDetails = null;
       }
-      if(cartDetails==0){
-        cartDetails=null
+      if (cartDetails == 0) {
+        cartDetails = null;
       }
       res.render("user-forgotPassword-email", {
         error: "Email not registered!!",
@@ -351,8 +350,8 @@ async function postforgotPassword(req, res) {
     } else {
       cartDetails = null;
     }
-    if(cartDetails==0){
-      cartDetails=null
+    if (cartDetails == 0) {
+      cartDetails = null;
     }
     res.render("user-forgotPassword-email", {
       error: "Email not registered!!",
@@ -363,16 +362,16 @@ async function postforgotPassword(req, res) {
 
 async function forgotPasswordOTP(req, res) {
   let cartDetails;
-    if (req.session.user) {
-      const user = await Register.findOne({ Email: req.session.user });
-      cartDetails = user.cart.totalQty;
-    } else {
-      cartDetails = null;
-    }
-    if(cartDetails==0){
-      cartDetails=null
-    }
-  res.render("user-forgotPasswordOTP",{cartDetails});
+  if (req.session.user) {
+    const user = await Register.findOne({ Email: req.session.user });
+    cartDetails = user.cart.totalQty;
+  } else {
+    cartDetails = null;
+  }
+  if (cartDetails == 0) {
+    cartDetails = null;
+  }
+  res.render("user-forgotPasswordOTP", { cartDetails });
 }
 
 async function postForgotPasswordOTP(req, res) {
@@ -386,25 +385,28 @@ async function postForgotPasswordOTP(req, res) {
     } else {
       cartDetails = null;
     }
-    if(cartDetails==0){
-      cartDetails=null
+    if (cartDetails == 0) {
+      cartDetails = null;
     }
-    res.render("user-forgotPasswordOTP", { error: "OTP entered is incorrect" ,cartDetails});
+    res.render("user-forgotPasswordOTP", {
+      error: "OTP entered is incorrect",
+      cartDetails,
+    });
   }
 }
 
 async function userNewPassword(req, res) {
   let cartDetails;
-    if (req.session.user) {
-      const user = await Register.findOne({ Email: req.session.user });
-      cartDetails = user.cart.totalQty;
-    } else {
-      cartDetails = null;
-    }
-    if(cartDetails==0){
-      cartDetails=null
-    }
-  res.render("user-newPassword",{cartDetails});
+  if (req.session.user) {
+    const user = await Register.findOne({ Email: req.session.user });
+    cartDetails = user.cart.totalQty;
+  } else {
+    cartDetails = null;
+  }
+  if (cartDetails == 0) {
+    cartDetails = null;
+  }
+  res.render("user-newPassword", { cartDetails });
 }
 
 async function postUserNewPassword(req, res) {
@@ -463,10 +465,14 @@ async function accountDetails(req, res) {
     } else {
       cartDetails = null;
     }
-    if(cartDetails==0){
-      cartDetails=null
+    if (cartDetails == 0) {
+      cartDetails = null;
     }
-    res.render("user-accountDetails", { userDetails, mainAddress,cartDetails });
+    res.render("user-accountDetails", {
+      userDetails,
+      mainAddress,
+      cartDetails,
+    });
   } else {
     let cartDetails;
     if (req.session.user) {
@@ -475,10 +481,10 @@ async function accountDetails(req, res) {
     } else {
       cartDetails = null;
     }
-    if(cartDetails==0){
-      cartDetails=null
+    if (cartDetails == 0) {
+      cartDetails = null;
     }
-    res.render("login",{cartDetails});
+    res.render("login", { cartDetails });
   }
 }
 async function userAddress(req, res) {
@@ -486,30 +492,30 @@ async function userAddress(req, res) {
   const userDetails = await Register.findOne({ Email: email });
   const mainAddress = userDetails.mainAddress;
   let cartDetails;
-    if (req.session.user) {
-      const user = await Register.findOne({ Email: req.session.user });
-      cartDetails = user.cart.totalQty;
-    } else {
-      cartDetails = null;
-    }
-    if(cartDetails==0){
-      cartDetails=null
-    }
-  res.render("user-address", { mainAddress,cartDetails });
+  if (req.session.user) {
+    const user = await Register.findOne({ Email: req.session.user });
+    cartDetails = user.cart.totalQty;
+  } else {
+    cartDetails = null;
+  }
+  if (cartDetails == 0) {
+    cartDetails = null;
+  }
+  res.render("user-address", { mainAddress, cartDetails });
 }
 
 async function addAddress(req, res) {
   let cartDetails;
-    if (req.session.user) {
-      const user = await Register.findOne({ Email: req.session.user });
-      cartDetails = user.cart.totalQty;
-    } else {
-      cartDetails = null;
-    }
-    if(cartDetails==0){
-      cartDetails=null
-    }
-  res.render("user-addAddress",{cartDetails});
+  if (req.session.user) {
+    const user = await Register.findOne({ Email: req.session.user });
+    cartDetails = user.cart.totalQty;
+  } else {
+    cartDetails = null;
+  }
+  if (cartDetails == 0) {
+    cartDetails = null;
+  }
+  res.render("user-addAddress", { cartDetails });
 }
 
 async function postAddAddress(req, res) {
@@ -546,11 +552,11 @@ async function editAddress(req, res) {
     } else {
       cartDetails = null;
     }
-    if(cartDetails==0){
-      cartDetails=null
+    if (cartDetails == 0) {
+      cartDetails = null;
     }
-    
-    res.render("user-editAddress", { mainAddress,cartDetails });
+
+    res.render("user-editAddress", { mainAddress, cartDetails });
   } catch (error) {
     console.log(error);
   }
@@ -622,8 +628,8 @@ async function men(req, res) {
     } else {
       cartDetails = null;
     }
-    if(cartDetails==0){
-      cartDetails=null
+    if (cartDetails == 0) {
+      cartDetails = null;
     }
     res.render("men", {
       productDetails1,
@@ -631,7 +637,7 @@ async function men(req, res) {
       productDetails3,
       fullProducts,
       product,
-      cartDetails
+      cartDetails,
     });
   } else {
     const productDetails1 = await newProduct.find({ Category: "Men" }).limit(6);
@@ -647,10 +653,15 @@ async function men(req, res) {
     } else {
       cartDetails = null;
     }
-    if(cartDetails==0){
-      cartDetails=null
+    if (cartDetails == 0) {
+      cartDetails = null;
     }
-    res.render("men", { productDetails1, productDetails2, productDetails3,cartDetails });
+    res.render("men", {
+      productDetails1,
+      productDetails2,
+      productDetails3,
+      cartDetails,
+    });
   }
 }
 
@@ -662,23 +673,28 @@ async function women(req, res) {
     .limit(6);
   const productDetails3 = await newProduct.find({ Category: "Women" }).skip(12);
   let cartDetails;
-    if (req.session.user) {
-      const user = await Register.findOne({ Email: req.session.user });
-      cartDetails = user.cart.totalQty;
-    } else {
-      cartDetails = null;
-    }
-    if(cartDetails==0){
-      cartDetails=null
-    }
-  res.render("women", { productDetails1, productDetails2, productDetails3 ,cartDetails});
+  if (req.session.user) {
+    const user = await Register.findOne({ Email: req.session.user });
+    cartDetails = user.cart.totalQty;
+  } else {
+    cartDetails = null;
+  }
+  if (cartDetails == 0) {
+    cartDetails = null;
+  }
+  res.render("women", {
+    productDetails1,
+    productDetails2,
+    productDetails3,
+    cartDetails,
+  });
 }
 async function cart(req, res) {
   if (req.session.user) {
     const email = req.session.user;
     const user = await Register.findOne({ Email: email });
-    const totalPrice = user.cart
-    const data = await user.populate("cart.items.productId"); 
+    const totalPrice = user.cart;
+    const data = await user.populate("cart.items.productId");
     const product = data.cart.items;
     console.log(product);
     let cartDetails;
@@ -688,10 +704,10 @@ async function cart(req, res) {
     } else {
       cartDetails = null;
     }
-    if(cartDetails==0){
-      cartDetails=null
+    if (cartDetails == 0) {
+      cartDetails = null;
     }
-    res.render("user-cart", { product,cartDetails,totalPrice });
+    res.render("user-cart", { product, cartDetails, totalPrice });
   } else {
     res.redirect("/login");
   }
@@ -699,14 +715,10 @@ async function cart(req, res) {
 
 async function addToCart(req, res) {
   if (req.session.user) {
-    
-
     const email = req.session.user;
     const id = req.params.id;
-    console.log(id);
     const productDetails = await newProduct.findOne({ _id: id });
     const user = await Register.findOne({ Email: email });
-    console.log(user.cart.items.length);
     const details = await Register.aggregate([
       { $match: { Email: email } },
       { $project: { id: "$cart.items.productId" } },
@@ -731,14 +743,12 @@ async function addToCart(req, res) {
           },
         }
       );
-      const currentUser = await Register.findOne({Email : req.session.user})
-      const count=currentUser.cart.totalQty
-      res.json({status:count})
+      const currentUser = await Register.findOne({ Email: req.session.user });
+      const count = currentUser.cart.totalQty;
+      res.json({ status: count });
     } else {
       for (let i = 0; i < user.cart.items.length; i++) {
         let detailsID = new String(details[i].id).trim();
-        console.log(detailsID);
-        console.log(i);
         if (detailsID == id) {
           flag = i;
           break;
@@ -764,11 +774,11 @@ async function addToCart(req, res) {
           }
         );
         // res.redirect("/men");
-        const currentUser = await Register.findOne({Email : req.session.user})
-      const count=currentUser.cart.totalQty
-      const data = await user.populate("cart.items.productId"); 
-    const product = data.cart.items;
-      res.json({status:count, product:product})
+        const currentUser = await Register.findOne({ Email: req.session.user });
+        const count = currentUser.cart.totalQty;
+        const data = await user.populate("cart.items.productId");
+        const product = data.cart.items;
+        res.json({ status: count, product: product });
       } else {
         await Register.updateMany(
           {
@@ -789,17 +799,27 @@ async function addToCart(req, res) {
           }
         );
         // res.redirect("/men");
-        const currentUser = await Register.findOne({Email : req.session.user})
-
-      const count=currentUser.cart.totalQty
-      res.json({status:count})
+        const currentUser = await Register.findOne({ Email: req.session.user });
+        const currentProduct = await Register.aggregate([
+          { $match: { Email: email } },
+          {
+            $project: {
+              qty: "$cart.items.quantity",
+              price: "$cart.items.price",
+            },
+          },
+          { $unwind: "$qty,price" },
+          { $match: { "productId._id": id } },
+        ]);
+        console.log(currentProduct);
+        const count = currentUser.cart.totalQty;
+        res.json({ status: count });
       }
     }
   } else {
     res.redirect("/login");
   }
 }
-
 
 async function deleteCartItem(req, res) {
   if (req.session.user) {
@@ -827,9 +847,9 @@ async function deleteCartItem(req, res) {
     res.redirect("/login");
   }
 }
-async function productPage (req, res) {
-  const productId = req.query.id
-  const productDetails = await newProduct.findOne({_id : productId})
+async function productPage(req, res) {
+  const productId = req.query.id;
+  const productDetails = await newProduct.findOne({ _id: productId });
   console.log(productDetails);
   let cartDetails;
   if (req.session.user) {
@@ -838,13 +858,31 @@ async function productPage (req, res) {
   } else {
     cartDetails = null;
   }
-  if(cartDetails==0){
-    cartDetails=null
+  if (cartDetails == 0) {
+    cartDetails = null;
   }
-  res.render('item-productPage',{cartDetails,productDetails})
+  res.render("item-productPage", { cartDetails, productDetails });
 }
-async function backButton (req,res ){
-  
+async function backButton(req, res) {}
+async function wishlist(req, res) {
+
+  const email = req.session.user;
+  const user = await Register.findOne({ Email: email });
+  const totalPrice = user.cart;
+  const data = await user.populate("cart.items.productId");
+  const product = data.cart.items;
+
+  let cartDetails;
+  if (req.session.user) {
+    const user = await Register.findOne({ Email: req.session.user });
+    cartDetails = user.cart.totalQty;
+  } else {
+    cartDetails = null;
+  }
+  if (cartDetails == 0) {
+    cartDetails = null;
+  }
+  res.render('user-wishlist',{cartDetails,totalPrice,product})
 }
 module.exports = {
   welcome,
@@ -876,5 +914,6 @@ module.exports = {
   addToCart,
   deleteCartItem,
   productPage,
-  backButton
+  backButton,
+  wishlist,
 };

@@ -11,7 +11,13 @@ async function welcome(req, res) {
   } else {
     cartDetails = null;
   }
-  res.render("welcome",{cartDetails});
+  if(cartDetails==0){
+    cartDetails=null
+  }
+  const product = await newProduct.find({})
+  const product2 = await newProduct.find({}).skip(6)
+  const product3 = await newProduct.find({}).skip(12)
+  res.render("welcome",{cartDetails,product,product2,product3});
 }
 
 async function register(req, res) {
@@ -79,6 +85,9 @@ async function postRegister(req, res) {
           } else {
             cartDetails = null;
           }
+          if(cartDetails==0){
+            cartDetails=null
+          }
           res.render("register", {
             error: "Phone no. aldready taken",
             cartDetails,
@@ -92,6 +101,9 @@ async function postRegister(req, res) {
         } else {
           cartDetails = null;
         }
+        if(cartDetails==0){
+          cartDetails=null
+        }
         res.render("register", {
           error: "Email ID aldready taken",
           cartDetails,
@@ -104,6 +116,9 @@ async function postRegister(req, res) {
         cartDetails = user.cart.totalQty;
       } else {
         cartDetails = null;
+      }
+      if(cartDetails==0){
+        cartDetails=null
       }
       res.render("register", { error: "passwords not matching", cartDetails });
     }
@@ -121,6 +136,9 @@ async function signupotp(req, res) {
     } else {
       cartDetails = null;
     }
+    if(cartDetails==0){
+      cartDetails=null
+    }
     res.render("signupotp", { cartDetails });
   } else {
     let cartDetails;
@@ -129,6 +147,9 @@ async function signupotp(req, res) {
       cartDetails = user.cart.totalQty;
     } else {
       cartDetails = null;
+    }
+    if(cartDetails==0){
+      cartDetails=null
     }
     res.render("register", { cartDetails });
   }
@@ -144,6 +165,9 @@ async function postsignupotp(req, res) {
     } else {
       cartDetails = null;
     }
+    if(cartDetails==0){
+      cartDetails=null
+    }
     res.render("login", { cartDetails });
   } else {
     let cartDetails;
@@ -152,6 +176,9 @@ async function postsignupotp(req, res) {
       cartDetails = user.cart.totalQty;
     } else {
       cartDetails = null;
+    }
+    if(cartDetails==0){
+      cartDetails=null
     }
     res.render("signupotp", { error: "OTP entered is incorrect", cartDetails });
   }
@@ -167,6 +194,9 @@ async function login(req, res) {
       cartDetails = user.cart.totalQty;
     } else {
       cartDetails = null;
+    }
+    if(cartDetails==0){
+      cartDetails=null
     }
     console.log(cartDetails);
 
@@ -194,6 +224,9 @@ async function postLogin(req, res) {
         } else {
           cartDetails = null;
         }
+        if(cartDetails==0){
+          cartDetails=null
+        }
         res.render("login", { error: "Invalid login details", cartDetails });
       }
     } else {
@@ -204,6 +237,9 @@ async function postLogin(req, res) {
       } else {
         cartDetails = null;
       }
+      if(cartDetails==0){
+        cartDetails=null
+      }
       res.render("login", { error: "unauthorised user", cartDetails });
     }
   } catch (error) {
@@ -213,6 +249,9 @@ async function postLogin(req, res) {
       cartDetails = user.cart.totalQty;
     } else {
       cartDetails = null;
+    }
+    if(cartDetails==0){
+      cartDetails=null
     }
     res.render("login", { error: "user not found", cartDetails });
   }
@@ -225,6 +264,9 @@ async function userwelcome(req, res) {
     cartDetails = user.cart.totalQty;
   } else {
     cartDetails = null;
+  }
+  if(cartDetails==0){
+    cartDetails=null
   }
   res.render("userwelcome", { cartDetails });
 }
@@ -244,6 +286,9 @@ async function forgotPassword(req, res) {
     cartDetails = user.cart.totalQty;
   } else {
     cartDetails = null;
+  }
+  if(cartDetails==0){
+    cartDetails=null
   }
   res.render("user-forgotPassword-email", { cartDetails });
 }
@@ -290,6 +335,9 @@ async function postforgotPassword(req, res) {
       } else {
         cartDetails = null;
       }
+      if(cartDetails==0){
+        cartDetails=null
+      }
       res.render("user-forgotPassword-email", {
         error: "Email not registered!!",
         cartDetails,
@@ -302,6 +350,9 @@ async function postforgotPassword(req, res) {
       cartDetails = user.cart.totalQty;
     } else {
       cartDetails = null;
+    }
+    if(cartDetails==0){
+      cartDetails=null
     }
     res.render("user-forgotPassword-email", {
       error: "Email not registered!!",
@@ -318,6 +369,9 @@ async function forgotPasswordOTP(req, res) {
     } else {
       cartDetails = null;
     }
+    if(cartDetails==0){
+      cartDetails=null
+    }
   res.render("user-forgotPasswordOTP",{cartDetails});
 }
 
@@ -332,6 +386,9 @@ async function postForgotPasswordOTP(req, res) {
     } else {
       cartDetails = null;
     }
+    if(cartDetails==0){
+      cartDetails=null
+    }
     res.render("user-forgotPasswordOTP", { error: "OTP entered is incorrect" ,cartDetails});
   }
 }
@@ -343,6 +400,9 @@ async function userNewPassword(req, res) {
       cartDetails = user.cart.totalQty;
     } else {
       cartDetails = null;
+    }
+    if(cartDetails==0){
+      cartDetails=null
     }
   res.render("user-newPassword",{cartDetails});
 }
@@ -403,6 +463,9 @@ async function accountDetails(req, res) {
     } else {
       cartDetails = null;
     }
+    if(cartDetails==0){
+      cartDetails=null
+    }
     res.render("user-accountDetails", { userDetails, mainAddress,cartDetails });
   } else {
     let cartDetails;
@@ -411,6 +474,9 @@ async function accountDetails(req, res) {
       cartDetails = user.cart.totalQty;
     } else {
       cartDetails = null;
+    }
+    if(cartDetails==0){
+      cartDetails=null
     }
     res.render("login",{cartDetails});
   }
@@ -426,6 +492,9 @@ async function userAddress(req, res) {
     } else {
       cartDetails = null;
     }
+    if(cartDetails==0){
+      cartDetails=null
+    }
   res.render("user-address", { mainAddress,cartDetails });
 }
 
@@ -436,6 +505,9 @@ async function addAddress(req, res) {
       cartDetails = user.cart.totalQty;
     } else {
       cartDetails = null;
+    }
+    if(cartDetails==0){
+      cartDetails=null
     }
   res.render("user-addAddress",{cartDetails});
 }
@@ -474,6 +546,10 @@ async function editAddress(req, res) {
     } else {
       cartDetails = null;
     }
+    if(cartDetails==0){
+      cartDetails=null
+    }
+    
     res.render("user-editAddress", { mainAddress,cartDetails });
   } catch (error) {
     console.log(error);
@@ -546,6 +622,9 @@ async function men(req, res) {
     } else {
       cartDetails = null;
     }
+    if(cartDetails==0){
+      cartDetails=null
+    }
     res.render("men", {
       productDetails1,
       productDetails2,
@@ -568,6 +647,9 @@ async function men(req, res) {
     } else {
       cartDetails = null;
     }
+    if(cartDetails==0){
+      cartDetails=null
+    }
     res.render("men", { productDetails1, productDetails2, productDetails3,cartDetails });
   }
 }
@@ -586,6 +668,9 @@ async function women(req, res) {
     } else {
       cartDetails = null;
     }
+    if(cartDetails==0){
+      cartDetails=null
+    }
   res.render("women", { productDetails1, productDetails2, productDetails3 ,cartDetails});
 }
 async function cart(req, res) {
@@ -594,8 +679,8 @@ async function cart(req, res) {
     const user = await Register.findOne({ Email: email });
     // const cartDetails = user.cart.items
     // console.log(user);
-    const data = await user.populate("cart.items.productId");
     // console.log(data.cart.items[0].productId);
+    const data = await user.populate("cart.items.productId"); 
     const product = data.cart.items;
     console.log(product.items);
     // console.log(product.items[0].productId.Name);
@@ -605,6 +690,9 @@ async function cart(req, res) {
       cartDetails = user.cart.totalQty;
     } else {
       cartDetails = null;
+    }
+    if(cartDetails==0){
+      cartDetails=null
     }
     res.render("user-cart", { product,cartDetails });
   } else {
@@ -681,7 +769,9 @@ async function addToCart(req, res) {
         // res.redirect("/men");
         const currentUser = await Register.findOne({Email : req.session.user})
       const count=currentUser.cart.totalQty
-      res.json({status:count})
+      const data = await user.populate("cart.items.productId"); 
+    const product = data.cart.items;
+      res.json({status:count, product:product})
       } else {
         await Register.updateMany(
           {
@@ -703,6 +793,7 @@ async function addToCart(req, res) {
         );
         // res.redirect("/men");
         const currentUser = await Register.findOne({Email : req.session.user})
+
       const count=currentUser.cart.totalQty
       res.json({status:count})
       }

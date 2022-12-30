@@ -27,5 +27,118 @@
         </div>
     </div>
 </div>    
- 
+<div class="container py-5 d-flex justify-content-center">
+    <div class="row carousal-row">
+        <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="cards-wrapper card_wrap">
+                    <div class="card cardMargin">
+                        <img src="/images/productImage/<%= product[0].Image1 %>" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title"><%= product[0].Name %></h5>
+                          <p class="card-text">$<%= product[0].Price %></p>
+                        </div>
+                      </div>
+                      <div class="card cardMargin">
+                        <img src="/images/productImage/<%= product[1].Image1 %>" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title"><%= product[1].Name %></h5>
+                          <p class="card-text">$<%= product[1].Price %></p>
+                        </div>
+                      </div>
+                      <div class="card cardMargin">
+                        <img src="/images/productImage/<%= product[2].Image1 %>" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title"><%= product[2].Name %></h5>
+                          <p class="card-text">$<%= product[2].Price %></p>
+                        </div>
+                      </div> 
+                </div>
+        
+              </div>
+              <% for(i=0;i<20;i++){ %>
+                <div class="carousel-item ">
+                    <div class="cards-wrapper card_wrap">
+                        <div class="card cardMargin">
+                            <img src="/images/productImage/<%= product[i+4].Image1 %>" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title"><%= product[i+4].Name %></h5>
+                              <p class="card-text">$<%= product[i+4].Price %></p>
+                            </div>
+                          </div>
+                          <div class="card cardMargin">
+                            <img src="/images/productImage/<%= product[i+12].Image1 %>" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title"><%= product[i+12].Name %></h5>
+                              <p class="card-text">$<%= product[i+12].Price %></p>
+                            </div>
+                          </div>
+                          <div class="card cardMargin">
+                            <img src="/images/productImage/<%= product[i+20].Image1 %>" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title"><%= product[i+20].Name %></h5>
+                              <p class="card-text">$<%= product[i+20].Price %></p>
+                            </div>
+                          </div> 
+                    </div>
+            
+                  </div>
+              <% } %> 
+        
+            </div>
+        
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon carousel-arrow" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+              <span class="carousel-control-next-icon carousel-arrow" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+    </div>
+</div>
+<div class="container-fluid bg-light">
+  <div class="row gaprow-welcomePage" >   
+  </div>
+</div>
+<div class="conatiner-fluid backgroundImg-row backgroundImg">
+  <div class="row d-flex w-100 py-5 justify-content-center">
+    <div class="col-md-6"></div>
+    <div class="col-12 col-md-6" style="padding-left: 31px;">
+      <div><p class="writings">We care about every step you take,<br>
+        & We will continue to present untill the finish line</p></div>
+        <div class="d-flex ">
+          <div ><button class="shopNow">SHOP NOW</button></div>
+          <div class="mx-4"><button class="shopNow">SIGN UP</button></div>
+        </div> 
+    </div>
+    
+  </div>
+</div>
+<div class="container-fluid bg-light">
+  <div class="row gaprow2-welcomePage d-flex justify-content-center justify-content-space-around">  
+    <div class="col-6 col-md-3 d-flex flex-column align-items-center py-4">
+      <div><p class="footer-heading">PRODUCTS</p></div>
+      <div>
+        <div class="pt-1"><p>New Arrivals</p></div>
+        <div class="d-flex flex-start"><p>Best Sellers</p></div>
+        <div class="d-flex flex-start"><p>Release Dates</p></div>
+        <div class="d-flex flex-start"><p>Sale</p></div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 d-flex flex-column align-items-center py-4">
+      <div><p class="footer-heading" style="margin-left: -75px;">GET HELP</p></div>
+      <div>
+        <div class="pt-1"><p>Order Tracker</p></div>
+        <div class="d-flex flex-start"><p>Shipping</p></div>
+        <div class="d-flex flex-start"><p>Returns and Exchange</p></div>
+        <div class="d-flex flex-start"><p>Payment Methods</p></div>
+        <div class="d-flex flex-start"><p>Contact Us</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <%- include('./layouts/userfooter.ejs') %> 

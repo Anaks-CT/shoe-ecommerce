@@ -18,19 +18,19 @@
                         <img class="cart_image" src="/images/productImage/<%= product.productId.Image1 %>" alt="">
                     </div>
                     <div class="col-4 d-flex flex-column justify-content-around">
-                        <div class="col-12"><p><%= product.productId.Name %></p></div>
+                        <div class="col-12"><p id="productName"><%= product.productId.Name %></p></div>
                         <div class="col-12"><p class="cart-price">$<%= product.productId.Price %></p></div>
                     </div>
                     <div class="col-2 d-flex align-items-center justify-content-center">
-                        <div><p style="margin: 0;"><%= product.productId.Size %></p></div>
+                        <div><p style="margin: 0;" id="productSize"><%= product.productId.Size %></p></div>
                     </div>
                     <div class="col-1 d-flex flex-column justify-content-center align-items-center">
-                        <div><i class="fa-sharp fa-solid fa-caret-up"></i></div>
-                        <div><p style="margin: 0;"><%= product.quantity %></p></div>
-                        <div><i class="fa-solid fa-caret-down"></i></div>
+                        <div><button class="btn" onclick="incCartItems('<%= product.productId._id %>')"><i class="fa-sharp fa-solid fa-caret-up"></i></button></div>
+                        <div><p style="margin: 0;" id="productQty"><%= product.quantity %></p></div>
+                        <div><button class="btn"><i class="fa-solid fa-caret-down"></i></button></div>
                     </div>
                     <div class="col-2 d-flex align-items-center justify-content-center">
-                        <p class="cart-totalprice">$<%= product.price %></p>
+                        <p class="cart-totalprice" id="productPrice">$<%= product.price %></p>
                     </div>
                     <div class="col-1 d-flex align-items-center justify-content-center">
                         <div><a href="/deleteCartItem?i=<%= i %>"><i class="fa-solid fa-trash text-primary"></i></a></div>

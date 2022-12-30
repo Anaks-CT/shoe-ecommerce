@@ -211,7 +211,7 @@ header {
   border-radius: 40px;
 }
 .login-image {
-  width: 465px;
+  width: 440px;
   padding-left: 52px;
 }
 .login-input {
@@ -508,4 +508,98 @@ header {
   font-size: 20px;
   line-height: 24px;
   margin: 0;
+}
+@media screen and (min-width : 768px) {
+
+.card_wrap{
+  display: flex;
+}
+.cardMargin{
+  margin : 0.5em;
+  width: calc(100%/3);
+}
+}
+@media screen and (max-width : 768px) {
+  .card:not(:first-child){
+    display: none;
+  }
+}
+.card{
+  border : none;
+  border-radius: 0;
+  box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+}
+.carousel-inner{
+  padding: 1em;
+}
+.carousel-control-prev,.carousel-control-next{
+  background-color: #e1e1e1;
+  width: 6vh;
+  height: 6vh;
+  border-radius: 50%;
+  /* top: 50%; */
+  transform: translateY(-50%);
+}
+.carousal-row{
+  width: 79%;
+}
+.carousel-arrow{
+  margin-top: 600px;
+}
+.welcomePage-image{
+  width: -webkit-fill-available;
+}
+.gaprow-welcomePage{
+  height: 160px;
+}
+@media only screen and (max-width: 767px) {
+  .gaprow-welcomePage{
+    height: 42px;
+  }
+}
+.backgroundImg{
+  width: 101%;
+  height: 600px;
+  background-image: url(/images/pexels-photo-2231435.jpeg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  /* background-attachment: fixed; */
+
+  /* background-size: 100%; */
+}
+.backgroundImg-row{
+  width: 100%;
+}
+.gaprow2-welcomePage{
+  height: 282px;
+}
+.footer-heading{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 25px;
+}
+.writings{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 21px;
+  line-height: 25px;
+  letter-spacing: 0.08em;
+  padding-bottom: 17px;
+}
+.shopNow{
+  background: rgba(255, 255, 255, 0.69);  
+  border-radius: 35px;
+  width: 211px;
+  height: 63px;
+  border: 0;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 21px;
+  line-height: 25px;
+  letter-spacing: 0.08em;
 }

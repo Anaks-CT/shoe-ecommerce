@@ -35,22 +35,7 @@
                                     </ul>
                                     <!-- <a class="add-to-cart" href="/addToCart?id=<%= item._id %>"> ADD TO CART </a> -->
                                     <button class=" btn add-to-cart" onclick="addToCart('<%= item._id %>')">ADD TO CART</button>
-                                    <script>
-                                        function addToCart(id){
-                                            console.log(id);
-                                        $.ajax({
-                                        url : '/addToCart/'+id,
-                                        method : 'get',
-                                        success:(res) => {
-                                        let count = $('#cart-count').html();
-                                        count = res.status;
-                                        $('#cart-count').html(count)
-                                        }
-                                        
-                                        })
-                                        console.log('kjgjgjkgb');
-                                        }
-                                    </script>
+                                    
                                 </div>
                             </div>
                             <div class="product-content">
@@ -117,7 +102,8 @@
                                         <li class="far fa-star"></li>
                                         <li class="far fa-star"></li>
                                     </ul>
-                                    <a class="add-to-cart" href="/addToCart?id=<%= item._id %>"> ADD TO CART </a>
+                                    <!-- <a class="add-to-cart" href="/addToCart?id=<%= item._id %>"> ADD TO CART </a> -->
+                                    <button class=" btn add-to-cart" onclick="addToCart('<%= item._id %>')">ADD TO CART</button>
                                 </div>
                             </div>
                             <div class="product-content">
@@ -163,7 +149,8 @@
                                 <li class="far fa-star"></li>
                             </ul>
                             
-                            <a class="add-to-cart" href="/addToCart?id=<%= item._id %>"> ADD TO CART </a>
+                            <!-- <a class="add-to-cart" href="/addToCart?id=<%= item._id %>"> ADD TO CART </a> -->
+                            <button class=" btn add-to-cart" onclick="addToCart('<%= item._id %>')">ADD TO CART</button>
                         </div>
                     </div>
                     <div class="product-content">

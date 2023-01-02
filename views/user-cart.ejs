@@ -18,7 +18,7 @@
                         <img class="cart_image" src="/images/productImage/<%= product.productId.Image1 %>" alt="">
                     </div>
                     <div class="col-4 d-flex flex-column justify-content-around">
-                        <div class="col-12"><p id="productName"><%= product.productId.Name %></p></div>
+                        <div class="col-12"><a href="/productPage?id=<%= product._id %>"><p id="productName"><%= product.productId.Name %></p></a></div>
                         <div class="col-12"><p class="cart-price">$<%= product.productId.Price %></p></div>
                     </div>
                     <div class="col-2 d-flex align-items-center justify-content-center">

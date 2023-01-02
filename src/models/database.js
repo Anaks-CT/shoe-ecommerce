@@ -42,6 +42,10 @@ const user = new mongoose.Schema({
       },
     },
   ],
+  wishlist: {
+    type: mongoose.Types.ObjectId,
+    ref: "wishlist",
+  },
   cart: {
     items: [
       {

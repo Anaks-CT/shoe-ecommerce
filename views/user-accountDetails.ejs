@@ -43,9 +43,19 @@
                                 <div><input readonly class="login-inputt mb-3" type="text" placeholder="Name" required="" name="name" id="name" value="<%= userDetails.firstname %>"></div>
                                 <div><label for="phone">Phone</label></div> 
                                 <div><input readonly class="login-inputt mb-3" type="number" placeholder="phone" required="" name="phone" id="phone" value="<%= userDetails.Phone %>"></div>                                                                                                  
-                                <div><label class="">Address</label></div>                              
+                                <div><label class="">Primary Address</label></div>                              
                                 <div class="login-inputt address-input bg-light">
-                                    <p></p>
+                                   
+                                   
+                                    <p>
+                                        <% if(address!=""){ %>
+                                            <%=  address[0].mainAddress.addressLine1 %>, </br> <%= address[0].mainAddress.addressLine2 %>, </br> <%= address[0].mainAddress.state %>, </br> <%= address[0].mainAddress.country %>, </br> <%= address[0].mainAddress.pin %>, </br> <%= address[0].mainAddress.telephone %>
+                                            <% } else { %>
+                                                You have not set any <b>Default Address</b>
+                                                <% } %>
+                                    </p>
+                                
+                                
                                 </div>  
                                 <div><a href="/forgotPassword"><button class="login-button signup-button my-3 ">Change Details</button></a></div>
 

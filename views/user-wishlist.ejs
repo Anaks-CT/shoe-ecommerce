@@ -38,7 +38,7 @@
                     <main class="page">
                         <section class="shopping-cart dark">
                             <div class="container">
-                                <% product.forEach(function(product,i){ %>
+                                <% data.forEach(function(product,i){ %>
                                <div class="content">
                                     <div class="row">
                                         
@@ -47,22 +47,22 @@
                                                 <div class="product">
                                                     <div class="row">
                                                         <div class="col-md-3">
-                                                            <img class="img-fluid mx-auto d-block image" src="/images/productImage/<%= product.productId.Image1 %>">
+                                                            <img class="img-fluid mx-auto d-block image" src="/images/productImage/<%= product.Image1 %>">
                                                         </div>
                                                         <div class="col-md-8">
                                                             <div class="info">
                                                                 <div class="row">
                                                                     <div class="col-md-7 product-name">
                                                                         <div class="product-name">
-                                                                            <a href="#"><%= product.productId.Name %></a>
+                                                                            <a href="/productPage?id=<%= product._id %>"><%= product.Name %></a>
                                                                             <div class="product-info">
                                                                                 <div>STOCK: <span class="value">Available</span></div>
-                                                                                <div>SIZE: <span class="value"><%= product.productId.Size %></span></div>
+                                                                                <div>SIZE: <span class="value"><%= product.Size %></span></div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-md-5 price">
-                                                                        <span><%= product.productId.Price %></span>
+                                                                    <div class="col-md-5 price d-flex flex-column justify-content-center">
+                                                                        <span>$ <%= product.Price %></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -73,8 +73,9 @@
                                         </div>
                                         <div class="col-md-12 col-lg-4">
                                             <div class="summary d-flex justify-content-around align-items-center ">
-                                                <button type="button" class="btn btn-primary btn-lg btn-block">Add To Cart</button>
-                                                <div><a href=""><i class="fa-solid fa-trash text-primary"></i></a></div>
+                                                <button onclick="addtocart('<%= product._id %>')" type="button" class="btn btn-primary btn-lg btn-sm">Add To Cart</button><span id="cart-number" class=" me-auto mb-1 bg-dark translate-middle badge rounded-pill text-white">
+                                                    <%= cartDetails %></span>
+                                                <div><a href="/removeFromWishlistFromWishlist?id=<%= product._id %>"><i class="fa-solid fa-trash text-primary"></i></a></div>
                                             </div>
                                             
                                         </div>

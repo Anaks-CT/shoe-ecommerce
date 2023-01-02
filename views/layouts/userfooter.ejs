@@ -27,11 +27,28 @@
     let count = $('#cart-count').html();
     count = res.status;
     $('#cart-count').html(count)
+    $('#cart-number').html(count)
     }
     
     })
     console.log('kjgjgjkgb');
     }
+
+
+    function addtocart(id){
+        console.log(id);
+    $.ajax({
+    url : '/addToCart/'+id,
+    method : 'get',
+    success:(res) => {
+        count = res.status;
+        location.reload()
+    }
+    
+    })
+    console.log('kjgjgjkgb');
+    }
+    
 
     function incCartItems(id){
         console.log(id);

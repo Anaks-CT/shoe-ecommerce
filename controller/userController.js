@@ -2,6 +2,9 @@ const Register = require("../src/models/database");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const newProduct = require("../src/models/products");
+const wishlist = require("../src/models/wishlist");
+const { default: mongoose } = require("mongoose");
+const e = require("express");
 
 async function welcome(req, res) {
   let cartDetails;
@@ -157,17 +160,17 @@ async function signupotp(req, res) {
 async function postsignupotp(req, res) {
   if (otpgen == req.body.otp) {
     Register.insertMany([user]);
-    let cartDetails;
-    if (req.session.user) {
-      const user = await Register.findOne({ Email: req.session.user });
-      cartDetails = user.cart.totalQty;
-    } else {
-      cartDetails = null;
-    }
-    if (cartDetails == 0) {
-      cartDetails = null;
-    }
-    res.render("login", { cartDetails });
+    res.redirect("/login");
+    const User = await Register.findOne({ Email: user.Email });
+    const userWishlist = new wishlist({
+      userId: User._id,
+    });
+    await userWishlist.save();
+    await Register.findByIdAndUpdate(User._id, {
+      $set: {
+        wishlist: userWishlist._id,
+      },
+    });
   } else {
     let cartDetails;
     if (req.session.user) {
@@ -455,9 +458,23 @@ async function accountDetails(req, res) {
   if (req.session.user) {
     const email = req.session.user;
     const userDetails = await Register.findOne({ Email: email });
-    const mainAddress = userDetails.mainAddress[i];
-    console.log(mainAddress);
-    console.log(i);
+    const address = await Register.aggregate([
+      {
+        $match: {
+          Email: email,
+        },
+      },
+      {
+        $unwind: "$mainAddress",
+      },
+      {
+        $match: {
+          "mainAddress.status": true,
+        },
+      },
+    ]);
+    // const defaultAddress = address[0].mainAddress
+    // console.log(defaultAddress);
     let cartDetails;
     if (req.session.user) {
       const user = await Register.findOne({ Email: req.session.user });
@@ -470,8 +487,8 @@ async function accountDetails(req, res) {
     }
     res.render("user-accountDetails", {
       userDetails,
-      mainAddress,
       cartDetails,
+      address
     });
   } else {
     let cartDetails;
@@ -848,29 +865,46 @@ async function deleteCartItem(req, res) {
   }
 }
 async function productPage(req, res) {
+  const user = await Register.findOne({ Email: req.session.user });
   const productId = req.query.id;
   const productDetails = await newProduct.findOne({ _id: productId });
   console.log(productDetails);
+  let productsInWishlist;
+
   let cartDetails;
   if (req.session.user) {
-    const user = await Register.findOne({ Email: req.session.user });
+    productsInWishlist = await wishlist.findOne({
+      userId: user._id,
+      products: productId,
+    });
+    console.log(productsInWishlist);
     cartDetails = user.cart.totalQty;
   } else {
     cartDetails = null;
+    productsInWishlist = null;
   }
   if (cartDetails == 0) {
     cartDetails = null;
   }
-  res.render("item-productPage", { cartDetails, productDetails });
+  res.render("item-productPage", {
+    cartDetails,
+    productDetails,
+    productsInWishlist,
+  });
 }
-async function backButton(req, res) {}
-async function wishlist(req, res) {
 
+async function backButton(req, res) {}
+async function viewWishlist(req, res) {
   const email = req.session.user;
-  const user = await Register.findOne({ Email: email });
+  const user = await Register.findOne({ Email: req.session.user });
+  const wishlists = await wishlist
+    .findOne({ userId: user._id })
+    .populate("products");
   const totalPrice = user.cart;
-  const data = await user.populate("cart.items.productId");
-  const product = data.cart.items;
+  const data = wishlists.products;
+  // const data = await wishlist.populate("products");
+  console.log(wishlists.products);
+  // const product = data.cart.items;
 
   let cartDetails;
   if (req.session.user) {
@@ -882,7 +916,60 @@ async function wishlist(req, res) {
   if (cartDetails == 0) {
     cartDetails = null;
   }
-  res.render('user-wishlist',{cartDetails,totalPrice,product})
+  res.render("user-wishlist", { cartDetails, totalPrice, data });
+}
+async function addToWishlist(req, res) {
+  const productId = req.query.id;
+  console.log(productId);
+  const user = await Register.findOne({ Email: req.session.user });
+  const productExist = await wishlist.findOne({
+    userId: user._id,
+    products: productId,
+  });
+  console.log(productExist);
+  if (productExist) {
+    res.redirect("/productPage?id=" + productId);
+  } else {
+    await wishlist.updateOne(
+      { userId: user._id },
+      {
+        $push: {
+          products: [productId],
+        },
+      }
+    );
+    console.log("added to wishlist");
+    res.redirect("/productPage?id=" + productId);
+  }
+
+  // res.json({status : "hi anaks"})
+}
+async function removeFromWishlist(req, res) {
+  const user = await Register.findOne({ Email: req.session.user });
+  await wishlist.updateOne(
+    { userId: user._id },
+    {
+      $pull: {
+        products: req.query.id,
+      },
+    }
+  );
+  res.redirect("/productPage?id=" + req.query.id);
+}
+async function removeFromWishlistFromWishlist(req, res) {
+  const user = await Register.findOne({ Email: req.session.user });
+  await wishlist.updateOne(
+    { userId: user._id },
+    {
+      $pull: {
+        products: req.query.id,
+      },
+    }
+  );
+  res.redirect("/wishlist");
+}
+async function addCartCount(req, res) {
+  const user = await Register.findOne({ Email: req.session.user });
 }
 module.exports = {
   welcome,
@@ -915,5 +1002,9 @@ module.exports = {
   deleteCartItem,
   productPage,
   backButton,
-  wishlist,
+  viewWishlist,
+  addToWishlist,
+  removeFromWishlist,
+  addCartCount,
+  removeFromWishlistFromWishlist,
 };

@@ -57,8 +57,9 @@
                                 
                                 
                                 </div>  
-                                <div><a href="/forgotPassword"><button class="login-button signup-button my-3 ">Change Details</button></a></div>
-
+                                <button type="button" class="login-button signup-button my-3 " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    Change Details
+                                  </button>
                             </form>
                     </div>
                     </div>
@@ -68,7 +69,7 @@
                                  
                                 <div><label for="phone">Password</label></div> 
                                 <div><input readonly class="login-inputt mb-3" type="password" placeholder="Password"  name="phone" id="phone" value="124578dsfsdf56"></div>                                                                                                                                
-                                <div><a href=""><button class="login-button signup-button my-3 ">change Password</button></a></div>
+                                <div><a href="/forgotPassword"><button class="login-button signup-button my-3 ">change Password</button></a></div>
                             </div>
                     </div>
                 </div>
@@ -78,6 +79,53 @@
     </div>
 </div>
 </div>
+<!-- Button trigger modal -->
 
+  
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Change Profile Name</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/nameChange" method="post">
+        <div class="modal-body d-flex flex-column">
+            
+                <label for="name">Name</label>
+                <input type="text" name="name" class="modal-input my-2 p-2">
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary"     >Save change</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Understood</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <%- include('./layouts/userfooter.ejs') %> 

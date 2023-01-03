@@ -1,6 +1,6 @@
 <%- include('./layouts/adminheader.ejs') %> 
       <% if(details !=null) { %>
-      <table id="example" class="display" style="width:100%">
+      <table id="example" class="display bg-dark rounded p-3" style="width:100%">
         <thead>
             <tr>
               <th>Name</th>
@@ -24,7 +24,7 @@
                   </div></a>
                 </div>                    
                 <% } else { %>
-                  <div class="box-1 bg-danger">
+                  <div class="box-1">
                     <a class="block_button" href="/unblockUser?id=<%= item.id %>"><div class="btn btn-one">
                       <span class="text-light">BLOCKED</span>
                     </div></a>

@@ -1,12 +1,23 @@
 const Register = require("../src/models/database");
 const newProduct = require("../src/models/products");
 const newCategory = require("../src/models/category");
+const coupon = require("../src/models/coupon");
 
-function adminsignin(req, res) {
+async function adminsignin(req, res) {
   if (req.session.admin) {
     res.redirect("/adminredirect");
   } else {
-    res.render("adminsignin");
+    let cartDetails;
+    if (req.session.user) {
+      const user = await Register.findOne({ Email: req.session.user });
+      cartDetails = user.cart.totalQty;
+    } else {
+      cartDetails = null;
+    }
+    if (cartDetails == 0) {
+      cartDetails = null;
+    }
+    res.render("adminsignin", { cartDetails });
   }
 }
 
@@ -177,6 +188,35 @@ async function unblockCategory(req, res) {
   res.redirect("/categoryDetails");
 }
 
+async function couponPage(req, res) {
+  const coupons = await coupon.find({});
+  res.render("admin-couponPage", { coupons });
+}
+async function addCoupon(req, res) {
+  res.render("admin-addCoupon");
+}
+async function postAddCoupon(req, res) {
+  const newCoupon = new coupon({
+    name: req.body.name,
+    code: req.body.code,
+    discount: req.body.discount,
+    startingDate: req.body.startingDate,
+    expiryDate: req.body.expiryDate,
+  });
+  console.log(req.body.name);
+  await newCoupon.save();
+  res.redirect("coupons");
+}
+async function reactivateCoupon(req, res) {
+  const id = req.query.id
+  await coupon.updateOne({_id:id},{$set : {active : true}})
+  res.redirect('/coupons')
+}
+async function deactivateCoupon(req, res) {
+  const id = req.query.id
+  await coupon.updateOne({_id:id},{$set : {active : false}})
+  res.redirect('/coupons')
+}
 module.exports = {
   adminsignin,
   adminsignin2,
@@ -194,4 +234,9 @@ module.exports = {
   unblockUser,
   blockCategory,
   unblockCategory,
+  couponPage,
+  addCoupon,
+  postAddCoupon,
+  reactivateCoupon,
+  deactivateCoupon,
 };

@@ -1,38 +1,46 @@
 <%- include('./layouts/adminheader.ejs') %> 
 
   <section>
-    <a href="/addCategory"><div class="box-3">
+    <a href="/addCoupon"><div class="box-3">
       <div class="btn btn-three button-pad">
-        <span>ADD CATEGORY</span>
+        <span>ADD COUPON</span>
       </div>
     </div>  
   </a>   
-    <h1>category DETAILS</h1>
+    <h1>Coupon DETAILS</h1>
       <table id="example" class="display bg-dark rounded p-3" style="width:100%">
         <thead>
           <tr>
             <th>#</th>
             <th>Name</th>
-            <th class="text-center">Status</th>
+            <th>Code</th>
+            <th>Discount</th>
+            <th>Starting Date</th>
+            <th>Expiry Date</th>
+            <th>Active</th>
           </tr>
         </thead>
         <tbody id="table_body">
-          <% category.forEach(function(item,i){ %>
+          <% coupons.forEach(function(item,i){ %>
             <tr>
               <td><%= i+1 %></td>
-              <td><%= item.Name %></td>
+              <td><%= item.name %></td>
+              <td><%= item.code %></td>
+              <td><%= item.discount %>%</td>
+              <td><%= item.startingDate %></td>
+              <td><%= item.expiryDate %></td>
               <td>
                 <% if (item.active==true) { %>
                   <div class="box-2">
-                    <a class="block_button" href="/blockCategory?name=<%= item.Name %>">
+                    <a class="block_button" href="/deactivateCoupon?id=<%= item._id %>">
                       <div class="btn btn-two">
-                      <span>ACTIVE</span>
+                      <span>Deactivate</span>
                     </div></a>
                   </div>                    
                   <% } else { %>
-                    <div class="box-1">
-                      <a class="block_button" href="/unblockCategory?name=<%= item.Name %>"><div class="btn btn-one">
-                        <span class="text-light">BLOCKED</span>
+                    <div class="box-1 bg-danger">
+                      <a class="block_button" href="/reactivateCoupon?id=<%= item._id %>"><div class="btn btn-one">
+                        <span class="text-light">Reactivate</span>
                       </div></a>
                     </div>
                     <% } %>                   

@@ -803,3 +803,6 @@ header {
 		text-align: center; 
 	}
 }
+.modal-input{
+  border-radius: 11px;
+}

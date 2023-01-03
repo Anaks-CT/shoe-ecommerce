@@ -1,0 +1,70 @@
+<%- include('./layouts/adminheader.ejs') %> 
+
+<div class="container">
+    <div class=" text-center mt-5 ">
+        <h1 >Add Coupon</h1>        
+    </div>
+    <div class="row ">
+        <div class="col-lg-7 mx-auto">
+            <div class="card mt-2 mx-auto p-4 bg-light">
+                <div class="card-body bg-light">   
+                    <div class = "container">
+                        <form id="contact-form" role="form" method="post" action="/addCoupon">
+                            <div class="controls">
+                                <div class="row">
+                                    <p class="text-danger"><%=locals.error%></p>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 py-2">
+                                        <div class="form-group">
+                                            <label for="form_name">Coupon name *</label>
+                                                <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter Coupon name *" required="required" data-error="product name is required.">                                                                           
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 py-2">
+                                        <div class="form-group">
+                                            <label for="form_lastname">Coupon Code *</label>
+                                            <input id="form_lastname" type="text" name="code" class="form-control" placeholder="Please enter the Coupon code *" required="required" data-error="Price is required.">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 py-2">
+                                        <div class="form-group">
+                                            <label for="form_lastname">Discount *</label>
+                                            <input id="form_lastname" type="number" name="discount" class="form-control" placeholder="Please enter the Discount Percentage *" required="required" data-error="Price is required.">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 py-2">
+                                        <div class="form-group">
+                                            <label for="form_lastname">Starting Date *</label>
+                                            <input id="form_lastname" type="date" name="startingDate" class="form-control" placeholder="Please enter the Discount Percentage *" required="required" data-error="Price is required.">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 py-2">
+                                        <div class="form-group">
+                                            <label for="form_lastname">Expiry Date *</label>
+                                            <input id="form_lastname" type="date" name="expiryDate" class="form-control" placeholder="Please enter the Discount Percentage *" required="required" data-error="Price is required.">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row d-flex ">
+                                    <div class="col-md-6 text-center">                                        
+                                        <input type="submit" class="btn btn-success btn-send  pt-2 btn-block
+                                            " value="Add Coupon" >                                    
+                                    </div>
+                                    <div class="col-md-6 text-center">                                        
+                                       <a class="btn btn-success btn-send  pt-2 btn-block cancel-button" href="/coupons">CANCEL</a>                                  
+                                    </div>
+                                    
+                                </div>
+                                </div>       
+                            </div>
+                        </form>
+                    </div>
+                </div>                                
+            </div>                                       
+        </div>                                  
+    </div>
+ </div>
+         
+
+<%- include('./layouts/adminfooter.ejs') %> 

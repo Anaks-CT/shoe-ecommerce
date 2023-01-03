@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const newProduct = require("../src/models/products");
 const wishlist = require("../src/models/wishlist");
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 const e = require("express");
 
 async function welcome(req, res) {
@@ -488,7 +488,7 @@ async function accountDetails(req, res) {
     res.render("user-accountDetails", {
       userDetails,
       cartDetails,
-      address
+      address,
     });
   } else {
     let cartDetails;
@@ -713,7 +713,7 @@ async function cart(req, res) {
     const totalPrice = user.cart;
     const data = await user.populate("cart.items.productId");
     const product = data.cart.items;
-    console.log(product);
+    // console.log(product);
     let cartDetails;
     if (req.session.user) {
       const User = await Register.findOne({ Email: req.session.user });
@@ -903,7 +903,7 @@ async function viewWishlist(req, res) {
   const totalPrice = user.cart;
   const data = wishlists.products;
   // const data = await wishlist.populate("products");
-  console.log(wishlists.products);
+  // console.log(wishlists.products);
   // const product = data.cart.items;
 
   let cartDetails;
@@ -926,7 +926,7 @@ async function addToWishlist(req, res) {
     userId: user._id,
     products: productId,
   });
-  console.log(productExist);
+  // console.log(productExist);
   if (productExist) {
     res.redirect("/productPage?id=" + productId);
   } else {
@@ -938,7 +938,7 @@ async function addToWishlist(req, res) {
         },
       }
     );
-    console.log("added to wishlist");
+    // console.log("added to wishlist");
     res.redirect("/productPage?id=" + productId);
   }
 
@@ -969,8 +969,118 @@ async function removeFromWishlistFromWishlist(req, res) {
   res.redirect("/wishlist");
 }
 async function addCartCount(req, res) {
-  const user = await Register.findOne({ Email: req.session.user });
+  const id = req.params.id;
+  const email = req.session.user;
+  const productDetails = await newProduct.findOne({ _id: id });
+  await Register.updateMany(
+    {
+      Email: email,
+      "cart.items": {
+        $elemMatch: {
+          productId: id,
+        },
+      },
+    },
+    {
+      $inc: {
+        "cart.totalPrice": productDetails.Price,
+        "cart.totalQty": 1,
+        "cart.items.$.quantity": 1,
+        "cart.items.$.price": productDetails.Price,
+      },
+    }
+  );
+  let count = 1;
+  res.json({ status: count });
 }
+
+async function subractCartCount(req, res) {
+  const id = req.params.id;
+  const produtID = mongoose.Types.ObjectId(id);
+  const email = req.session.user;
+  const productDetails = await newProduct.findOne({ _id: id });
+  // const user = await Register.findOne({
+  //   Email: email,
+  //   "user.cart.items": {
+  //     $elemMatch: {
+  //       productId: id,
+  //     },
+  //   },
+  // });
+
+  const productCount = await Register.aggregate([
+    {
+      $match: {
+        Email: email,
+      },
+    },
+    {
+      $unwind: "$cart.items",
+    },
+    {
+      $project: {
+        _id: "$cart.items.productId",
+        quantity: "$cart.items.quantity",
+      },
+    },
+    {
+      $match: {
+        _id: produtID,
+      },
+    },
+  ]);
+  console.log(productCount[0].quantity);
+  if (productCount[0].quantity > 1) {
+    await Register.updateMany(
+      {
+        Email: email,
+        "cart.items": {
+          $elemMatch: {
+            productId: id,
+          },
+        },
+      },
+      {
+        $inc: {
+          "cart.totalPrice": -productDetails.Price,
+          "cart.totalQty": -1,
+          "cart.items.$.quantity": -1,
+          "cart.items.$.price": -productDetails.Price,
+        },
+      }
+    );
+  }
+
+  let count = 1;
+  res.json({ status: count });
+}
+
+async function nameChange(req, res) {
+  await Register.updateOne(
+    { Email: req.session.user },
+    {
+      $set: {
+        firstname: req.body.name,
+      },
+    }
+  );
+  res.redirect("/accountDetails");
+}
+
+async function checkoutPage (req,res) {
+  let cartDetails;
+  if (req.session.user) {
+    const user = await Register.findOne({ Email: req.session.user });
+    cartDetails = user.cart.totalQty;
+  } else {
+    cartDetails = null;
+  }
+  if (cartDetails == 0) {
+    cartDetails = null;
+  }
+  res.render('user-checkout',{cartDetails})
+}
+
 module.exports = {
   welcome,
   register,
@@ -1007,4 +1117,7 @@ module.exports = {
   removeFromWishlist,
   addCartCount,
   removeFromWishlistFromWishlist,
+  subractCartCount,
+  nameChange,
+  checkoutPage
 };

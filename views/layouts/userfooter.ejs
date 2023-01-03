@@ -50,23 +50,28 @@
     }
     
 
-    function incCartItems(id){
+    function addCartCount(id){
         console.log(id);
     $.ajax({
-    url : '/addToCart/'+id,
+    url : '/addCartCount/'+id,
     method : 'get',
     success:(res) => {
-        alert('hi')
-    let count = $('#cart-count').html();
-    let productQty = $('#productQty').html()
-    let productPrice = $('#productPrice').html()
-    count = res.status;
-    productQty = res.product.quantity;
-    productPrice = res.product.price;
-    $('#cart-count').html(count)
-    $('#productQty').html(productQty)
-    $('#productPrice').html(productPrice)
+        count = res.status;
+        location.reload()
+    }
     
+    })
+    console.log('kjgjgjkgb');
+    }
+    
+    function subractCartCount(id){
+        console.log(id);
+    $.ajax({
+    url : '/subractCartCount/'+id,
+    method : 'get',
+    success:(res) => {
+        count = res.status;
+        location.reload()
     }
     
     })

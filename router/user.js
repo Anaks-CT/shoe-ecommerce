@@ -41,4 +41,8 @@ router.get('/addCartCount/:id',userMiddleware,userController.addCartCount)
 router.get('/subractCartCount/:id',userMiddleware,userController.subractCartCount)
 router.post('/nameChange',userMiddleware,userController.nameChange)
 router.get('/checkoutPage',userMiddleware,userController.checkoutPage)
+router.post('/checkoutPage/selectAddress',userController.selectAddress)
+router.put('/checkoutPage/checkCoupon',userController.couponCheck).post('/checkoutPage/checkCoupon',userController.postCheckout)
+router.get('/order',userMiddleware,userController.orderPage)
+
 module.exports = router;

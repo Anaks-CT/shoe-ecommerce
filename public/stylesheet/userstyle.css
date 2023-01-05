@@ -806,3 +806,10 @@ header {
 .modal-input{
   border-radius: 11px;
 }
+.modalAddressHeight{
+  height: 146px !important;
+}
+.modalAddressdiv{
+  padding-left: 14px;
+  padding-right: 20px;
+}

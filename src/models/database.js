@@ -46,6 +46,18 @@ const user = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: "wishlist",
   },
+  order: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "order",
+    },
+  ],
+  couponUsed: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "Coupon",
+    },
+  ],
   cart: {
     items: [
       {

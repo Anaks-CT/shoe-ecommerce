@@ -12,6 +12,7 @@
     <div class="row">
         <div class="col-md-8">
             <div class="container">
+                
                 <% product.forEach(function(product,i){ %>
                 <div class="row">
                     <div class="col-2 d-flex align-items-center justify-content-center">
@@ -45,9 +46,13 @@
                 <% }) %>
                 
             </div>
+            <% if(itemQty==0){ %>
+                <h3 class="text-center text-secondary">There are no items in your Cart !!</h3>
+                <% } %>
             <div class="d-flex justify-content-center py-5"><button class="login-button signup-button text-center" >Continue Shopping</button></a></div>
            
         </div>
+        <% if(itemQty!=0){ %>
         <div class="col-md-4 d-flex justify-content-center">
             <div class="container  ">
                 <div class="row d-flex flex-column align-items-center bg-light p-4" style="border-radius: 9px;">
@@ -60,8 +65,10 @@
                 </div>
             </div>
         </div>
+        <% } %>
     </div>
 </div>
+
 <hr class="my-5">
 <div class="container">
     <div class="row">

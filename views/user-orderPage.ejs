@@ -1,0 +1,44 @@
+<%- include('./layouts/userheader.ejs') %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 py-5">
+            <div>
+                <h1 class="yourAccount">YOUR ORDERS</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-3 col-md-2">
+            <div>
+                <a href="/accountDetails">Account details</a>
+            </div>
+            <hr>
+            <div>
+                <a class="text-dark" href="/userAddress">Address</a>
+            </div>
+            <hr>
+            <div>
+                <a class="text-dark" href="/order">Orders</a>
+            </div>
+            <hr>
+            <div>
+                <a class="text-dark" href="/wishlist">Wishlist</a>
+            </div>
+            <hr>
+            <div>
+                <a class="text-dark logout-btn" href="/logout">LOGOUT</a>
+            </div>
+        </div>
+        <div class = "vertical col-1"></div>
+        <div class="col-8 col-md-9">
+            <div class="col-12 bg-light">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('./layouts/userfooter.ejs') %>

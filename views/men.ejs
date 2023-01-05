@@ -14,7 +14,7 @@
                 <div class="row">
                     <% productDetails1.forEach(function(item){ %>
                     <div class="col-6 col-md-4 py-3">
-                        <div class="product-grid">
+                        <div class="product-grid shadow">
                             <div class="product-image">
                                 <a href="/productPage?id=<%= item._id %>" class="image">
                                     <img class="pic-1" src="/images/productImage/<%= item.Image1 %>">
@@ -83,7 +83,7 @@
                 <div class="row">
                     <% productDetails2.forEach(function(item){ %>
                     <div class="col-6 col-md-4 py-3">
-                        <div class="product-grid">
+                        <div class="product-grid shadow">
                             <div class="product-image">
                                 <a href="/productPage?id=<%= item._id %>" class="image">
                                     <img class="pic-1" src="/images/productImage/<%= item.Image1 %>">
@@ -92,7 +92,7 @@
                                  <span class="product-sale-label">sale!</span>
                                 <ul class="social">
                                     <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="/addToWishlist" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="/addToWishlist?id=<%= item._id %>" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
                                 </ul>
                                 <div class="product-rating">
                                     <ul class="rating">
@@ -129,7 +129,7 @@
         
             <% productDetails3.forEach(function(item){ %>
                 <div class="col-6 col-md-4 col-lg-3 py-3">
-                <div class="product-grid">
+                <div class="product-grid shadow">
                     <div class="product-image">
                         <a href="/productPage?id=<%= item._id %>" class="image">
                             <img class="pic-1" src="/images/productImage/<%= item.Image1 %>">
@@ -138,7 +138,7 @@
                          <span class="product-sale-label">sale!</span>
                         <ul class="social">
                             <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
-                            <li><a onclick="addtowishlist('<%= item._id %>')" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            <li><a href="/addToWishlist?id=<%= item._id %>" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
                         </ul>
                         <div class="product-rating">
                             <ul class="rating">

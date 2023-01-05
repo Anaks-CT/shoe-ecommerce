@@ -1,5 +1,186 @@
 <%- include('./layouts/userheader.ejs') %> 
 
+<div class="container">
+    <div class="row">
+        <div class="col-12 py-5">
+            <div>
+                <h1 class="yourAccount">CHECKOUT</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container pb-5">
+    <div class="row">
+        <div class="col-md-6 col-12">
+            <p><b>DELIVERY ADDRESS</b> </p>
+            <div class="col-lg-12 py-1">                        
+                <div class="card">
+                    <div class="card-body d-flex flex-column">
+                        <div>
+                            <% if(address!= 1){ %>
+                                <p><%=  address[0].mainAddress.addressLine1 %>, <%= address[0].mainAddress.addressLine2 %>, <%= address[0].mainAddress.state %>, <%= address[0].mainAddress.country %>,<br>PIN : <%= address[0].mainAddress.pin %>,<br> Contact No. : <%= address[0].mainAddress.telephone %></p>
+                                <% } else { %>
+                                    <p style="color: gray;">--Select an Address--</p>    
+                                <% } %>                
+                        </div> 
+                        <div class="text-center">
+                            <!-- <a href="" class="text-center">View all Address</a> -->
+                            <button type="button" class="btn btn-light text-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                View all Address
+                              </button>
+                        </div>
+                    </div>
+                  </div>                          
+            </div>
+            <p class="pt-5"><b>ORDER SUMMARY</b></p>
+            
+            <div class="container shadow bg-light" style="border-radius: 10px;">
+                <% product.forEach(function(product,i){ %>
+                <div class="row">
+                    <div class="col-4 col-md-3 d-flex align-items-center justify-content-center">
+                        <img class="cart_image" src="/images/productImage/<%= product.productId.Image1 %>" alt="">
+                    </div>
+                    <div class="col-4 d-flex flex-column justify-content-between">
+                        <div class="col-12"><a href="/productPage?id=<%= product._id %>"><p id="productName" class="my-3"><%= product.productId.Name %></p></a></div>
+                        <div><p style="margin: 0;" id="productSize"><%= product.productId.Size %></p></div>
+                        <div class="col-12"><p class="cart-price">$<%= product.productId.Price %></p></div>
+                    </div>
+                    <div class="col-2 d-flex align-items-center justify-content-center">
+                        <div class="col-12"><p id="productQty">qty : <%= product.quantity %></p></div>
+                    </div>
+                    <div class="col-2 d-flex align-items-center justify-content-center">
+                        <p class="cart-totalprice" id="productPrice">$<%= product.price %></p>
+                    </div>
+                </div>
+                <hr>
+                <% }) %>
+                
+            </div>
+            <p class="pt-5"><b>PAYMENT OPTIONS</b></p>
+            <form action="/checkoutPage/checkCoupon" method="post"> 
+
+                            <% if(address!= 1){ %>
+                <input type="hidden" name="address" value="<%=  address[0].mainAddress._id %>">   
+                <% } %>        
+                <div class="col-12 bg-light p-5 d-flex flex-column shadow" style="border-radius: 10px;">
+                <div><input checked class="m-2" type="radio" name="payment" id="" value="razorpay">Razorpay</div>
+                <div><input class="m-2" type="radio" name="payment" id="" value="paypal">Paypal</div>
+                <div><input class="m-2" type="radio" name="payment" id="" value="cod">Cash on Delivery</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-12 d-flex flex-column align-items-center pt-5">
+            <div class="col-9 p-3 d-flex flex-column shadow" style=" background-color: #91C4D4; border-radius: 10px;">
+                <p class="pb-2"><b>PRICE DETAILS</b></p>
+                <input type="text" placeholder="Enter Coupon code" class="login-inputt mx-4" id="coupon" name = "couponCode" onkeyup="checkCoupon()">
+                <span id="couponDetails" class="px-2 rounded mx-4"></span>
+                <div class="d-flex justify-content-between">
+                    <p class="mt-5 mx-4" style="color: rgb(107, 103, 103);">Price (<%= cartDetails %> items)</p>
+                    <p class="mt-5 mx-4"><b>$<%= totalPrice.totalPrice %></b></p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="mt-1 mx-4" style="color: rgb(107, 103, 103);">Delivery Charges</p>
+                    <p class="mt-1 mx-4">FREE</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="mt-1 mx-4" style="color: rgb(107, 103, 103);">Discount</p>
+                    <p class="mt-1 mx-4" >$<b id="discount">0</b></p>
+                    <input type="text" name="discount" value="" id="hiddenDiscount" hidden>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="mt-5 mx-4" style="color: rgb(107, 103, 103);">Total Payable</p>
+                    <h2 class="mt-5 mx-3">$<b id="totalPrice"><%= totalPrice.totalPrice %></b></h2>
+                    <input type="text" name="TotalPrice" value="" id="hiddenTprice" hidden>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary mt-4 mx-3" style="<% if(address== 1){ %> pointer-events : none; background-color : grey; <% } %>"><b>PLACE ORDER</b></button>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<hr class="my-5">
+<div class="container">
+    <div class="row">
+        <!-- <div class="col-lg-2"></div> -->
+        <div class="col-3 text-center"><i class="second-footerIcon fa-sharp fa-solid fa-shield-halved"></i><p class="icon_body">FAST & SECURE DELIVARY</p></div>
+        <div class="col-3 text-center"><i class="second-footerIcon fa-solid fa-truck"></i><p class="icon_body">FREE SHIPPING ON PREPAID ORDERS</p></div>
+        <div class="col-3 text-center"><i class="second-footerIcon fa-solid fa-globe"></i><P class="icon_body">DELIVARY ALL OVER INDIA</P></div>
+        <div class="col-3 text-center"><i class="second-footerIcon fa-solid fa-headphones"></i><P class="icon_body">24/7 SUPPORT</P></div>
+        <!-- <div class="col-lg-2"></div> -->
+    </div>
+</div>
+<div class="container-fluid bg-light">
+    <div class="row gaprow2-welcomePage d-flex justify-content-center justify-content-space-around">  
+      <div class="col-6 col-md-3 d-flex flex-column align-items-center py-4">
+        <div><p class="footer-heading">PRODUCTS</p></div>
+        <div>
+          <div class="pt-1"><p>New Arrivals</p></div>
+          <div class="d-flex flex-start"><p>Best Sellers</p></div>
+          <div class="d-flex flex-start"><p>Release Dates</p></div>
+          <div class="d-flex flex-start"><p>Sale</p></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 d-flex flex-column align-items-center py-4">
+        <div><p class="footer-heading" style="margin-left: -75px;">GET HELP</p></div>
+        <div>
+          <div class="pt-1"><p>Order Tracker</p></div>
+          <div class="d-flex flex-start"><p>Shipping</p></div>
+          <div class="d-flex flex-start"><p>Returns and Exchange</p></div>
+          <div class="d-flex flex-start"><p>Payment Methods</p></div>
+          <div class="d-flex flex-start"><p>Contact Us</p></div>
+        </div>
+      </div>
+    </div>
+  </div> 
 
 
+
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Select an Address</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/checkoutPage/selectAddress" method="post">
+            <% mainAddress.forEach(function(mainAddress,i) { %>
+        <div class="d-flex">
+          <div class="p-2"><input  type="radio" name="address" value="<%= mainAddress._id %>" id="radio<%= i+1 %>"></div>
+          <label for="radio<%= i+1 %>">
+            
+              <div class="col-lg-11 py-2" >                        
+                  <div class="card">
+            </label>
+                <div class="card-body d-flex flex-column" >
+                    <div><h5 class="card-title">Address <%= i+1 %></h5></div>
+                    <div>
+                            <p><%= mainAddress.addressLine1 %>, <%= mainAddress.addressLine2 %>, <%= mainAddress.state %>, <%= mainAddress.country %>, <%= mainAddress.pin %>, <%= mainAddress.telephone %></p>
+                    </div> 
+                </div>
+              </div>                          
+        </div>
+        </div>
+          <% }) %>
+          <div class="col-11 py-2 mx-auto modalAddressdiv">
+            <div class="d-flex flex-column text-center justify-content-center align-items-center addAddressdiv modalAddressHeight">
+                <a href="/addAddress"><i class="fa-solid fa-plus plus-icon"></i></a>
+                <a href="/addAddress">Add Address</a>
+            </div>           
+        </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Select</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
 <%- include('./layouts/userfooter.ejs') %> 

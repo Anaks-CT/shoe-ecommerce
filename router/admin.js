@@ -31,4 +31,7 @@ router.get('/addCoupon',adminController.addCoupon)
 router.post('/addCoupon',adminController.postAddCoupon)
 router.get('/deactivateCoupon',adminController.deactivateCoupon)
 router.get('/reactivateCoupon',adminController.reactivateCoupon)
+router.get('/orderList',adminController.orderList)
+router.get('/orderList/orderDetail',adminController.orderDetail)
+router.get('/orderDelivered',adminController.orderDelivered)
 module.exports=router

@@ -1,0 +1,120 @@
+<%- include('./layouts/adminheader.ejs') %> 
+
+<div class="container my-5">
+    <div class="row d-flex justify-content-center">
+        <div class="d-flex justify-content-around">
+            <a onclick="printPageArea('printableArea')"><div class="box-3">
+                <div class="btn btn-three button-pad" style="height: 73px;">
+                  <span class="text-white">DOWNLOAD INVOICE</span>
+                </div>
+              </div>  
+            </a>
+            <% if(orderDetails.deliveryStatus==false){ %>
+                <div class="d-flex">
+                <p>Click here if the Order is Delivered <i class="fa-sharp fa-solid fa-right-long"></i> </p>
+                <a href="/orderDelivered?orderID=<%= orderDetails._id %>"><div class="box-3">
+                    <div class="btn btn-three button-pad" >
+                    <span class="text-white">SHIPPING</span>
+                    </div>
+                </div>  
+                </a>
+                </div>
+            <% }else{ %>
+                <a href="#"><div class="box-3">
+                    <div class="btn btn-three button-pad" >
+                    <span class="text-white">DELIVERED</span>
+                    </div>
+                </div>  
+                </a>
+            <% } %>
+        </div>
+        <div id="printableArea" class="col-11  py-3 px-5 d-flex bg-white flex-column align-items-center">
+            <div class="col-12 d-flex justify-content-between pb-5">
+                <% if(orderDetails.deliveryStatus==false){ %>
+                    <div class="d-flex"><h6 class="pt-2">STATUS : </h6><div class="bg-warning rounded p-1" style="height: 35px;">Shipped</div></div>
+                <% } else { %>
+                    <div class="d-flex"><h6 class="pt-2">STATUS : </h6><div class="bg-success rounded p-1" style="height: 35px;">Delivered</div></div>
+                <% } %>
+                <img style="width: 124px;" src="/images/RIS mixSIDEcombo BLACK.png" alt="">
+                <div class="d-flex"><h6 class="pt-1">Order ID : </h6><p style="margin: 0 !important; padding-top: 3px;"><%= orderDetails._id %></p></div>
+            </div>
+            <div class="col-12 d-flex justify-content-between my-5">
+                <div class="col-3 d-flex flex-column">
+                    <h5>ORDER DATE</h5>
+                    <p><%= orderDetails.orderDate %></p>
+                </div>
+                <div class="col-4 d-flex flex-column">
+                    <h5 >ADDRESS</h5>
+                    <p><%= orderDetails.shippingAddress.addressLine1 %>, <%= orderDetails.shippingAddress.addressLine2 %>, <%= orderDetails.shippingAddress.state %>, <%= orderDetails.shippingAddress.pin %> <br> phone : <%= orderDetails.shippingAddress.telephone %></p>
+                </div>
+                <div class="col-3 d-flex flex-column">
+                    <h5 >CUSTOMER</h5>
+                    <p>Name : <%= orderDetails.customer.firstname %></p>
+                    <p>Email : <%= orderDetails.customer.Email %></p>
+                </div>
+            </div> 
+            <div class="col-12">
+                <table id="example" class="display rounded p-3 bg-light">
+                    <thead style="background-color: #ccd5d8;">
+                      <tr>
+                        <th class="text-dark">#</th>
+                        <th class="text-dark">Product Image</th>
+                        <th class="text-dark">Product Name</th>
+                        <th class="text-dark">Size</th>
+                        <th class="text-dark">Quantity</th>
+                        <th class="text-dark">Item Price</th>
+                        <th class="text-dark">Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody id="table_body">
+                      <% orderDetails.orderItems.forEach(function(item,i){ %>
+                        <tr class="border">
+                          <td class="text-dark"><%= i+1 %></td>
+                          <td ><img style="width: -webkit-fill-available;" src="/images/productImage/<%= item.productImage %>" alt=""></td>
+                          <td class="text-dark"><%= item.productName %></td>
+                          <td class="text-dark"><%= item.productSize %></td>
+                          <td class="text-dark"><%= item.productQty %></td>
+                          <td class="text-dark">$<%= item.productPrice %></td>
+                          <td class="text-dark">$<%= item.totalPrice %></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12 d-flex justify-content-between my-5">
+                <div class="col-3 d-flex flex-column">
+                    <h6>PAYMENT METHOD</h6>
+                    <p><%= orderDetails.paymentMethod %></p>
+                </div>
+                <div class="col-3 d-flex flex-column">
+                    <h6 >SHIPPING COST</h6>
+                    <p>FREE</p>
+                </div>
+                <div class="col-3 d-flex flex-column">
+                    <h6 >DISCOUNT</h6>
+                    <% if(orderDetails.discount == 0){ %>
+                        <p>$<%= orderDetails.discount %></p>
+                    <% }else{ %>
+                        <h6>$<%= orderDetails.discount %></h6>
+                    <% } %>
+                </div>
+                <div class="col-3 d-flex flex-column">
+                    <h6 >TOTAL AMOUNT</h6>
+                    <h4>$<%= orderDetails.paidAmount %></h4>
+                </div>
+            </div> 
+        </div>
+       
+    </div>
+</div>
+<SCript>
+    function printPageArea(areaID){
+    var printContent = document.getElementById(areaID).innerHTML;
+    var originalContent = document.body.innerHTML;
+    document.body.innerHTML = printContent;
+    window.print();
+    document.body.innerHTML = originalContent;
+}
+</SCript>
+
+<%- include('./layouts/adminfooter.ejs') %> 

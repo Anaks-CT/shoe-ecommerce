@@ -1,0 +1,68 @@
+<%- include('./layouts/adminheader.ejs') %> 
+
+  <section>
+  
+    <h1>order DETAILS</h1>
+      <table id="example" class="display bg-dark rounded p-3" style="width:100%">
+        <thead>
+          <tr>
+            <th>OrderID</th>
+            <th>Order Date</th>
+            <th>Shipping Address</th>
+            <th>Gmail</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="table_body">
+          <% orderDetails.forEach(function(item,i){ %>
+            <tr>
+              <td><%= item._id %></td>
+              <td><%= item.orderDate %></td>
+              <td><%= item.shippingAddress.addressLine1 %>, <br><%= item.shippingAddress.addressLine2 %>,<%= item.shippingAddress.state %>,<br><%= item.shippingAddress.country %>,<%= item.shippingAddress.pin %></td>
+              <td><%= item.customer.Email %></td>
+              <td>$<%= item.paidAmount %></td>
+              <% if(item.deliveryStatus == false){ %>
+              <td>
+                <div class="d-flex justify-content-between">
+                    <span><i class="fa-solid fa-circle text-warning"></i> Shipped</span>
+                <a href="/orderList/orderDetail?orderID=<%= item._id %>"><i class="fa-solid fa-pen-to-square"></i></a>
+                </div>
+              </td>
+              <% } else { %>
+                <td>
+                <div class="d-flex justify-content-between">
+                    <span><i class="fa-solid fa-circle text-success"></i> Delivered</span>
+                <a href="/orderList/orderDetail?orderID=<%= item._id %>"><i class="fa-solid fa-pen-to-square"></i></a>
+                </div>
+              </td>
+                <% } %>
+            </tr>
+            <% }) %>
+            </tbody>
+          </table>
+</section>
+
+<script>
+  $(document).ready(function(){
+  $("#filterSearch").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#table_body tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+  });
+  $(document).ready(function () {
+      $('#example').DataTable({
+          pagingType: 'full_numbers',
+      });
+  });
+  
+  
+  </script>
+  
+
+
+
+
+<%- include('./layouts/adminfooter.ejs') %> 

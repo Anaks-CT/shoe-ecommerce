@@ -2,6 +2,7 @@ const Register = require("../src/models/database");
 const newProduct = require("../src/models/products");
 const newCategory = require("../src/models/category");
 const coupon = require("../src/models/coupon");
+const order = require('../src/models/order')
 
 async function adminsignin(req, res) {
   if (req.session.admin) {
@@ -217,6 +218,21 @@ async function deactivateCoupon(req, res) {
   await coupon.updateOne({_id:id},{$set : {active : false}})
   res.redirect('/coupons')
 }
+async function orderList (req, res){
+  const orderDetails = await order.find({}).populate('customer')
+  res.render('admin-orderList',{orderDetails})
+}
+async function orderDetail(req,res){
+  const orderID = req.query.orderID
+  const orderDetails = await order.findOne({ _id : orderID }).populate('customer')
+  console.log(orderDetails);
+  res.render('admin-orderDetail',{orderDetails})
+}
+async function orderDelivered (req, res){
+   const orderID = req.query.orderID
+   await order.updateOne({ _id : orderID },{ $set : { deliveryStatus : true}})
+   res.redirect('/orderList/orderDetail')
+}
 module.exports = {
   adminsignin,
   adminsignin2,
@@ -239,4 +255,7 @@ module.exports = {
   postAddCoupon,
   reactivateCoupon,
   deactivateCoupon,
+  orderList,
+  orderDetail,
+  orderDelivered
 };

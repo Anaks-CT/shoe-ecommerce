@@ -1,5 +1,7 @@
 <%- include('./layouts/adminheader.ejs') %> 
-      <% if(details !=null) { %>
+<div class="container my-5">
+  <div class="row">
+    <% if(details !=null) { %>
       <table id="example" class="display bg-dark rounded p-3" style="width:100%">
         <thead>
             <tr>
@@ -36,6 +38,9 @@
         </tbody>
       </table>
       <% } %>
+  </div>
+</div>
+      
 <script>
   $(document).ready(function(){
     $("#example_filter").on("keyup", function() {

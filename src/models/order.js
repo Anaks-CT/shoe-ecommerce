@@ -34,7 +34,6 @@ const orderSchema = mongoose.Schema({
 
   delivaryDate: {
     type: Date,
-    default: Date.now(),
   },
 
   couponCode: {

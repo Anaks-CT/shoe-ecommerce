@@ -8,7 +8,7 @@ const e = require("express");
 const coupon = require("../src/models/coupon");
 const order = require("../src/models/order");
 const router = require("../router/user");
-
+const moment = require('moment')
 async function welcome(req, res) {
   let cartDetails;
   if (req.session.user) {
@@ -1116,7 +1116,7 @@ async function checkoutPage(req, res) {
 async function selectAddress(req, res) {
   const email = req.session.user;
   const addressid = req.body.address;
-  console.log(addressid);
+  // console.log(addressid);
   await Register.updateMany(
     { Email: email, "mainAddress.status": true },
     {
@@ -1190,6 +1190,7 @@ async function postCheckout(req, res) {
   if (couponId) {
     couponId = couponId._id;
   }
+  let discount
   if (req.body.discount == "") {
     discount = 0;
   } else {
@@ -1214,26 +1215,47 @@ async function postCheckout(req, res) {
   });
   if (req.body.payment == "cod") {
     await orderDetials.save();
+    const cartinfo = await Register.findOne({Email : req.session.user}).populate("cart.items.productId")
+    for(let j=0;j<cartinfo.cart.items.length;j++){
+    await order.updateOne({_id : orderDetials._id },
+        {
+          $push : {
+            orderItems : {
+              productName : cartinfo.cart.items[j].productId.Name,
+              productImage : cartinfo.cart.items[j].productId.Image1,
+              productSize : cartinfo.cart.items[j].productId.Size,
+              productPrice : cartinfo.cart.items[j].productId.Price,
+              productQty : cartinfo.cart.items[j].quantity,
+              totalPrice : cartinfo.cart.items[j].price
+            }
+          }
+        })
+    }
     await Register.updateOne(
       { Email: req.session.user },
       {
         $set: { "cart.items": [], "cart.totalPrice": 0, "cart.totalQty": 0 },
         $push: {
           order: [mongoose.Types.ObjectId(orderDetials._id)],
-          
         },
       }
     );
-      const couponID = await coupon.findOne({
-        code: req.body.couponCode,
-        active: true,
-      });
-      const usedCoupon = await Register.findOne({Email : req.session.user,couponUsed : {$elemMatch : {couponId} }})
-      if (couponID) {
-        if(usedCoupon){
-          await Register.updateOne({Email : req.session.user},{$push : {couponUsed: [mongoose.Types.ObjectId(couponId)],}})
-        }
+    const couponID = await coupon.findOne({
+      code: req.body.couponCode,
+      active: true,
+    });
+    const usedCoupon = await Register.findOne({
+      Email: req.session.user,
+      couponUsed: { $elemMatch: { couponId } },
+    });
+    if (couponID) {
+      if (usedCoupon) {
+        await Register.updateOne(
+          { Email: req.session.user },
+          { $push: { couponUsed: [mongoose.Types.ObjectId(couponId)] } }
+        );
       }
+    }
     res.redirect("/order");
   } else {
     res.send("paypal gateway");
@@ -1241,6 +1263,8 @@ async function postCheckout(req, res) {
 }
 
 async function orderPage(req, res) {
+  const orderDetails = await Register.findOne({Email : req.session.user}).populate('order')
+  const orderItems = orderDetails.order
   let cartDetails;
   if (req.session.user) {
     const user = await Register.findOne({ Email: req.session.user });
@@ -1251,7 +1275,7 @@ async function orderPage(req, res) {
   if (cartDetails == 0) {
     cartDetails = null;
   }
-  res.render("user-orderPage", { cartDetails });
+  res.render("user-orderPage", { cartDetails,orderItems,moment });
 }
 
 module.exports = {

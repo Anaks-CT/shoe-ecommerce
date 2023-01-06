@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-3 col-md-2">
             <div>
-                <a href="/accountDetails">Account details</a>
+                <a class="text-dark" href="/accountDetails">Account details</a>
             </div>
             <hr>
             <div>
@@ -21,7 +21,7 @@
             </div>
             <hr>
             <div>
-                <a class="text-dark" href="/order">Orders</a>
+                <a  href="/order">Orders</a>
             </div>
             <hr>
             <div>
@@ -34,10 +34,41 @@
         </div>
         <div class = "vertical col-1"></div>
         <div class="col-8 col-md-9">
-            <div class="col-12 bg-light">
-                
+            <% if(orderItems.length==0){ %>
+                <h3 class="text-center text-secondary">There haven't purchased any product yet !!</h3>
+                <div class="d-flex justify-content-center py-5"><button class="login-button signup-button text-center" >Continue Shopping</button></a></div>
+            <% } %>
+            <% orderItems.forEach(function(item){ %>
+            <div class="col-12 col-md-10 bg-light shadow rounded my-3">
+                <div class="col-12 d-flex justify-content-between px-4 py-2">
+                    <P style="font-size: 11px;">ORDER ID #<%= item._id %></P>
+                    <% if(item.deliveryStatus==false){ %>
+                        <P style="font-size: 11px;"><i class="fa-solid fa-circle text-warning"></i> Shipped</P>
+                    <% }else{ %>
+                        <P style="font-size: 11px;"><i class="fa-solid fa-circle text-success"></i> Delivered</P>
+                    <% } %>
+                </div>
+                <% item.orderItems.forEach(function(product){ %>
+                <div class="col-12 col-md-10 d-flex justify-content-center my-1">
+                    <div class="col-6 col-md-5 d-flex justify-content-center"><img style="max-width: 112px;" src="/images/productImage/<%= product.productImage %>" alt=""></div>
+                    <div class="col-5 col-md-5 d-flex justify-content-center flex-column">
+                        <p><%= product.productName %></p>
+                        <p>size : <%= product.productSize %></p>
+                        <p>Qty : <%= product.productQty %></p>
+                    </div>
+                    <div class="col-1 col-md-2 d-flex justify-content-center"></div>
+                </div>
+                <% }) %>
+                <div class="col-12 d-flex justify-content-between px-4 py-2">
+                    <P style="font-size: 13px;">Order placed on : <%= moment(item.orderDate).format('DD-MM-YYYY');%></P>
+                    <P style="font-size: 13px;">Total Price : $<%= item.paidAmount %></P>
+                </div>
             </div>
+            <% }) %>
         </div>
+        <% if(orderItems.length!=0){ %>
+        <div class="d-flex justify-content-center py-5"><button class="login-button signup-button text-center" >Continue Shopping</button></a></div>
+        <% } %>
     </div>
 </div>
 

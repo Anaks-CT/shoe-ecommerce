@@ -36,12 +36,22 @@
                 <td><%= item.Color %></td>
                 <td><%= item.Size %></td>
                 <td>
-                  <a href="/editProduct?id=<%= item._id %>"><div class="box-3">
-                  <div class="btn btn-three">
-                    <span><i class="fa-solid fa-pen-to-square"></i></span>
-                  </div>
-                </div>
-              </a>
+                  <a href="/editProduct?id=<%= item._id %>">
+                    <div class="box-3">
+                      <div class="btn btn-three">
+                        <span><i class="fa-solid text-light fa-pen-to-square"></i></span>
+                      </div>
+                    </div>
+                  </a>
+
+                  <!-- <a href="/addToBanner?productId=<%= item._id %>"> -->
+                    <div class="box-3">
+                      <div onclick="itemAdded('<%= item._id %>')" class="btn btn-three d-flex align-items-center justify-content-center">
+                        <p class="text-white m-0" style="font-size: 14px ;">Add to Banner</p>
+                      </div>
+                    </div>
+                  <!-- </a> -->
+
               </td>
               </tr>
               <% }) %>
@@ -68,6 +78,31 @@ $(document).ready(function () {
 });
 
 
+function itemAdded(id){
+  $.ajax({
+    url : '/addToBanner?productId='+id,
+    method : 'get',
+    success:(res) => {
+        count = res.status;
+        var toastMixin = Swal.fire({
+          toast: true,
+          icon: 'success',
+          text :"Item Added to Cart",
+          animation: false,
+          position: 'top-right',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+  });
+    }
+    })
+    
+  
+    }
 </script>
 
 

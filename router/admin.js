@@ -34,4 +34,12 @@ router.get('/reactivateCoupon',adminController.reactivateCoupon)
 router.get('/orderList',adminController.orderList)
 router.get('/orderList/orderDetail',adminController.orderDetail)
 router.get('/orderDelivered',adminController.orderDelivered)
+router.get('/adminDashboard',adminController.adminDashboard)
+router.get('/banner',adminController.bannerPage)
+router.get('/addToBanner',adminController.addToBanner)
+router.get('/editBanner',adminController.editBanner)
+router.post('/editBanner',adminController.postEditBanner)
+router.get('/setBanner',adminController.setBanner)
+router.get('/deleteBanner',adminController.deleteBanner)
+
 module.exports=router

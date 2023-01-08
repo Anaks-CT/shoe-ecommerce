@@ -1,0 +1,77 @@
+<%- include('./layouts/adminheader.ejs') %> 
+
+<section>
+    <h1>Banner DETAILS</h1>
+      <table id="example" class="display bg-dark rounded p-3" style="width:100%">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Brand</th>
+            <th>description</th>
+            <th>Active</th>
+          </tr>
+        </thead>
+        <tbody id="table_body">
+          <% banners.forEach(function(item,i){ %>
+            <tr>
+              <td><img style="width: -webkit-fill-available;" src="/images/productImage/<%= item.image %>" alt=""></td>
+              <td><%= item.product.Name %></td>
+              <td>$<%= item.price %></td>
+              <td><%= item.brand %></td>
+              <td><%= item.description %></td>
+              <td>
+                <% if(item.active == false){ %>
+                    <div class="box-1">
+                        <a class="block_button" href="/setBanner?bannerId=<%= item._id %>">
+                          <div class="btn btn-one">
+                          <span class="text-white">SET BANNER</span>
+                        </div></a>
+                      </div>                    
+                       
+                        
+                    <% }else{%>
+                        <div class="box-1">
+                              <span class="text-light fs-5">APPLIED</span>
+                          </div>
+                        <% } %>
+                        <div class="box-1">
+                            <a class="block_button" href="/editBanner?bannerId=<%= item._id %>">
+                              <div class="btn btn-one">
+                              <span><i class="fa-solid text-light fa-pen-to-square"></i></span>
+                            </div></a>
+                          </div> 
+                          <div class="box-1">
+                            <a class="block_button" href="/deleteBanner?bannerId=<%= item._id %>">
+                              <div class="btn btn-one">
+                              <span><i class="fa-sharp fa-solid fa-trash text-white"></i></span>
+                            </div></a>
+                          </div>
+              </td>
+            </tr>
+            <% }) %>
+            </tbody>
+          </table>
+</section>
+
+<script>
+  $(document).ready(function(){
+  $("#filterSearch").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#table_body tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+  });
+  $(document).ready(function () {
+      $('#example').DataTable({
+          pagingType: 'full_numbers',
+      });
+  });
+  
+  
+  </script>
+  
+
+<%- include('./layouts/adminfooter.ejs') %> 

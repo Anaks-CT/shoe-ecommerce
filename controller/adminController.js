@@ -3,6 +3,7 @@ const newProduct = require("../src/models/products");
 const newCategory = require("../src/models/category");
 const coupon = require("../src/models/coupon");
 const order = require('../src/models/order')
+const banner = require('../src/models/banner');
 
 async function adminsignin(req, res) {
   if (req.session.admin) {
@@ -56,7 +57,8 @@ async function userdetails(req, res) {
 
 async function productDetail(req, res) {
   const details = await newProduct.find({});
-  res.render("admin-productDetails", { details });
+  const bannerDetails = await banner.find({})
+  res.render("admin-productDetails", { details ,bannerDetails});
 }
 
 async function addProduct(req, res) {
@@ -230,8 +232,78 @@ async function orderDetail(req,res){
 }
 async function orderDelivered (req, res){
    const orderID = req.query.orderID
-   await order.updateOne({ _id : orderID },{ $set : { deliveryStatus : true}})
-   res.redirect('/orderList/orderDetail')
+   await order.updateOne({ _id : orderID },{ $set : { deliveryStatus : true, delivaryDate : Date.now()}})
+   res.redirect('/orderList/orderDetail?orderID=' + orderID)
+}
+
+async function adminDashboard (req, res){
+  res.render('admin-dashboard')
+}
+
+async function bannerPage (req, res){
+  const banners = await banner.find({}).populate('product')
+  res.render('admin-banner',{banners})
+}
+async function addToBanner (req,res){
+  const productId = req.query.productId
+  const productCheck = await banner.findOne({product : productId })
+  if (!productCheck) {
+    const bannerProduct = new banner({
+      product : productId
+    })
+    await bannerProduct.save()
+    const productDetail = await newProduct.findOne({_id : productId})
+    await banner.updateOne({ product : productId },{
+      $set : {
+        image : productDetail.Image6,
+        price : productDetail.Price,
+      }
+    })
+  }
+  
+  res.json({status : true})
+}
+async function editBanner (req,res){
+  const bannerId = req.query.bannerId
+  const bannerDetails = await banner.findOne({_id : bannerId})
+  res.render('admin-editBanner',{bannerDetails})
+}
+async function postEditBanner (req,res){
+  const bannerId = req.body.idd
+  console.log(bannerId);
+  await banner.updateOne({_id : bannerId},{
+    $set : {
+      brand : req.body.brand,
+      description : req.body.description
+    }
+  })
+  res.redirect('/banner')
+}
+async function setBanner (req,res){
+  const bannerId = req.query.bannerId
+  await banner.updateMany(
+    {active: true },
+    {
+      $set: {
+        active: false,
+      },
+    }
+  );
+  await banner.updateOne(
+    { _id: bannerId},
+    {
+      $set: {
+        active: true,
+      },
+    }
+  );
+  res.redirect('/banner')
+}
+
+async function deleteBanner (req, res) {
+  const bannerId = req.query.bannerId
+  await banner.deleteOne({_id : bannerId})
+  res.redirect('/banner')
 }
 module.exports = {
   adminsignin,
@@ -257,5 +329,12 @@ module.exports = {
   deactivateCoupon,
   orderList,
   orderDetail,
-  orderDelivered
+  orderDelivered,
+  adminDashboard,
+  bannerPage,
+  addToBanner,
+  editBanner,
+  postEditBanner,
+  setBanner,
+  deleteBanner
 };

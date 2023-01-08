@@ -38,30 +38,32 @@
                 <h3 class="text-center text-secondary">There haven't purchased any product yet !!</h3>
                 <div class="d-flex justify-content-center py-5"><button class="login-button signup-button text-center" >Continue Shopping</button></a></div>
             <% } %>
-            <% orderItems.forEach(function(item){ %>
-            <div class="col-12 col-md-10 bg-light shadow rounded my-3">
-                <div class="col-12 d-flex justify-content-between px-4 py-2">
-                    <P style="font-size: 11px;">ORDER ID #<%= item._id %></P>
-                    <% if(item.deliveryStatus==false){ %>
+            <% orderItems.reverse().forEach(function(orderItems){ %>
+            <div class="col-12 col-md-10 bg-light shadow rounded my-4">
+                <div class="col-12 d-flex justify-content-between px-4 pb-2 pt-3">
+                    <P style="font-size: 11px;">ORDER ID #<%= orderItems._id %></P>
+                    <% if(orderItems.deliveryStatus==false){ %>
                         <P style="font-size: 11px;"><i class="fa-solid fa-circle text-warning"></i> Shipped</P>
                     <% }else{ %>
-                        <P style="font-size: 11px;"><i class="fa-solid fa-circle text-success"></i> Delivered</P>
+                        <P style="font-size: 11px;"><i class="fa-solid fa-circle text-success"></i> Delivered on <%= moment(orderItems.delivaryDate).format('DD-MM-YYYY');%></P>
                     <% } %>
                 </div>
-                <% item.orderItems.forEach(function(product){ %>
+                <hr class="m-0">
+                <% orderItems.orderItems.forEach(function(product){ %>
                 <div class="col-12 col-md-10 d-flex justify-content-center my-1">
-                    <div class="col-6 col-md-5 d-flex justify-content-center"><img style="max-width: 112px;" src="/images/productImage/<%= product.productImage %>" alt=""></div>
+                    <div class="col-6 col-md-5 d-flex justify-content-center"><a href="/productPage?id=<%= product.productID %>"><img style="max-width: 112px;" src="/images/productImage/<%= product.productImage %>" alt=""></a></div>
                     <div class="col-5 col-md-5 d-flex justify-content-center flex-column">
-                        <p><%= product.productName %></p>
+                        <a href="/productPage?id=<%= product.productID %>"><p><%= product.productName %></p></a>
                         <p>size : <%= product.productSize %></p>
                         <p>Qty : <%= product.productQty %></p>
                     </div>
                     <div class="col-1 col-md-2 d-flex justify-content-center"></div>
                 </div>
+                <hr>
                 <% }) %>
                 <div class="col-12 d-flex justify-content-between px-4 py-2">
-                    <P style="font-size: 13px;">Order placed on : <%= moment(item.orderDate).format('DD-MM-YYYY');%></P>
-                    <P style="font-size: 13px;">Total Price : $<%= item.paidAmount %></P>
+                    <P style="font-size: 13px;">Order placed on : <%= moment(orderItems.orderDate).format('DD-MM-YYYY');%></P>
+                    <P style="font-size: 13px;">Total Price : $<%= orderItems.paidAmount %></P>
                 </div>
             </div>
             <% }) %>

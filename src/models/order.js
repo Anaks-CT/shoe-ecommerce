@@ -23,7 +23,7 @@ const orderSchema = mongoose.Schema({
 
   discount: Number,
 
-  totalQty : Number,
+  totalQty: Number,
 
   paymentMethod: String,
 
@@ -48,6 +48,11 @@ const orderSchema = mongoose.Schema({
 
   orderItems: [
     {
+      productID: {
+        type: mongoose.Types.ObjectId,
+        ref: "productDetails",
+      },
+
       productName: String,
 
       productImage: String,
@@ -63,5 +68,5 @@ const orderSchema = mongoose.Schema({
   ],
 });
 
-const order = new mongoose.model('order',orderSchema)
-module.exports = order
+const order = new mongoose.model("order", orderSchema);
+module.exports = order;

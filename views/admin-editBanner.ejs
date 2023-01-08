@@ -1,0 +1,46 @@
+<%- include('./layouts/adminheader.ejs') %> 
+
+
+<div class="row ">
+    <div class="col-lg-7 mx-auto">
+        <div class="card mt-2 mx-auto p-4 bg-light">
+            <div class="card-body bg-light">   
+                <div class = "container">
+                    
+                    <form  method="post" action="/editBanner">
+                        <div class="controls">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="form_name">Product Brand *</label>
+                                            <input id="form_name" type="text" name="brand" class="form-control" placeholder="Please enter product Brand *" required="required" data-error="product name is required." value="<%= bannerDetails.brand %>">                                                                           
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="form_message">Description *</label>
+                                        <textarea id="form_message" name="description" class="form-control" placeholder="Write description *." rows="4" required="required" data-error="Please, leave us a message."><%= bannerDetails.description %></textarea>                                                
+                                    </div>
+                                </div>    
+                                <div class="col-md-6">                                        
+                                    <input type="submit" class="btn btn-success btn-send  pt-2 btn-block
+                                        " value="Edit Banner" >                                    
+                                </div>
+                                <div class="col-md-6">                                        
+                                   <a class="btn btn-success btn-send  pt-2 btn-block cancel-button" href="/banner">CANCEL</a>                                  
+                                </div>
+                            </div>       
+                        </div>
+                        <input type="hidden" name="idd" value="<%=bannerDetails.id %>">
+                    </form>
+                </div>
+            </div>                                
+        </div>                                       
+    </div>                                  
+</div>
+</div>
+
+
+<%- include('./layouts/adminfooter.ejs') %> 

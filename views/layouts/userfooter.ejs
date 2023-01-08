@@ -24,10 +24,33 @@
     url : '/addToCart/'+id,
     method : 'get',
     success:(res) => {
-    let count = $('#cart-count').html();
+   
+    
+    if (res.data) {
+        let count = $('#cart-count').html();
     count = res.status;
+    
     $('#cart-count').html(count)
     $('#cart-number').html(count)
+        
+        var toastMixin = Swal.fire({
+    toast: true,
+    icon: 'success',
+    // title: 'Item Added to Cart',
+    text :"Item Added to Cart",
+    animation: false,
+    position: 'top-right',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  });
+    }else{
+        window.location.replace('/login')
+    }
     }
     })
     }
@@ -71,7 +94,6 @@
     }
     
     })
-    console.log('kjgjgjkgb');
     }
 
     function checkCoupon(){
@@ -92,8 +114,12 @@
             })
           }
 
+ 
+
+
 
 </script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/js/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>  
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  

@@ -140,7 +140,7 @@
 
   
   <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal" id="staticBackdrop"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -168,18 +168,65 @@
         </div>
           <% }) %>
           <div class="col-11 py-2 mx-auto modalAddressdiv">
-            <div class="d-flex flex-column text-center justify-content-center align-items-center addAddressdiv modalAddressHeight">
-                <a href="/addAddress"><i class="fa-solid fa-plus plus-icon"></i></a>
-                <a href="/addAddress">Add Address</a>
-            </div>           
+               
         </div>
         </div>
         
-        <div class="modal-footer">
+        <div class="modal-footer d-flex justify-content-between">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+                <i class="fa-solid fa-plus plus-icon"></i>
+                Add Address
+            </button>
+            <div class="d-flex">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Select</button>
+          <button type="submit" class="btn btn-primary mx-2">Select</button>
+        </div>
         </div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- add address modal -->
+  <!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row ">
+                <div class="col-lg-12">
+                    <form action="/checkoutPage/selectAddress/addAddress" method="post">
+                            <div>
+                                <label for="addressline1">Address line 1</label>                                                                                            
+                                <input class="login-inputt mb-3 form-control" type="text" placeholder="addressline1 *" required="" name="addressline1" id="addressline1">
+                            </div>
+                            <div><label for="addressline2">address line 2</label></div> 
+                            <div><input class="login-inputt mb-3 form-control" type="text" placeholder="addressline2" required="" name="addressline2" id="addressline2"></div>                   
+                            <div><label for="state">State</label></div>                              
+                            <div><input class="login-inputt mb-3 form-control" type="text" placeholder="State *" required="" name="state" id="state" ></div>                                                  
+                            <div><label for="Country">Country</label></div>                              
+                            <div><input class="login-inputt mb-3 form-control" type="text" placeholder="Country *" required="" name="Country" id="Country" ></div>                                                  
+                            <div><label for="pin">Zip/pin</label></div>                              
+                            <div><input class="login-inputt mb-3 form-control" type="number" placeholder="pin *" required="" name="pin" id="pin" ></div>                                                  
+                            <div><label for="Phone">Contact Number</label></div>                              
+                            <div><input class="login-inputt mb-3 form-control" type="number" placeholder="Contact number *" required="" name="Phone" id="Phone" ></div>                                                  
+                            
+                    
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">SUBMIT</button>
+        </div>
+    </form>
       </div>
     </div>
   </div>

@@ -4,11 +4,12 @@ const nodemailer = require("nodemailer");
 const newProduct = require("../src/models/products");
 const wishlist = require("../src/models/wishlist");
 const mongoose = require("mongoose");
-const e = require("express");
 const coupon = require("../src/models/coupon");
 const order = require("../src/models/order");
-const router = require("../router/user");
-const moment = require('moment')
+const moment = require("moment");
+const banner = require("../src/models/banner");
+// const sweetAlert = require("sweetalert");
+
 async function welcome(req, res) {
   let cartDetails;
   if (req.session.user) {
@@ -23,7 +24,14 @@ async function welcome(req, res) {
   const product = await newProduct.find({});
   const product2 = await newProduct.find({}).skip(6);
   const product3 = await newProduct.find({}).skip(12);
-  res.render("welcome", { cartDetails, product, product2, product3 });
+  const bannerProducts = await banner.findOne({active: true}).populate("product");
+  res.render("welcome", {
+    cartDetails,
+    product,
+    product2,
+    product3,
+    bannerProducts,
+  });
 }
 
 async function register(req, res) {
@@ -752,7 +760,11 @@ async function addToCart(req, res) {
       );
       const currentUser = await Register.findOne({ Email: req.session.user });
       const count = currentUser.cart.totalQty;
-      res.json({ status: count });
+      const itemInCartCheck = await Register.findOne({
+        Email: email,
+        "cart.items": { $elemMatch: { productId: id } },
+      });
+      res.json({ status: count, data: itemInCartCheck });
     } else {
       for (let i = 0; i < user.cart.items.length; i++) {
         let detailsID = new String(details[i].id).trim();
@@ -784,7 +796,11 @@ async function addToCart(req, res) {
         const count = currentUser.cart.totalQty;
         const data = await user.populate("cart.items.productId");
         const product = data.cart.items;
-        res.json({ status: count, product: product });
+        const itemInCartCheck = await Register.findOne({
+          Email: email,
+          "cart.items": { $elemMatch: { productId: id } },
+        });
+        res.json({ status: count, product: product, data: itemInCartCheck });
       } else {
         await Register.updateMany(
           {
@@ -818,7 +834,11 @@ async function addToCart(req, res) {
         ]);
         console.log(currentProduct);
         const count = currentUser.cart.totalQty;
-        res.json({ status: count });
+        const itemInCartCheck = await Register.findOne({
+          Email: email,
+          "cart.items": { $elemMatch: { productId: id } },
+        });
+        res.json({ status: count, data: itemInCartCheck });
       }
     }
   } else {
@@ -1143,18 +1163,32 @@ async function couponCheck(req, res) {
     code: couponCode,
     active: true,
   });
+  const usedCoupon = await Register.findOne(
+    { Email: req.session.user },
+    { couponUsed: { $elemMatch: ["couponDetails._id"] } }
+  );
   if (couponCode != "") {
     if (couponDetails) {
-      let discount = (totalPrice * couponDetails.discount) / 100;
-      console.log(discount);
-      let finalPrice = totalPrice - discount;
-      res.json({
-        data: {
-          correctCoupon: `${couponDetails.name} <b>Coupon Applied <i class='fa-solid fa-check'></i></b>`,
-          discount,
-          finalPrice,
-        },
-      });
+      if (!usedCoupon) {
+        let discount = (totalPrice * couponDetails.discount) / 100;
+        console.log(discount);
+        let finalPrice = totalPrice - discount;
+        res.json({
+          data: {
+            correctCoupon: `${couponDetails.name} <b>Coupon Applied <i class='fa-solid fa-check'></i></b>`,
+            discount,
+            finalPrice,
+          },
+        });
+      } else {
+        res.json({
+          data: {
+            correctCoupon: "Coupon aldready Used !!",
+            discount: 0,
+            finalPrice: totalPrice,
+          },
+        });
+      }
     } else {
       res.json({
         data: {
@@ -1190,7 +1224,7 @@ async function postCheckout(req, res) {
   if (couponId) {
     couponId = couponId._id;
   }
-  let discount
+  let discount;
   if (req.body.discount == "") {
     discount = 0;
   } else {
@@ -1213,23 +1247,28 @@ async function postCheckout(req, res) {
     paymentMethod: req.body.payment,
     couponCode: couponId,
   });
-  if (req.body.payment == "cod") {
+  if (req.body.payment == "Cash On Delivery") {
     await orderDetials.save();
-    const cartinfo = await Register.findOne({Email : req.session.user}).populate("cart.items.productId")
-    for(let j=0;j<cartinfo.cart.items.length;j++){
-    await order.updateOne({_id : orderDetials._id },
+    const cartinfo = await Register.findOne({
+      Email: req.session.user,
+    }).populate("cart.items.productId");
+    for (let j = 0; j < cartinfo.cart.items.length; j++) {
+      await order.updateOne(
+        { _id: orderDetials._id },
         {
-          $push : {
-            orderItems : {
-              productName : cartinfo.cart.items[j].productId.Name,
-              productImage : cartinfo.cart.items[j].productId.Image1,
-              productSize : cartinfo.cart.items[j].productId.Size,
-              productPrice : cartinfo.cart.items[j].productId.Price,
-              productQty : cartinfo.cart.items[j].quantity,
-              totalPrice : cartinfo.cart.items[j].price
-            }
-          }
-        })
+          $push: {
+            orderItems: {
+              productID: cartinfo.cart.items[j].productId._id,
+              productName: cartinfo.cart.items[j].productId.Name,
+              productImage: cartinfo.cart.items[j].productId.Image1,
+              productSize: cartinfo.cart.items[j].productId.Size,
+              productPrice: cartinfo.cart.items[j].productId.Price,
+              productQty: cartinfo.cart.items[j].quantity,
+              totalPrice: cartinfo.cart.items[j].price,
+            },
+          },
+        }
+      );
     }
     await Register.updateOne(
       { Email: req.session.user },
@@ -1249,7 +1288,7 @@ async function postCheckout(req, res) {
       couponUsed: { $elemMatch: { couponId } },
     });
     if (couponID) {
-      if (usedCoupon) {
+      if (!usedCoupon) {
         await Register.updateOne(
           { Email: req.session.user },
           { $push: { couponUsed: [mongoose.Types.ObjectId(couponId)] } }
@@ -1263,8 +1302,10 @@ async function postCheckout(req, res) {
 }
 
 async function orderPage(req, res) {
-  const orderDetails = await Register.findOne({Email : req.session.user}).populate('order')
-  const orderItems = orderDetails.order
+  const orderDetails = await Register.findOne({
+    Email: req.session.user,
+  }).populate("order");
+  const orderItems = orderDetails.order;
   let cartDetails;
   if (req.session.user) {
     const user = await Register.findOne({ Email: req.session.user });
@@ -1275,9 +1316,54 @@ async function orderPage(req, res) {
   if (cartDetails == 0) {
     cartDetails = null;
   }
-  res.render("user-orderPage", { cartDetails,orderItems,moment });
+  res.render("user-orderPage", { cartDetails, orderItems, moment });
 }
 
+async function newAddress(req, res) {
+  const address = await Register.findOne({ Email: req.session.user });
+  const addressLength = address.mainAddress.length;
+  await Register.updateOne(
+    { Email: req.session.user },
+    {
+      $push: {
+        mainAddress: {
+          addressLine1: req.body.addressline1,
+          addressLine2: req.body.addressline2,
+          state: req.body.state,
+          country: req.body.Country,
+          pin: req.body.pin,
+          telephone: req.body.Phone,
+        },
+      },
+    }
+  );
+  const user = await Register.findOne({ Email: req.session.user });
+  const addressid = user.mainAddress[addressLength]._id;
+  console.log(addressid);
+  await Register.updateMany(
+    { Email: req.session.user, "mainAddress.status": true },
+    {
+      $set: {
+        "mainAddress.$.status": false,
+      },
+    }
+  );
+  await Register.updateOne(
+    { Email: req.session.user, "mainAddress._id": addressid },
+    {
+      $set: {
+        "mainAddress.$.status": true,
+      },
+    }
+  );
+  res.redirect("/checkoutPage");
+}
+async function nextBanner(req, res) {
+  const bannerDetails = await banner.find({}).populate("product");
+  res.json({
+    data: bannerDetails,
+  });
+}
 module.exports = {
   welcome,
   register,
@@ -1321,4 +1407,6 @@ module.exports = {
   couponCheck,
   postCheckout,
   orderPage,
+  newAddress,
+  nextBanner,
 };

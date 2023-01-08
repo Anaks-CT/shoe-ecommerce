@@ -44,5 +44,7 @@ router.get('/checkoutPage',userMiddleware,userController.checkoutPage)
 router.post('/checkoutPage/selectAddress',userController.selectAddress)
 router.put('/checkoutPage/checkCoupon',userController.couponCheck).post('/checkoutPage/checkCoupon',userController.postCheckout)
 router.get('/order',userMiddleware,userController.orderPage)
+router.post('/checkoutPage/selectAddress/addAddress',userMiddleware,userController.newAddress)
+router.get('/nextBanner/:i',userController.nextBanner)
 
 module.exports = router;

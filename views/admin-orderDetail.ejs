@@ -9,32 +9,39 @@
                 </div>
               </div>  
             </a>
-            <% if(orderDetails.deliveryStatus==false){ %>
-                <div class="d-flex">
-                <p>Click here if the Order is Delivered <i class="fa-sharp fa-solid fa-right-long"></i> </p>
-                <a href="/orderDelivered?orderID=<%= orderDetails._id %>"><div class="box-3">
-                    <div class="btn btn-three button-pad" >
-                    <span class="text-white">SHIPPING</span>
+            <%if(orderDetails.cancelStatus == false){%>
+                <% if(orderDetails.deliveryStatus==false){ %>
+                    <div class="d-flex">
+                    <p>Click here if the Order is Delivered <i class="fa-sharp fa-solid fa-right-long"></i> </p>
+                    <a href="/orderDelivered?orderID=<%= orderDetails._id %>"><div class="box-3">
+                        <div class="btn btn-three button-pad" >
+                        <span class="text-white">SHIPPING</span>
+                        </div>
+                    </div>  
+                    </a>
                     </div>
-                </div>  
-                </a>
-                </div>
-            <% }else{ %>
-                <a href="#"><div class="box-3">
-                    <div class="btn btn-three button-pad" >
-                    <span class="text-white">DELIVERED</span>
-                    </div>
-                </div>  
-                </a>
-            <% } %>
+                <% }else{ %>
+                    <a href="#"><div class="box-3">
+                        <div class="btn btn-three button-pad" >
+                        <span class="text-white">DELIVERED</span>
+                        </div>
+                    </div>  
+                    </a>
+                <% } %>
+                <% } %>
+
         </div>
         <div id="printableArea" class="col-11  py-3 px-5 d-flex bg-white flex-column align-items-center">
             <div class="col-12 d-flex justify-content-between pb-5">
-                <% if(orderDetails.deliveryStatus==false){ %>
-                    <div class="d-flex"><h6 class="pt-2">STATUS : </h6><div class="bg-warning rounded p-1" style="height: 35px;">Shipped</div></div>
+                <%if(orderDetails.cancelStatus == false){%>
+                    <% if(orderDetails.deliveryStatus==false){ %>
+                        <div class="d-flex"><h6 class="pt-2">STATUS : </h6><div class="bg-warning rounded p-1" style="height: 35px;">Shipped</div></div>
+                    <% } else { %>
+                        <div class="d-flex"><h6 class="pt-2">STATUS : </h6><div class="bg-success rounded p-1" style="height: 35px;">Delivered</div></div>
+                    <% } %>
                 <% } else { %>
-                    <div class="d-flex"><h6 class="pt-2">STATUS : </h6><div class="bg-success rounded p-1" style="height: 35px;">Delivered</div></div>
-                <% } %>
+                    <div class="d-flex"><h6 class="pt-2">STATUS : </h6><div class="bg-danger rounded p-1" style="height: 35px;">Canceled</div></div>
+                <%}%>
                 <img style="width: 124px;" src="/images/RIS mixSIDEcombo BLACK.png" alt="">
                 <div class="d-flex"><h6 class="pt-1">Order ID : </h6><p style="margin: 0 !important; padding-top: 3px;"><%= orderDetails._id %></p></div>
             </div>

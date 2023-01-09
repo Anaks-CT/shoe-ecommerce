@@ -40,13 +40,17 @@
             <% } %>
             <% orderItems.reverse().forEach(function(orderItems){ %>
             <div class="col-12 col-md-10 bg-light shadow rounded my-4">
-                <div class="col-12 d-flex justify-content-between px-4 pb-2 pt-3">
+                <div id="status" class="col-12 d-flex justify-content-between px-4 pb-2 pt-3">
                     <P style="font-size: 11px;">ORDER ID #<%= orderItems._id %></P>
-                    <% if(orderItems.deliveryStatus==false){ %>
-                        <P style="font-size: 11px;"><i class="fa-solid fa-circle text-warning"></i> Shipped</P>
-                    <% }else{ %>
-                        <P style="font-size: 11px;"><i class="fa-solid fa-circle text-success"></i> Delivered on <%= moment(orderItems.delivaryDate).format('DD-MM-YYYY');%></P>
-                    <% } %>
+                    <% if(orderItems.cancelStatus==false){ %>
+                        <% if(orderItems.deliveryStatus==false){ %>
+                            <P style="font-size: 11px;"><i class="fa-solid fa-circle text-warning"></i> Shipped</P>
+                        <% }else{ %>
+                            <P style="font-size: 11px;"><i class="fa-solid fa-circle text-success"></i> Delivered on <%= moment(orderItems.delivaryDate).format('DD-MM-YYYY');%></P>
+                        <% } %>
+                    <%}else{%>
+                        <P style="font-size: 11px;"><i class="fa-solid fa-circle text-danger"></i> Canceled</P>
+                    <%}%>
                 </div>
                 <hr class="m-0">
                 <% orderItems.orderItems.forEach(function(product){ %>
@@ -61,10 +65,18 @@
                 </div>
                 <hr>
                 <% }) %>
+                <%if(orderItems.cancelStatus == false){%>
                 <div class="col-12 d-flex justify-content-between px-4 py-2">
                     <P style="font-size: 13px;">Order placed on : <%= moment(orderItems.orderDate).format('DD-MM-YYYY');%></P>
                     <P style="font-size: 13px;">Total Price : $<%= orderItems.paidAmount %></P>
+                    <div id="cancelButton"><button type="button" onclick="cancelOrder('<%= orderItems._id %>')" class="btn bg-dark text-danger text-center" >Cancel</button></div>
                 </div>
+                <%}else{%>
+                    <div class="col-12 d-flex justify-content-between px-4 py-2">
+                        <P style="font-size: 13px;">Order placed on : <%= moment(orderItems.orderDate).format('DD-MM-YYYY');%></P>
+                        <P style="font-size: 13px;">Total Price : $<%= orderItems.paidAmount %></P>
+                    </div>
+                <%}%>
             </div>
             <% }) %>
         </div>
@@ -73,5 +85,19 @@
         <% } %>
     </div>
 </div>
+
+<script>
+        function cancelOrder(id){
+        console.log(id);
+    $.ajax({
+    url : '/cancelOrder/'+id,
+    method : 'get',
+    success:(res) => {
+        $("#status").load(location.href + " #status");
+        $("#cancelButton").load(location.href + " #cancelButton");
+    }
+    })
+    }
+</script>
 
 <%- include('./layouts/userfooter.ejs') %>

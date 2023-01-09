@@ -14,6 +14,7 @@ const adminRouter = require("../router/admin");
 
 //importing connection modules
 require("./db/conn");
+const Register = require('../src/models/database')
 // const Register = require("./models/database");
 
 //starting the application
@@ -66,6 +67,26 @@ app.get("/adminlogout", (req, res) => {
   res.end();
 });
 
+app.all("*", async (req, res) => {
+  let cartDetails;
+  if (req.session.user) {
+    const user = await Register.findOne({ Email: req.session.user });
+    cartDetails = user.cart.totalQty;
+  } else {
+    cartDetails = null;
+  }
+  if (cartDetails == 0) {
+    cartDetails = null;
+  }
+  const currentUser = await Register.findOne({Email : req.session.user})
+  res.render("404", {
+    documentTitle: "404 | Page not found",
+    url: req.originalUrl,
+    session: req.session.userID,
+    currentUser,
+    cartDetails
+  });
+});
 //port listen set up
 app.listen(7000, (req, res) => {
   console.log("listening port 7000");

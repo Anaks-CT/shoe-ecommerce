@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Run In Style</title>
+    <title><%= documentTitle%></title>
     <link rel="stylesheet" href="/stylesheet/userstyle.css" >
     <script src="https://kit.fontawesome.com/160a48d858.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://rsms.me/" />
@@ -49,3 +49,13 @@
         </div>
     </div>
     
+
+<div class="d-flex flex-column justify-content-center align-items-center mt-5 pt-5">
+    <div><h1 class="yourAccount" style="font-size: 124px;">404</h1></div>
+    <div><h4>Page Not Found</h4></div>
+    <div><h5>Requested URL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%= url %>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is not in our Server</h5></div>
+    <div class="d-flex justify-content-center py-5"><button class="login-button signup-button text-center" >Continue Shopping</button></a></div>
+
+</div>
+
+<%- include('./layouts/userfooter.ejs') %> 

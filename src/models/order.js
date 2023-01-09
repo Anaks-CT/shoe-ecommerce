@@ -46,6 +46,11 @@ const orderSchema = mongoose.Schema({
     default: false,
   },
 
+  cancelStatus: {
+    type: Boolean,
+    default: false,
+  },
+
   orderItems: [
     {
       productID: {

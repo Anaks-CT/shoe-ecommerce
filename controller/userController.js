@@ -1385,6 +1385,15 @@ async function nextBanner(req, res) {
     data: bannerDetails,
   });
 }
+async function cancelOrder (req,res){
+  const orderId = req.params.id
+  await order.updateOne({_id : orderId},{
+    $set : {
+      cancelStatus : true
+    }
+  })
+  res.json({ success : true})
+}
 module.exports = {
   welcome,
   register,
@@ -1430,4 +1439,5 @@ module.exports = {
   orderPage,
   newAddress,
   nextBanner,
+  cancelOrder
 };

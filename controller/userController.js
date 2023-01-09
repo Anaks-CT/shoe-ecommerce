@@ -21,10 +21,12 @@ async function welcome(req, res) {
   if (cartDetails == 0) {
     cartDetails = null;
   }
-  const product = await newProduct.find({});
-  const product2 = await newProduct.find({}).skip(6);
-  const product3 = await newProduct.find({}).skip(12);
-  const bannerProducts = await banner.findOne({active: true}).populate("product");
+  const product = await newProduct.find({ active: true });
+  const product2 = await newProduct.find({ active: true }).skip(6);
+  const product3 = await newProduct.find({ active: true }).skip(12);
+  const bannerProducts = await banner
+    .findOne({ active: true })
+    .populate("product");
   res.render("welcome", {
     cartDetails,
     product,
@@ -625,68 +627,45 @@ async function deleteAddress(req, res) {
 }
 
 async function men(req, res) {
+  const productDetails1 = await newProduct
+    .find({ Category: "Men", active: true })
+    .limit(6);
+  const productDetails2 = await newProduct
+    .find({ Category: "Men" })
+    .skip(6)
+    .limit(6);
+  const productDetails3 = await newProduct
+    .find({ Category: "Men", active: true })
+    .skip(12);
+  let cartDetails;
   if (req.session.user) {
-    const email = req.session.user;
-    const userDetails = await Register.findOne({ Email: email });
-    const product = userDetails.cart.items;
-    const fullProducts = await newProduct.find({});
-    const productDetails1 = await newProduct.find({ Category: "Men" }).limit(6);
-    const productDetails2 = await newProduct
-      .find({ Category: "Men" })
-      .skip(6)
-      .limit(6);
-    const productDetails3 = await newProduct.find({ Category: "Men" }).skip(12);
-    let cartDetails;
-    if (req.session.user) {
-      const user = await Register.findOne({ Email: req.session.user });
-      cartDetails = user.cart.totalQty;
-    } else {
-      cartDetails = null;
-    }
-    if (cartDetails == 0) {
-      cartDetails = null;
-    }
-    res.render("men", {
-      productDetails1,
-      productDetails2,
-      productDetails3,
-      fullProducts,
-      product,
-      cartDetails,
-    });
+    const user = await Register.findOne({ Email: req.session.user });
+    cartDetails = user.cart.totalQty;
   } else {
-    const productDetails1 = await newProduct.find({ Category: "Men" }).limit(6);
-    const productDetails2 = await newProduct
-      .find({ Category: "Men" })
-      .skip(6)
-      .limit(6);
-    const productDetails3 = await newProduct.find({ Category: "Men" }).skip(12);
-    let cartDetails;
-    if (req.session.user) {
-      const user = await Register.findOne({ Email: req.session.user });
-      cartDetails = user.cart.totalQty;
-    } else {
-      cartDetails = null;
-    }
-    if (cartDetails == 0) {
-      cartDetails = null;
-    }
-    res.render("men", {
-      productDetails1,
-      productDetails2,
-      productDetails3,
-      cartDetails,
-    });
+    cartDetails = null;
   }
+  if (cartDetails == 0) {
+    cartDetails = null;
+  }
+  res.render("men", {
+    productDetails1,
+    productDetails2,
+    productDetails3,
+    cartDetails,
+  });
 }
 
 async function women(req, res) {
-  const productDetails1 = await newProduct.find({ Category: "Women" }).limit(6);
+  const productDetails1 = await newProduct
+    .find({ Category: "Women", active: true })
+    .limit(6);
   const productDetails2 = await newProduct
     .find({ Category: "Women" })
     .skip(6)
     .limit(6);
-  const productDetails3 = await newProduct.find({ Category: "Women" }).skip(12);
+  const productDetails3 = await newProduct
+    .find({ Category: "Women", active: true })
+    .skip(12);
   let cartDetails;
   if (req.session.user) {
     const user = await Register.findOne({ Email: req.session.user });
@@ -705,34 +684,62 @@ async function women(req, res) {
   });
 }
 async function cart(req, res) {
-  if (req.session.user) {
-    const email = req.session.user;
-    const user = await Register.findOne({ Email: email });
-    const totalPrice = user.cart;
-    const data = await user.populate("cart.items.productId");
-    const itemQty = data.cart.totalQty;
-    const product = data.cart.items;
-    let cartDetails;
-    if (req.session.user) {
-      const User = await Register.findOne({ Email: req.session.user });
-      cartDetails = User.cart.totalQty;
-    } else {
-      cartDetails = null;
+  const productcheck = await Register.find({
+    Email: req.session.user,
+    active: true,
+  }).populate("cart.items.productId");
+  // console.log(productcheck[0].cart);
+
+  for (let i = 0; i < productcheck[0].cart.items.length; i++) {
+    if (productcheck[0].cart.items[i].productId.active == false) {
+      const current = await Register.updateOne(
+        { Email: req.session.user },
+        {
+          $inc: {
+            "cart.totalPrice": -productcheck[0].cart.items[i].price,
+            "cart.totalQty": -productcheck[0].cart.items[i].quantity,
+          },
+        }
+      );
+      await Register.updateOne(
+        { Email: req.session.user },
+        {
+          $pull: {
+            "cart.items": {
+              productId: productcheck[0].cart.items[i].productId,
+              quantity: productcheck[0].cart.items[i].quantity,
+              price: productcheck[0].cart.items[i].price,
+            },
+          },
+        }
+      );
+      console.log(current);
     }
-    if (cartDetails == 0) {
-      cartDetails = null;
-    }
-    res.render("user-cart", { product, cartDetails, totalPrice, itemQty });
-  } else {
-    res.redirect("/login");
   }
+  const email = req.session.user;
+  const user = await Register.findOne({ Email: email });
+  const totalPrice = user.cart;
+  const data = await user.populate("cart.items.productId");
+  const itemQty = data.cart.totalQty;
+  const product = data.cart.items;
+  let cartDetails;
+  if (req.session.user) {
+    const User = await Register.findOne({ Email: req.session.user });
+    cartDetails = User.cart.totalQty;
+  } else {
+    cartDetails = null;
+  }
+  if (cartDetails == 0) {
+    cartDetails = null;
+  }
+  res.render("user-cart", { product, cartDetails, totalPrice, itemQty });
 }
 
 async function addToCart(req, res) {
   if (req.session.user) {
     const email = req.session.user;
     const id = req.params.id;
-    const productDetails = await newProduct.findOne({ _id: id });
+    const productDetails = await newProduct.findOne({ _id: id, active: true });
     const user = await Register.findOne({ Email: email });
     const details = await Register.aggregate([
       { $match: { Email: email } },
@@ -905,17 +912,31 @@ async function backButton(req, res) {}
 async function viewWishlist(req, res) {
   const email = req.session.user;
   const user = await Register.findOne({ Email: req.session.user });
+  const totalPrice = user.cart;
+  const wishlists = await wishlist
+  .findOne({ userId: user._id })
+  .populate("products");
+  for (let i = 0; i < wishlists.products.length; i++) {
+    if (wishlists.products[i].active == false) {
+      const del = await wishlist.updateOne(
+        { userId: user._id },
+        {
+          $pull: { products: wishlists.products[i]._id },
+        }
+      );
+    console.log(del);
+
+    }
+  }
+  const currentWishlists = await wishlist
+  .findOne({ userId: user._id })
+  .populate("products");
+  const data = currentWishlists.products;
   const datas = await user.populate("cart.items.productId");
   const itemQty = datas.cart.totalQty;
-  // console.log(user.cart.items);
   const usercartinfo = await Register.findOne({ Email: email });
   const cartItems = usercartinfo.cart.items;
 
-  const wishlists = await wishlist
-    .findOne({ userId: user._id })
-    .populate("products");
-  const totalPrice = user.cart;
-  const data = wishlists.products;
 
   let cartDetails;
   if (req.session.user) {

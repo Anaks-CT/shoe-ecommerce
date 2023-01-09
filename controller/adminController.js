@@ -4,6 +4,7 @@ const newCategory = require("../src/models/category");
 const coupon = require("../src/models/coupon");
 const order = require('../src/models/order')
 const banner = require('../src/models/banner');
+const { cart } = require("./userController");
 
 async function adminsignin(req, res) {
   if (req.session.admin) {
@@ -305,6 +306,24 @@ async function deleteBanner (req, res) {
   await banner.deleteOne({_id : bannerId})
   res.redirect('/banner')
 }
+async function unlistProduct (req,res){
+  const productId = req.query.id
+  await newProduct.updateOne({_id : productId},{$set : {
+    active : false
+  }})
+  // const unlistProduct = await Register.find({active : true, "cart.items" : {$elemMatch : {productId : productId}}})
+  // const unlistProductCheck = await Register.find({active : true,"cart.items" : {$elemMatch : {productId : productId }}},{$set : {}})
+  
+  res.json({})
+}
+async function listProduct (req,res){
+  const productId = req.query.id
+  await newProduct.updateOne({_id : productId},{$set : {
+    active : true
+  }})
+  res.json({success : true})
+}
+
 module.exports = {
   adminsignin,
   adminsignin2,
@@ -336,5 +355,7 @@ module.exports = {
   editBanner,
   postEditBanner,
   setBanner,
-  deleteBanner
+  deleteBanner,
+  unlistProduct,
+  listProduct
 };

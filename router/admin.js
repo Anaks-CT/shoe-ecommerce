@@ -41,5 +41,7 @@ router.get('/editBanner',adminController.editBanner)
 router.post('/editBanner',adminController.postEditBanner)
 router.get('/setBanner',adminController.setBanner)
 router.get('/deleteBanner',adminController.deleteBanner)
+router.get('/productDetail/unlistProduct',adminController.unlistProduct)
+router.get('/productDetail/listProduct',adminController.listProduct)
 
 module.exports=router

@@ -26,7 +26,7 @@
             </tr>
           </thead>
           <tbody id="table_body">
-            <% details.forEach(function(item){ %>
+            <% details.forEach(function(item,i){ %>
               <tr>
                 <td><%= item.Name %></td>
                 <td><img class="productImg" src="/images/productImage/<%= item.Image1 %>" alt=""></td>
@@ -44,13 +44,25 @@
                     </div>
                   </a>
 
-                  <!-- <a href="/addToBanner?productId=<%= item._id %>"> -->
                     <div class="box-3">
                       <div onclick="itemAdded('<%= item._id %>')" class="btn btn-three d-flex align-items-center justify-content-center">
                         <p class="text-white m-0" style="font-size: 14px ;">Add to Banner</p>
                       </div>
                     </div>
-                  <!-- </a> -->
+                    <div>
+                    
+                    <div class="box-3" id="productlisting<%= i %>">
+                      <% if(item.active == true){ %>
+                      <div onclick="unlistProduct('<%= item._id %>','<%= i %>')" class="btn btn-three d-flex align-items-center justify-content-center">
+                        <p class="text-white m-0" style="font-size: 14px ;">Unlist</p>
+                      </div>
+                      <%}else{%>
+                        <div onclick="listProduct('<%= item._id %>','<%= i %>')" class="btn btn-three d-flex align-items-center justify-content-center">
+                          <p class="text-white m-0" style="font-size: 14px ;">list</p>
+                        </div>
+                        <%}%>
+                    </div>
+                    <div>
 
               </td>
               </tr>
@@ -100,9 +112,28 @@ function itemAdded(id){
   });
     }
     })
-    
-  
     }
+
+    
+    function unlistProduct(id,i){
+  $.ajax({
+    url : '/productDetail/unlistProduct?id='+id,
+    method : 'get',
+    success:(res) => {
+      $("#productlisting"+i).load(location.href + " #productlisting"+i);
+    }
+    })
+    }
+    function listProduct(id,i){
+  $.ajax({
+    url : '/productDetail/listProduct?id='+id,
+    method : 'get',
+    success:(res) => {
+      $("#productlisting"+i).load(location.href + " #productlisting"+i);
+    }
+    })
+    }
+
 </script>
 
 

@@ -67,6 +67,9 @@ app.get("/adminlogout", (req, res) => {
   res.end();
 });
 
+
+
+
 app.all("*", async (req, res) => {
   let cartDetails;
   if (req.session.user) {

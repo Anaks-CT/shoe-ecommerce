@@ -72,6 +72,9 @@ const user = new mongoose.Schema({
         price: {
           type: Number,
         },
+        size: {
+          type: String,
+        },
       },
     ],
     totalPrice: {

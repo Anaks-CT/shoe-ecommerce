@@ -2,9 +2,8 @@ const Register = require("../src/models/database");
 const newProduct = require("../src/models/products");
 const newCategory = require("../src/models/category");
 const coupon = require("../src/models/coupon");
-const order = require('../src/models/order')
-const banner = require('../src/models/banner');
-const { cart } = require("./userController");
+const order = require("../src/models/order");
+const banner = require("../src/models/banner");
 
 async function adminsignin(req, res) {
   if (req.session.admin) {
@@ -58,8 +57,8 @@ async function userdetails(req, res) {
 
 async function productDetail(req, res) {
   const details = await newProduct.find({});
-  const bannerDetails = await banner.find({})
-  res.render("admin-productDetails", { details ,bannerDetails});
+  const bannerDetails = await banner.find({});
+  res.render("admin-productDetails", { details, bannerDetails });
 }
 
 async function addProduct(req, res) {
@@ -71,11 +70,22 @@ async function postAddProduct(req, res) {
   const product = {
     Name: req.body.name,
     Description: req.body.description,
-    Size: req.body.size,
     Price: req.body.price,
     Category: req.body.category,
     Color: req.body.color,
-    stock: req.body.stock,
+    stock: {
+      small: req.body.smallStock,
+      medium: req.body.mediumStock,
+      large: req.body.largeStock,
+      x_large: req.body.XLstock,
+      xx_large: req.body.XXLstock,
+      total:
+        req.body.smallStock*1 +
+        req.body.mediumStock*1 +
+        req.body.largeStock*1 +
+        req.body.XLstock*1 +
+        req.body.XXLstock*1,
+    },
     Image1: req.files.image[0].filename,
     Image2: req.files.image2[0].filename,
     Image3: req.files.image3[0].filename,
@@ -119,23 +129,55 @@ async function editProduct(req, res) {
 }
 
 async function post_editProduct(req, res) {
+  const total = req.body.smallStock*1 +
+  req.body.mediumStock*1 +
+  req.body.largeStock*1 +
+  req.body.XLstock*1 +
+  req.body.XXLstock*1
   await newProduct.updateOne(
     { _id: req.body.idd },
     {
       $set: {
         Name: req.body.name,
         Description: req.body.description,
-        Size: req.body.size,
         Price: req.body.price,
         Category: req.body.category,
         Color: req.body.color,
-        Image1: req.file.filename,
+        stock: {
+          small: req.body.smallStock,
+          medium: req.body.mediumStock,
+          large: req.body.largeStock,
+          x_large: req.body.XLstock,
+          xx_large: req.body.XXLstock,
+          total: total
+        },
       },
     }
   );
   res.redirect("/productDetail");
 }
-
+async function editProductImages (req,res){
+  let id = req.query.id;
+  const product = await newProduct.findById({ _id: id });
+  res.render("admin-editProductImages", { product });
+}
+async function postEditImages (req,res){
+  await newProduct.updateOne(
+    { _id: req.body.idd },
+    {
+      $set: {
+        Image1: req.files.image[0].filename,
+        Image2: req.files.image2[0].filename,
+        Image3: req.files.image3[0].filename,
+        Image4: req.files.image4[0].filename,
+        Image5: req.files.image5[0].filename,
+        Image6: req.files.image6[0].filename,
+        },
+      },
+  )
+  res.redirect("/productDetail");
+}
+    
 async function blockUser(req, res) {
   let id = req.query.id;
   await Register.updateOne(
@@ -212,78 +254,124 @@ async function postAddCoupon(req, res) {
   res.redirect("coupons");
 }
 async function reactivateCoupon(req, res) {
-  const id = req.query.id
-  await coupon.updateOne({_id:id},{$set : {active : true}})
-  res.redirect('/coupons')
+  const id = req.query.id;
+  await coupon.updateOne({ _id: id }, { $set: { active: true } });
+  res.redirect("/coupons");
 }
 async function deactivateCoupon(req, res) {
-  const id = req.query.id
-  await coupon.updateOne({_id:id},{$set : {active : false}})
-  res.redirect('/coupons')
+  const id = req.query.id;
+  await coupon.updateOne({ _id: id }, { $set: { active: false } });
+  res.redirect("/coupons");
 }
-async function orderList (req, res){
-  const orderDetails = await order.find({}).populate('customer')
-  res.render('admin-orderList',{orderDetails})
+async function orderList(req, res) {
+  const orderDetails = await order.find({}).populate("customer");
+  res.render("admin-orderList", { orderDetails });
 }
-async function orderDetail(req,res){
-  const orderID = req.query.orderID
-  const orderDetails = await order.findOne({ _id : orderID }).populate('customer')
+async function orderDetail(req, res) {
+  const orderID = req.query.orderID;
+  const orderDetails = await order
+    .findOne({ _id: orderID })
+    .populate("customer");
   console.log(orderDetails);
-  res.render('admin-orderDetail',{orderDetails})
+  res.render("admin-orderDetail", { orderDetails });
 }
-async function orderDelivered (req, res){
-   const orderID = req.query.orderID
-   await order.updateOne({ _id : orderID },{ $set : { deliveryStatus : true, delivaryDate : Date.now()}})
-   res.redirect('/orderList/orderDetail?orderID=' + orderID)
+async function orderDelivered(req, res) {
+  const orderID = req.query.orderID;
+  await order.updateOne(
+    { _id: orderID },
+    { $set: { deliveryStatus: true, delivaryDate: Date.now() } }
+  );
+  res.redirect("/orderList/orderDetail?orderID=" + orderID);
 }
 
-async function adminDashboard (req, res){
-  res.render('admin-dashboard')
+async function adminDashboard(req, res) {
+  res.render("admin-dashboard");
 }
 
-async function bannerPage (req, res){
-  const banners = await banner.find({}).populate('product')
-  res.render('admin-banner',{banners})
+async function bannerPage(req, res) {
+  const banners = await banner.find({}).populate("product");
+  res.render("admin-banner", { banners });
 }
-async function addToBanner (req,res){
-  const productId = req.query.productId
-  const productCheck = await banner.findOne({product : productId })
+async function addToBanner(req, res) {
+  const productId = req.query.productId;
+  const productCheck = await banner.findOne({ product: productId });
   if (!productCheck) {
     const bannerProduct = new banner({
-      product : productId
-    })
-    await bannerProduct.save()
-    const productDetail = await newProduct.findOne({_id : productId})
-    await banner.updateOne({ product : productId },{
-      $set : {
-        image : productDetail.Image6,
-        price : productDetail.Price,
-      }
-    })
-  }
-  
-  res.json({status : true})
-}
-async function editBanner (req,res){
-  const bannerId = req.query.bannerId
-  const bannerDetails = await banner.findOne({_id : bannerId})
-  res.render('admin-editBanner',{bannerDetails})
-}
-async function postEditBanner (req,res){
-  const bannerId = req.body.idd
-  console.log(bannerId);
-  await banner.updateOne({_id : bannerId},{
-    $set : {
-      brand : req.body.brand,
-      description : req.body.description
+      product: productId,
+    });
+    await bannerProduct.save();
+    console.log(productCheck);
+      const productDetail = await newProduct.findOne({ _id: productId });
+    if(productDetail.active == true){
+      await banner.updateOne(
+        { product: productId },
+        {
+          $set: {
+            image: productDetail.Image6,
+            price: productDetail.Price,
+            description : "The wait is over. A beautiful blend of design and technology in every step of your running.",
+            brand : 'NIKE'
+          },
+        }
+      );
+      await banner.updateMany(
+        { active: true },
+        {
+          $set: {
+            active: false,
+          },
+        }
+      );
+      await banner.updateOne(
+        { product: productId },
+        {
+          $set: {
+            active: true,
+          },
+        }
+      );
+    }else{
+      await banner.updateOne(
+        { product: productId },
+        {
+          $set: {
+            image: productDetail.Image6,
+            price: productDetail.Price,
+            description : "The wait is over. A beautiful blend of design and technology in every step of your running.",
+            brand : 'NIKE',
+            list : false
+          },
+        }
+      );
     }
-  })
-  res.redirect('/banner')
+    
+  }
+
+  res.json({ status: true });
 }
-async function setBanner (req,res){
-  const bannerId = req.query.bannerId
+async function editBanner(req, res) {
+  const bannerId = req.query.bannerId;
+  const bannerDetails = await banner.findOne({ _id: bannerId });
+  res.render("admin-editBanner", { bannerDetails });
+}
+async function postEditBanner(req, res) {
+  const bannerId = req.body.idd;
+  console.log(bannerId);
+  await banner.updateOne(
+    { _id: bannerId },
+    {
+      $set: {
+        brand: req.body.brand,
+        description: req.body.description,
+      },
+    }
+  );
+  res.redirect("/banner");
+}
+async function setBanner(req, res) {
+  const bannerId = req.query.bannerId;
   await banner.updateMany(
-    {active: true },
+    { active: true },
     {
       $set: {
         active: false,
@@ -291,37 +379,60 @@ async function setBanner (req,res){
     }
   );
   await banner.updateOne(
-    { _id: bannerId},
+    { _id: bannerId },
     {
       $set: {
         active: true,
       },
     }
   );
-  res.redirect('/banner')
+  res.redirect("/banner");
 }
 
-async function deleteBanner (req, res) {
-  const bannerId = req.query.bannerId
-  await banner.deleteOne({_id : bannerId})
-  res.redirect('/banner')
+async function deleteBanner(req, res) {
+  const bannerId = req.query.bannerId;
+  await banner.deleteOne({ _id: bannerId });
+  res.redirect("/banner");
 }
-async function unlistProduct (req,res){
-  const productId = req.query.id
-  await newProduct.updateOne({_id : productId},{$set : {
-    active : false
-  }})
-  // const unlistProduct = await Register.find({active : true, "cart.items" : {$elemMatch : {productId : productId}}})
-  // const unlistProductCheck = await Register.find({active : true,"cart.items" : {$elemMatch : {productId : productId }}},{$set : {}})
-  
-  res.json({})
+async function unlistProduct(req, res) {
+  const productId = req.query.id;
+  await newProduct.updateOne(
+    { _id: productId },
+    {
+      $set: {
+        active: false,
+      },
+    }
+  );
+  const bannerCheck = await banner({product : productId})
+  if(bannerCheck){
+    await banner.updateOne({product : productId},{
+      $set : {
+        list : false
+      }
+    })
+  }
+  res.json({});
 }
-async function listProduct (req,res){
-  const productId = req.query.id
-  await newProduct.updateOne({_id : productId},{$set : {
-    active : true
-  }})
-  res.json({success : true})
+async function listProduct(req, res) {
+  const productId = req.query.id;
+  await newProduct.updateOne(
+    { _id: productId },
+    {
+      $set: {
+        active: true,
+      },
+    }
+  );
+  const bannerCheck = await banner({product : productId})
+  if(bannerCheck){
+    await banner.updateOne({product : productId},{
+      $set : {
+        list : true
+      }
+    })
+  }
+  res.json({ success: true });
 }
 
 module.exports = {
@@ -357,5 +468,7 @@ module.exports = {
   setBanner,
   deleteBanner,
   unlistProduct,
-  listProduct
+  listProduct,
+  editProductImages,
+  postEditImages
 };

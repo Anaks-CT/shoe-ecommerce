@@ -21,7 +21,16 @@ router.get('/categoryDetails',adminController.categoryDetails)
 router.get('/addCategory', adminController.addCategory)
 router.post('/addCategory', adminController.postAddCategory)
 router.get('/editProduct', adminController.editProduct)
-router.post('/editProduct', upload.single('image'),adminController.post_editProduct)
+router.post('/editProduct',adminController.post_editProduct)
+router.get('/productDetails/editProductImages',adminController.editProductImages)
+router.post('/productDetails/editProductImages',upload.fields([
+    { name: 'image', maxCount: 1},
+    { name: 'image2', maxCount: 1},
+    { name: 'image3', maxCount: 1},
+    { name: 'image4', maxCount: 1},
+    { name: 'image5', maxCount: 1},
+    { name: 'image6', maxCount: 1},
+]),adminController.postEditImages)
 router.get('/blockUser',adminController.blockUser)
 router.get('/unblockUser',adminController.unblockUser)
 router.get('/blockCategory',adminController.blockCategory)

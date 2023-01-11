@@ -1,0 +1,58 @@
+<%- include('./layouts/userheader.ejs') %> 
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex flex-column justify-content-center align-items-center mt-5 pt-5">
+                <div class="p-5"><h2 class="text-secondary">Product Not Available !!</h2></div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="container mt-4">
+    <div><h4>You might also like</h4></div>
+</div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="container">
+                <div class="row">
+                    <% products.forEach(function(productDetails){%>
+                        <div class="col-6 col-md-3 py-3">
+                            <div class="product-grid shadow">
+                                <div class="product-image">
+                                    <a href="/productPage?id=<%= productDetails._id %>" class="image">
+                                        <img class="pic-1" src="/images/productImage/<%= productDetails.Image1 %>">
+                                        <img class="pic-2" src="/images/productImage/<%= productDetails.Image1 %>">
+                                    </a>
+                                    <span class="product-sale-label">sale!</span>
+                                    <ul class="social">
+                                        <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                        <li><a href="/addToWishlist?id=<%= productDetails._id %>" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                                    </ul>
+                                    <div class="product-rating">
+                                        <ul class="rating">
+                                            <li class="fas fa-star"></li>
+                                            <li class="fas fa-star"></li>
+                                            <li class="fas fa-star"></li>
+                                            <li class="far fa-star"></li>
+                                            <li class="far fa-star"></li>
+                                        </ul>
+                                        <button class=" btn add-to-cart second" onclick="addToCart('<%= productDetails._id %>')">ADD TO CART</button>
+                                    </div>
+                                </div>
+                                <div class="product-content">
+                                    <h3 class="title"><a href="/productPage?id=<%= productDetails._id %>"><%= productDetails.Name %></a></h3>
+                                    <div class="price"><span>$28.00</span>$<%= productDetails.Price %></div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('./layouts/userfooter.ejs') %> 

@@ -23,16 +23,16 @@
                         <div class="col-12"><p class="cart-price">$<%= product.productId.Price %></p></div>
                     </div>
                     <div class="col-2 d-flex align-items-center justify-content-center">
-                        <div><p style="margin: 0;" id="productSize"><%= product.productId.Size %></p></div>
+                        <div><p style="margin: 0;" id="productSize"><%= product.size %></p></div>
                     </div>
                     <div class="col-1 d-flex flex-column justify-content-center align-items-center">
-                        <div><button class="btn" onclick="addCartCount('<%= product.productId._id %>')"><i class="fa-sharp fa-solid fa-caret-up"></i></button></div>
+                        <div><button class="btn" onclick="addCartCount('<%= product.productId._id %>','<%= product.size %>')"><i class="fa-sharp fa-solid fa-caret-up"></i></button></div>
                         <div><p style="margin: 0;" id="productQty"><%= product.quantity %></p></div>
                         <div><button 
                             <% if( product.quantity == 1 ){ %>
                             style="pointer-events : none; color : red;"                                    
                                     <% } %>
-                            class="btn" onclick="subractCartCount('<%= product.productId._id %>')"><i class="fa-solid fa-caret-down"></i></button></div>
+                            class="btn" onclick="subractCartCount('<%= product.productId._id %>','<%= product.size %>')"><i class="fa-solid fa-caret-down"></i></button></div>
                             
                     </div>
                     <div class="col-2 d-flex align-items-center justify-content-center">
@@ -72,12 +72,10 @@
 <hr class="my-5">
 <div class="container">
     <div class="row">
-        <!-- <div class="col-lg-2"></div> -->
         <div class="col-3 text-center"><i class="second-footerIcon fa-sharp fa-solid fa-shield-halved"></i><p class="icon_body">FAST & SECURE DELIVARY</p></div>
         <div class="col-3 text-center"><i class="second-footerIcon fa-solid fa-truck"></i><p class="icon_body">FREE SHIPPING ON PREPAID ORDERS</p></div>
         <div class="col-3 text-center"><i class="second-footerIcon fa-solid fa-globe"></i><P class="icon_body">DELIVARY ALL OVER INDIA</P></div>
         <div class="col-3 text-center"><i class="second-footerIcon fa-solid fa-headphones"></i><P class="icon_body">24/7 SUPPORT</P></div>
-        <!-- <div class="col-lg-2"></div> -->
     </div>
 </div>
 <div class="container-fluid bg-light">

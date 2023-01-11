@@ -12,133 +12,207 @@
         <div class="col-lg-8 col-md-12">
             <div class="container">
                 <div class="row">
-                    <% productDetails1.forEach(function(item){ %>
-                    <div class="col-6 col-md-4 py-3">
-                        <div class="product-grid shadow">
-                            <div class="product-image">
-                                <a href="/productPage?id=<%= item._id %>" class="image">
-                                    <img class="pic-1" src="/images/productImage/<%= item.Image1 %>">
-                                    <img class="pic-2" src="/images/productImage/<%= item.Image1 %>">
-                                </a>
-                                 <span class="product-sale-label">sale!</span>
-                                <ul class="social">
-                                    <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="/addToWishlist?id=<%= item._id %>" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
-                                </ul>
-                                <div class="product-rating">
-                                    <ul class="rating">
-                                        <li class="fas fa-star"></li>
-                                        <li class="fas fa-star"></li>
-                                        <li class="fas fa-star"></li>
-                                        <li class="far fa-star"></li>
-                                        <li class="far fa-star"></li>
+                    <%if(productDetails.length>6){%>
+                        <% for(let i=0 ; i<6; i++){ %>
+                        <div class="col-6 col-md-4 py-3">
+                            <div class="product-grid shadow">
+                                <div class="product-image">
+                                    <a href="/productPage?id=<%= productDetails[i]._id %>" class="image">
+                                        <img class="pic-1" src="/images/productImage/<%= productDetails[i].Image1 %>">
+                                        <img class="pic-2" src="/images/productImage/<%= productDetails[i].Image1 %>">
+                                    </a>
+                                    <span class="product-sale-label">sale!</span>
+                                    <ul class="social">
+                                        <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                        <li><a href="/addToWishlist?id=<%= productDetails[i]._id %>" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
                                     </ul>
-                                    <!-- <a class="add-to-cart" href="/addToCart?id=<%= item._id %>"> ADD TO CART </a> -->
-                                    <button class=" btn add-to-cart second" onclick="addToCart('<%= item._id %>')">ADD TO CART</button>
-                                    
+                                    <div class="product-rating">
+                                        <ul class="rating">
+                                            <li class="fas fa-star"></li>
+                                            <li class="fas fa-star"></li>
+                                            <li class="fas fa-star"></li>
+                                            <li class="far fa-star"></li>
+                                            <li class="far fa-star"></li>
+                                        </ul>
+                                        <button class=" btn add-to-cart second" onclick="addToCart('<%= productDetails[i]._id %>')">ADD TO CART</button>
+                                    </div>
+                                </div>
+                                <div class="product-content">
+                                    <h3 class="title"><a href="/productPage?id=<%= productDetails[i]._id %>"><%= productDetails[i].Name %></a></h3>
+                                    <div class="price"><span>$28.00</span>$<%= productDetails[i].Price %></div>
                                 </div>
                             </div>
-                            <div class="product-content">
-                                <h3 class="title"><a href="/productPage?id=<%= item._id %>"><%= item.Name %></a></h3>
-                                <div class="price"><span>$28.00</span>$<%= item.Price %></div>
+                        </div>
+                        <% } %>
+                    <% }else{ %>
+                        <% for(let i=0 ; i<productDetails.length; i++){ %>
+                            <div class="col-6 col-md-4 py-3">
+                                <div class="product-grid shadow">
+                                    <div class="product-image">
+                                        <a href="/productPage?id=<%= productDetails[i]._id %>" class="image">
+                                            <img class="pic-1" src="/images/productImage/<%= productDetails[i].Image1 %>">
+                                            <img class="pic-2" src="/images/productImage/<%= productDetails[i].Image1 %>">
+                                        </a>
+                                        <span class="product-sale-label">sale!</span>
+                                        <ul class="social">
+                                            <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="/addToWishlist?id=<%= productDetails[i]._id %>" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                                        </ul>
+                                        <div class="product-rating">
+                                            <ul class="rating">
+                                                <li class="fas fa-star"></li>
+                                                <li class="fas fa-star"></li>
+                                                <li class="fas fa-star"></li>
+                                                <li class="far fa-star"></li>
+                                                <li class="far fa-star"></li>
+                                            </ul>
+                                            <button class=" btn add-to-cart second" onclick="addToCart('<%= productDetails[i]._id %>')">ADD TO CART</button>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <h3 class="title"><a href="/productPage?id=<%= productDetails[i]._id %>"><%= productDetails[i].Name %></a></h3>
+                                        <div class="price"><span>$28.00</span>$<%= productDetails[i].Price %></div>
+                                    </div>
+                                </div>
                             </div>
-                    </div>
-                    </div>
-                    
-                    <% }) %>
+                            <% } %>
+                        <% } %>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-0">
-            <div class="container d-none d-lg-block">
-                <div class="row d-flex flex-column justify-content-center">
-                    <div class="col-3 gap-col-1"></div>
-                    <div class="col-9 d-flex justify-content-center">
-                        <div><img class="sideImage1" src="/images/pexels-photo-8130588-removebg-preview.png" alt=""></div>
+        <% if(productDetails.length>3){%>
+            <div class="col-lg-4 col-0">
+                <div class="container d-none d-lg-block">
+                    <div class="row d-flex flex-column justify-content-center">
+                        <div class="col-3 gap-col-1"></div>
+                        <div class="col-9 d-flex justify-content-center">
+                            <div><img class="sideImage1" src="/images/pexels-photo-8130588-removebg-preview.png" alt=""></div>
+                        </div>
                     </div>
                 </div>
             </div>
+        <%}%>
+    </div>
+</div>
+<% if(productDetails.length>6){ %>
+    <div class="container-fluid py-5">
+        <div class="row">
+            <img class="bigImage1" src="/images/pexels-photo-1702675.jpeg" alt="">
         </div>
     </div>
-</div>
-<div class="container-fluid py-5">
-    <div class="row">
-        <img class="bigImage1" src="/images/pexels-photo-1702675.jpeg" alt="">
-    </div>
-</div>
+<%}%>
 <div class="container">
     <div class="row">
-        <div class="col-lg-4 col-0">
-            <div class="container d-none d-lg-block">
-                <div class="row d-flex flex-column justify-content-center">
-                    <!-- <div class="col-3 gap-col-1"></div> -->
-                    <div class="col-9 d-flex justify-content-center">
-                        <div><img class="sideImage1" src="/images/pexels-photo-12417685-removebg-preview.png" alt=""></div>
+        <% if(productDetails.length>9){%>
+            <div class="col-lg-4 col-0">
+                <div class="container d-none d-lg-block">
+                    <div class="row d-flex flex-column justify-content-center">
+                        <div class="col-9 d-flex justify-content-center">
+                            <div><img class="sideImage1" src="/images/pexels-photo-12417685-removebg-preview.png" alt=""></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <%}%>
         <div class="col-lg-8 col-md-12">
             <div class="container">
                 <div class="row">
-                    <% productDetails2.forEach(function(item){ %>
-                    <div class="col-6 col-md-4 py-3">
-                        <div class="product-grid shadow">
-                            <div class="product-image">
-                                <a href="/productPage?id=<%= item._id %>" class="image">
-                                    <img class="pic-1" src="/images/productImage/<%= item.Image1 %>">
-                                    <img class="pic-2" src="/images/productImage/<%= item.Image1 %>">
-                                </a>
-                                 <span class="product-sale-label">sale!</span>
-                                <ul class="social">
-                                    <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="/addToWishlist?id=<%= item._id %>" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
-                                </ul>
-                                <div class="product-rating">
-                                    <ul class="rating">
-                                        <li class="fas fa-star"></li>
-                                        <li class="fas fa-star"></li>
-                                        <li class="fas fa-star"></li>
-                                        <li class="far fa-star"></li>
-                                        <li class="far fa-star"></li>
+                    <%if(productDetails.length>12){%>
+                        <% for(let i=6; i<12 ; i++){ %>
+                        <div class="col-6 col-md-4 py-3">
+                            <div class="product-grid shadow">
+                                <div class="product-image">
+                                    <a href="/productPage?id=<%= productDetails[i]._id %>" class="image">
+                                        <img class="pic-1" src="/images/productImage/<%= productDetails[i].Image1 %>">
+                                        <img class="pic-2" src="/images/productImage/<%= productDetails[i].Image1 %>">
+                                    </a>
+                                    <span class="product-sale-label">sale!</span>
+                                    <ul class="social">
+                                        <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                        <li><a href="/addToWishlist?id=<%= productDetails[i]._id %>" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
                                     </ul>
-                                    <!-- <a class="add-to-cart" href="/addToCart?id=<%= item._id %>"> ADD TO CART </a> -->
-                                    <button class=" btn add-to-cart second" onclick="addToCart('<%= item._id %>')">ADD TO CART</button>
+                                    <div class="product-rating">
+                                        <ul class="rating">
+                                            <li class="fas fa-star"></li>
+                                            <li class="fas fa-star"></li>
+                                            <li class="fas fa-star"></li>
+                                            <li class="far fa-star"></li>
+                                            <li class="far fa-star"></li>
+                                        </ul>
+                                        <button class=" btn add-to-cart second" onclick="addToCart('<%= productDetails[i]._id %>')">ADD TO CART</button>
+                                    </div>
                                 </div>
+                                <div class="product-content">
+                                    <h3 class="title"><a href="/productPage?id=<%= productDetails[i]._id %>"><%= productDetails[i].Name %></a></h3>
+                                    <div class="price"><span>$28.00</span>><%= productDetails[i].Price %></div>
+                                </div>
+                        </div>
+                        </div>
+                        
+                        <% } %>
+                    <% }else{ %>
+                        <% for(let i=6; i<productDetails.length ; i++){ %>
+                            <div class="col-6 col-md-4 py-3">
+                                <div class="product-grid shadow">
+                                    <div class="product-image">
+                                        <a href="/productPage?id=<%= productDetails[i]._id %>" class="image">
+                                            <img class="pic-1" src="/images/productImage/<%= productDetails[i].Image1 %>">
+                                            <img class="pic-2" src="/images/productImage/<%= productDetails[i].Image1 %>">
+                                        </a>
+                                        <span class="product-sale-label">sale!</span>
+                                        <ul class="social">
+                                            <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="/addToWishlist?id=<%= productDetails[i]._id %>" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                                        </ul>
+                                        <div class="product-rating">
+                                            <ul class="rating">
+                                                <li class="fas fa-star"></li>
+                                                <li class="fas fa-star"></li>
+                                                <li class="fas fa-star"></li>
+                                                <li class="far fa-star"></li>
+                                                <li class="far fa-star"></li>
+                                            </ul>
+                                            <button class=" btn add-to-cart second" onclick="addToCart('<%= productDetails[i]._id %>')">ADD TO CART</button>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <h3 class="title"><a href="/productPage?id=<%= productDetails[i]._id %>"><%= productDetails[i].Name %></a></h3>
+                                        <div class="price"><span>$28.00</span>><%= productDetails[i].Price %></div>
+                                    </div>
                             </div>
-                            <div class="product-content">
-                                <h3 class="title"><a href="/productPage?id=<%= item._id %>"><%= item.Name %></a></h3>
-                                <div class="price"><span>$28.00</span>><%= item.Price %></div>
                             </div>
-                    </div>
-                    </div>
-                    
-                    <% }) %>
+                            
+                            <% } %>
+                        <% } %>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="container-fluid py-5">
-    <div class="row">
-        <img class="bigImage2" src="/images/pexels-photo-345415.jpg" alt="">
+<% if(productDetails.length>12){ %>
+    <div class="container-fluid py-5">
+        <div class="row">
+            <img class="bigImage2" src="/images/pexels-photo-345415.jpg" alt="">
+        </div>
     </div>
-</div>
+<%}%>
 <div class="container">
     <div class="row">
         
-            <% productDetails3.forEach(function(item){ %>
+            <% for(let i=12; i<productDetails.length; i++){ %>
                 <div class="col-6 col-md-4 col-lg-3 py-3">
                 <div class="product-grid shadow">
                     <div class="product-image">
-                        <a href="/productPage?id=<%= item._id %>" class="image">
-                            <img class="pic-1" src="/images/productImage/<%= item.Image1 %>">
-                            <img class="pic-2" src="/images/productImage/<%= item.Image1 %>">
+                        <a href="/productPage?id=<%= productDetails[i]._id %>" class="image">
+                            <img class="pic-1" src="/images/productImage/<%= productDetails[i].Image1 %>">
+                            <img class="pic-2" src="/images/productImage/<%= productDetails[i].Image1 %>">
                         </a>
                          <span class="product-sale-label">sale!</span>
                         <ul class="social">
                             <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
-                            <li><a href="/addToWishlist?id=<%= item._id %>" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            <li><a href="/addToWishlist?id=<%= productDetails[i]._id %>" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
                         </ul>
                         <div class="product-rating">
                             <ul class="rating">
@@ -149,18 +223,17 @@
                                 <li class="far fa-star"></li>
                             </ul>
                             
-                            <!-- <a class="add-to-cart" href="/addToCart?id=<%= item._id %>"> ADD TO CART </a> -->
-                            <button class=" btn add-to-cart second" onclick="addToCart('<%= item._id %>')">ADD TO CART</button>
+                            <button class=" btn add-to-cart second" onclick="addToCart('<%= productDetails[i]._id %>')">ADD TO CART</button>
                         </div>
                     </div>
                     <div class="product-content">
-                        <h3 class="title"><a href="/productPage?id=<%= item._id %>"><%= item.Name %></a></h3>
-                        <div class="price"><span>$28.00</span>><%= item.Price %></div>
+                        <h3 class="title"><a href="/productPage?id=<%= productDetails[i]._id %>"><%= productDetails[i].Name %></a></h3>
+                        <div class="price"><span>$28.00</span>><%= productDetails[i].Price %></div>
                     </div>
             </div>
         </div>
 
-            <% }) %>    
+            <% } %>    
     </div>
 </div>
 

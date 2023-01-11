@@ -4,13 +4,12 @@
     <div class=" text-center mt-5 ">
         <h1 >Edit Product</h1>        
     </div>
-    
     <div class="row ">
         <div class="col-lg-7 mx-auto">
             <div class="card mt-2 mx-auto p-4 bg-light">
                 <div class="card-body bg-light">   
                     <div class = "container">
-                        <form  method="post" action="/EditProduct" enctype="multipart/form-data">
+                        <form  method="post" action="/editProduct">
                             <div class="controls">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -19,7 +18,7 @@
                                                 <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter product name *" required="required" data-error="product name is required." value="<%= product.Name %>">                                                                           
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 ">
                                         <div class="form-group">
                                             <label for="form_lastname">Price *</label>
                                             <input id="form_lastname" type="text" name="price" class="form-control" placeholder="Please enter the price *" required="required" data-error="Price is required." value="<%= product.Price %>">
@@ -27,7 +26,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 py-2">
                                         <div class="form-group">
                                             <label for="form_need">Color *</label>
                                             <select id="form_need" name="color" class="form-control" required="required" data-error="Please specify color.">
@@ -47,22 +46,7 @@
                                             </select>                                            
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="form_need">Size *</label>
-                                            <select id="form_need" name="size" class="form-control" required="required" data-error="Please specify size.">
-                                                <option ><%= product.Size %></option>
-                                                <option >Small</option>
-                                                <option >Medium</option>
-                                                <option >Large</option>
-                                                <option >Xtra-Large</option>
-                                                <option >X-X-Large</option>
-                                            </select>                                            
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 py-2">
                                         <div class="form-group">
                                             <label for="form_need">Category *</label>
                                             <select id="form_need" name="category" class="form-control" required="required" data-error="Please specify size.">
@@ -73,15 +57,39 @@
                                             </select>                                            
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 py-2">
                                         <div class="form-group">
-                                            <label for="form_name">Image1 *</label>
-                                                <input id="form_name" type="file" name="image" class="form-control" placeholder="Please enter product name *" required="required" data-error="product name is required.">                                                                           
+                                            <label for="form_lastname">Small Stock *</label>
+                                            <input id="form_lastname" value="<%= product.stock.small %>" type="number" name="smallStock" class="form-control" placeholder="Please enter the stock amount *" required="required" data-error="Price is required.">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 py-2">
+                                        <div class="form-group">
+                                            <label for="form_lastname">Medium Stock *</label>
+                                            <input id="form_lastname" value="<%= product.stock.medium %>" type="number" name="mediumStock" class="form-control" placeholder="Please enter the stock amount *" required="required" data-error="Price is required.">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 py-2">
+                                        <div class="form-group">
+                                            <label for="form_lastname">Large Stock *</label>
+                                            <input id="form_lastname" value="<%= product.stock.large %>" type="number" name="largeStock" class="form-control" placeholder="Please enter the stock amount *" required="required" data-error="Price is required.">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 py-2">
+                                        <div class="form-group">
+                                            <label for="form_lastname">X-lagrge Stock *</label>
+                                            <input id="form_lastname" value="<%= product.stock.x_large %>" type="number" name="XLstock" class="form-control" placeholder="Please enter the stock amount *" required="required" data-error="Price is required.">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 py-2">
+                                        <div class="form-group">
+                                            <label for="form_lastname">XX-large Stock *</label>
+                                            <input id="form_lastname" value="<%= product.stock.xx_large %>" type="number" name="XXLstock" class="form-control" placeholder="Please enter the stock amount *" required="required" data-error="Price is required.">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-12 py-2">
                                         <div class="form-group">
                                             <label for="form_message">Description *</label>
                                             <textarea id="form_message" name="description" class="form-control" placeholder="Write description *." rows="4" required="required" data-error="Please, leave us a message."><%= product.Description %></textarea>                                                

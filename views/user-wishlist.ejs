@@ -77,13 +77,8 @@
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-lg-4">
-                                            <div class="summary d-flex justify-content-around align-items-center ">
-                                                <button onclick="addtocart('<%= product._id %>')" type="button" class="btn btn-primary btn-lg btn-sm">Add To Cart</button>
-                                                <% if(itemQty!=0){ %>
-                                                <span id="cart-number" class=" me-auto mb-1 bg-dark translate-middle badge rounded-pill text-white">
-                                                    <a href="/cart" class="text-white"><%= cartDetails %></a></span>
-                                                    <% } %>
-
+                                            <div class="summary d-flex justify-content-around align-items-center " id="addToCartFromWishlist<%=i%>">
+                                                <button onclick="addToCart('<%= product._id %>')" type="button" class="btn btn-primary btn-lg btn-sm">Add To Cart</button>
                                                     <div><a href="/removeFromWishlistFromWishlist?id=<%= product._id %>"><i class="fa-solid fa-trash text-primary"></i></a></div>
                                             </div>
                                             

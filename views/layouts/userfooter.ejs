@@ -18,34 +18,34 @@
     </div>
 </div>
 <script>
-    function addToCart(id){
+    function addToCart(id,i){
         console.log(id);
+        var value = $("#sizeForm").serialize()
+        console.log(value);
     $.ajax({
-    url : '/addToCart/'+id,
-    method : 'get',
-    success:(res) => {
-   
-    
-    if (res.data) {
-        let count = $('#cart-count').html();
-    count = res.status;
-    
-    $('#cart-count').html(count)
-    $('#cart-number').html(count)
-        
-        var toastMixin = Swal.fire({
-    toast: true,
-    icon: 'success',
-    // title: 'Item Added to Cart',
-    text :"Item Added to Cart",
-    animation: false,
-    position: 'top-right',
-    showConfirmButton: false,
-    timer: 2000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    url : '/addToCart?id='+id+'&size='+value,
+    method : 'get',              
+     success:(res) => {
+        if (res.data) {
+            $("#sizeDetails").load(location.href + " #sizeDetails");
+            $("#addToCartFromWishlist"+i).load(location.href + " #addToCartFromWishlist"+i);
+            let count = $('#cart-count').html();
+            count = res.status;
+            $('#cart-count').html(count)
+            $('#cart-number').html(count)
+            var toastMixin = Swal.fire({
+            toast: true,
+            icon: 'success',
+            // title: 'Item Added to Cart',
+            text :"Item Added to Cart",
+            animation: false,
+            position: 'top-right',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
     }
   });
     }else{
@@ -55,11 +55,10 @@
     })
     }
 
-
-    function addtocart(id){
-        console.log(id);
+    function addCartCount(id,size){
+        console.log(size);
     $.ajax({
-    url : '/addToCart/'+id,
+    url : '/addCartCount?id='+id+"&size="+size,
     method : 'get',
     success:(res) => {
         count = res.status;
@@ -68,31 +67,15 @@
     })
     }
     
-
-    function addCartCount(id){
+    function subractCartCount(id,size){
         console.log(id);
     $.ajax({
-    url : '/addCartCount/'+id,
+    url : '/subractCartCount?id='+id+"&size="+size,
     method : 'get',
     success:(res) => {
         count = res.status;
         location.reload()
     }
-    
-    })
-    console.log('kjgjgjkgb');
-    }
-    
-    function subractCartCount(id){
-        console.log(id);
-    $.ajax({
-    url : '/subractCartCount/'+id,
-    method : 'get',
-    success:(res) => {
-        count = res.status;
-        location.reload()
-    }
-    
     })
     }
 

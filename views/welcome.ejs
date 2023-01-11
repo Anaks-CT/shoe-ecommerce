@@ -1,34 +1,68 @@
 <%- include('./layouts/userheader.ejs') %> 
-<div id="mydiv">
-<div class="container-fluid login-container">
-    <div class="row login-row d-flex justify-content-center align-items-center justify-content-space-around my-5">
-        <div class="col-lg-4 align-items-center headings">
-            <div class="headingshoes"><p class="sub_head" id="bannerProductName"><%= bannerProducts.product.Name %></p></div>
-            <!-- <p class="sub_head">Mid '07 LV8</p> -->
-            <div class="advertisement-div"><p class="advertisement" id="bannerDescription"><%= bannerProducts.description %></p></div>
-        </div>
-        <div class="col-lg-4 login-banner d-flex justify-content-center welcomepage-shoe">
-            <a id="productLink" href="/productPage?id=<%= bannerProducts.product._id %>"><img class="login-image" id="banner" src="/images/productImage/<%= bannerProducts.product.Image6 %>" alt=""></a>
-        </div>
-    </div>
-</div>
-<div class="container d-flex justify-content-center details-container" >
-    <div class="row welcomeshoe-details " >
-        <div class="col-4 d-flex justify-content-center">
-            <p class="welcome-shoe-heading mx-2">BRAND</p>
-            <p class="welcome-shoe-subheading"><%= bannerProducts.brand %></p>
-        </div>
-        <div class="col-4 d-flex justify-content-center">
-          <p class="welcome-shoe-heading mx-2">PRICE</p>
-          <p class="welcome-shoe-subheading">$<%= bannerProducts.price %></p>
-        </div>
-        <div class="col-4 d-flex justify-content-center">
-          <p class="welcome-shoe-heading mx-2">COLOR</p>
-          <p class="welcome-shoe-subheading"><%= bannerProducts.product.Color %></p>
+<% if(bannerProducts==null){ %>
+  <div id="mydiv">
+    <div class="container-fluid login-container">
+        <div class="row login-row d-flex justify-content-center align-items-center justify-content-space-around my-5">
+            <div class="col-lg-4 align-items-center headings">
+                <div class="headingshoes"><p class="sub_head" id="bannerProductName">Nike Air Force 1 Mid '07 LV8</p></div>
+                <!-- <p class="sub_head">Mid '07 LV8</p> -->
+                <div class="advertisement-div"><p class="advertisement" id="bannerDescription">The wait is over. A beautiful blend of design
+                  and technology in every step of your running.</p></div>
+            </div>
+            <div class="col-lg-4 login-banner d-flex justify-content-center welcomepage-shoe">
+                <a id="productLink" ><img class="login-image" id="banner" src="/images/air-force-1-mid-07-lv8-shoes-LKdCFK-removebg-preview.png" alt=""></a>
+            </div>
         </div>
     </div>
-</div>
-</div>
+    <div class="container d-flex justify-content-center details-container" >
+        <div class="row welcomeshoe-details " >
+            <div class="col-4 d-flex justify-content-center">
+                <p class="welcome-shoe-heading mx-2">BRAND</p>
+                <p class="welcome-shoe-subheading" id="brandName">NIKE</p>
+            </div>
+            <div class="col-4 d-flex justify-content-center">
+              <p class="welcome-shoe-heading mx-2">PRICE</p>
+              <p class="welcome-shoe-subheading" id="price">$205</p>
+            </div>
+            <div class="col-4 d-flex justify-content-center">
+              <p class="welcome-shoe-heading mx-2">COLOR</p>
+              <p class="welcome-shoe-subheading" id="color">BLUE</p>
+            </div>
+        </div>
+    </div>
+    </div>
+    <% }else{ %>
+  <div id="mydiv">
+  <div class="container-fluid login-container">
+      <div class="row login-row d-flex justify-content-center align-items-center justify-content-space-around my-5">
+          <div class="col-lg-4 align-items-center headings">
+              <div class="headingshoes"><p class="sub_head" id="bannerProductName"><%= bannerProducts.product.Name %></p></div>
+              <!-- <p class="sub_head">Mid '07 LV8</p> -->
+              <div class="advertisement-div"><p class="advertisement" id="bannerDescription"><%= bannerProducts.description %></p></div>
+          </div>
+          <div class="col-lg-4 login-banner d-flex justify-content-center welcomepage-shoe">
+              <a id="productLink" href="/productPage?id=<%= bannerProducts.product._id %>"><img class="login-image" id="banner" src="/images/productImage/<%= bannerProducts.product.Image6 %>" alt=""></a>
+          </div>
+      </div>
+  </div>
+  <div class="container d-flex justify-content-center details-container" >
+      <div class="row welcomeshoe-details " >
+          <div class="col-4 d-flex justify-content-center">
+              <p class="welcome-shoe-heading mx-2">BRAND</p>
+              <p class="welcome-shoe-subheading" id="brandName"><%= bannerProducts.brand %></p>
+          </div>
+          <div class="col-4 d-flex justify-content-center">
+            <p class="welcome-shoe-heading mx-2">PRICE</p>
+            <p class="welcome-shoe-subheading" id="price">$<%= bannerProducts.price %></p>
+          </div>
+          <div class="col-4 d-flex justify-content-center">
+            <p class="welcome-shoe-heading mx-2">COLOR</p>
+            <p class="welcome-shoe-subheading" id="color"><%= bannerProducts.product.Color %></p>
+          </div>
+      </div>
+  </div>
+  </div>
+<%}%>
 <div class="container py-5 d-flex justify-content-center">
     <div class="row carousal-row">
         <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-ride="carousel">
@@ -58,8 +92,10 @@
                       </div> 
                 </div>
         
+                
               </div>
-              <% for(i=0;i<20;i++){ %>
+              <% 
+              for(i=0;i<length-6;i=i+3){ %>
                 <div class="carousel-item ">
                     <div class="cards-wrapper card_wrap">
                         <div class="card cardMargin">
@@ -70,17 +106,17 @@
                             </div>
                           </div>
                           <div class="card cardMargin">
-                            <a href="/productPage?id=<%= product[i+12]._id %>"><img src="/images/productImage/<%= product[i+12].Image1 %>" class="card-img-top" alt="..."></a>
+                            <a href="/productPage?id=<%= product[i+5]._id %>"><img src="/images/productImage/<%= product[i+5].Image1 %>" class="card-img-top" alt="..."></a>
                             <div class="card-body">
-                              <h5 class="card-title"><%= product[i+12].Name %></h5>
-                              <p class="card-text">$<%= product[i+12].Price %></p>
+                              <h5 class="card-title"><%= product[i+5].Name %></h5>
+                              <p class="card-text">$<%= product[i+5].Price %></p>
                             </div>
                           </div>
                           <div class="card cardMargin">
-                            <a href="/productPage?id=<%= product[i+20]._id %>"><img src="/images/productImage/<%= product[i+20].Image1 %>" class="card-img-top" alt="..."></a>
+                            <a href="/productPage?id=<%= product[i+6]._id %>"><img src="/images/productImage/<%= product[i+6].Image1 %>" class="card-img-top" alt="..."></a>
                             <div class="card-body">
-                              <h5 class="card-title"><%= product[i+20].Name %></h5>
-                              <p class="card-text">$<%= product[i+20].Price %></p>
+                              <h5 class="card-title"><%= product[i+6].Name %></h5>
+                              <p class="card-text">$<%= product[i+6].Price %></p>
                             </div>
                           </div> 
                     </div>
@@ -157,20 +193,21 @@ function nextBanner(i){
             $('#bannerDescription').html(data[i].description)
             $('#productLink').attr('href',`/productPage?id=${data[i].product._id}`)
             $('#banner').attr('src',`/images/productImage/${data[i].image}`)
+            $('#brandName').html(data[i].brand)
+            $('#price').html(`$${data[i].price}`)
+            $('#color').html(data[i].product.Color)
         }
-    
     })
     }
 
-    var i = 1
+    var i = 0
     setInterval(function(){
         nextBanner(i)
         i=i+1;
         if(i==bannerCount){
             i=0
         }
-
-}, 5000);
+    }, 5000);
 </script>
 
 <%- include('./layouts/userfooter.ejs') %> 

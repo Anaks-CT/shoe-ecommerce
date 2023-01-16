@@ -69,6 +69,7 @@
             <div class="carousel-inner">
               <div class="carousel-item active">
                 <% if(product != ''){ %>
+                  <% if(product != null){ %>
                 <div class="cards-wrapper card_wrap">
                     <div class="card cardMargin">
                         <a href="/productPage?id=<%= product[0]._id %>"><img src="/images/productImage/<%= product[0].Image1 %>" class="card-img-top" alt="..."></a>
@@ -92,6 +93,7 @@
                         </div>
                       </div> 
                 </div>
+                <%}%>
                 <%}%>
         
                 

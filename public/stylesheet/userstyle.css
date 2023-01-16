@@ -210,13 +210,13 @@ header {
   width: 100%;
 }
 .login-div {
-  width: 369px;
+  width: 350px;
   height: 549px;
   background: #91c4d4;
   border-radius: 40px;
 }
 .login-image {
-  width: 385px;
+  width: 370px;
   padding-left: 52px;
 }
 .login-input {

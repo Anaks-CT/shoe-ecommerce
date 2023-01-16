@@ -1064,7 +1064,6 @@ async function productPage(req, res) {
       cartDetails = null;
     }
     let userReviewCheck = await review.find({productId : productId})
-    // console.log(userReviewCheck);
     let userPresent 
     if(req.session.user){
       console.log('hi');
@@ -1083,8 +1082,6 @@ async function productPage(req, res) {
       } else {
         userPresent = true
       }
-      
-      
     }else{
       userPresent =false
     }

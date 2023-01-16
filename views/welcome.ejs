@@ -68,6 +68,7 @@
         <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item active">
+                <% if(product != ''){ %>
                 <div class="cards-wrapper card_wrap">
                     <div class="card cardMargin">
                         <a href="/productPage?id=<%= product[0]._id %>"><img src="/images/productImage/<%= product[0].Image1 %>" class="card-img-top" alt="..."></a>
@@ -91,6 +92,7 @@
                         </div>
                       </div> 
                 </div>
+                <%}%>
         
                 
               </div>

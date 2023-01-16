@@ -151,6 +151,17 @@ header {
   line-height: 49px;
   color: #1a408a;
 }
+@media all and (max-width: 991px) {
+  .sub_head {
+    padding-left: 36px;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 49px;
+    color: #1a408a;
+  }
+}
 .advertisement {
   font-family: "Inter";
   font-style: normal;

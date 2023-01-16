@@ -1,5 +1,159 @@
 <%- include('./layouts/adminheader.ejs') %> 
 
+<h1 class="my-4">DASHBOARD</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-lg-3 my-2">
+            <div class="p-5 rounded shadow bg-light d-flex flex-column justify-content-center align-items-center">
+                <h3><b><%= customerCount.length  %></b></h3>
+                <h5>Customers</h5>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 my-2">
+            <div class="p-5 rounded shadow bg-light d-flex flex-column justify-content-center align-items-center">
+                <h3><b><%= productCount.length %></b></h3>
+                <h5>Products</h5>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 my-2">
+            <div class="p-5 rounded shadow bg-light d-flex flex-column justify-content-center align-items-center">
+                <h3><b><%= orderCount.length %></b></h3>
+                <h5>Orders</h5>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 my-2">
+            <div class="p-5 rounded shadow bg-light d-flex flex-column justify-content-center align-items-center">
+                <h3><b>$<%= totalAmount %></b></h3>
+                <h5>Order Amount</h5>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row d-flex justify-content-around">
+      <div class="col-lg-9 col-12">
+        <canvas id="myChart"></canvas>
+      </div>
+      <div class="col-lg-3 my-auto col-12">
+        <canvas id="pieChart"></canvas>
+      </div>
+          
+    </div>
+</div>
+<div id="tester"></div>
+<button onclick="test()">sdfsdfsdfsdfsdfsd</button>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<script>
+ function test(){
+ const men = $.post('/test',{data: 11},(data)=>{
+  console.log(data)
+ })
+console.log(10) 
+}
+
+  const anaks = 0
+  const bulbul = 5
+  const ctx = document.getElementById('myChart');
+  const pie = document.getElementById('pieChart')
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+  labels: [1,1,11,11,1,11,1],
+  datasets: [{
+    label: 'My First Dataset',
+    data: [65, 59, 80, 81, 56, 55, 40],
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.4)',
+      'rgba(255, 159, 64, 0.4)',
+      'rgba(255, 205, 86, 0.4)',
+      'rgba(75, 192, 192, 0.4)',
+      'rgba(54, 162, 235, 0.4)',
+      'rgba(153, 102, 255, 0.4)',
+      'rgba(201, 203, 207, 0.4)'
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+    ],
+    borderWidth: 1
+  }]
+},
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+  new Chart(pie, {
+    type: 'doughnut',
+    data:  {
+    labels: [
+    'Red',
+    'Blue',
+  ],
+  datasets: [{
+    label: 'My First Dataset',
+    data: [45, 45],
+    backgroundColor: [
+      'rgb(255, 99, 132)',
+      'rgb(54, 162, 235)',
+    ],
+    hoverOffset: 4
+  }]
+},
+  });
+  
+</script>
+<!-- 
+<script>
+  const labels = Utils.months({count: 7});
+const data = {
+  labels: labels,
+  datasets: [{
+    label: 'My First Dataset',
+    data: [65, 59, 80, 81, 56, 55, 40],
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(201, 203, 207, 0.2)'
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+    ],
+    borderWidth: 1
+  }]
+};
+const config = new 
+ {
+
+  type: 'bar',
+  data: data,
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  },
+};
+</script> -->
 <%- include('./layouts/adminfooter.ejs') %> 

@@ -1,9 +1,9 @@
 const express = require('express')
 const router=express.Router()
 const adminController = require('../controller/adminController')
+const Register = require('../src/models/database')
 const upload = require('../utility/multer')
 
-router.get('/adminredirect', adminController.adminsignin2)
 router.get('/adminlogin', adminController.adminsignin)
 router.post('/adminlogin', adminController.adminPostSignin)
 router.get('/userdetails',adminController.userdetails)
@@ -52,5 +52,14 @@ router.get('/setBanner',adminController.setBanner)
 router.get('/deleteBanner',adminController.deleteBanner)
 router.get('/productDetail/unlistProduct',adminController.unlistProduct)
 router.get('/productDetail/listProduct',adminController.listProduct)
+
+router.post('/test',async(req,res)=>{
+    console.log('shshabasc---------------');
+    console.log(req.body);
+    const men = await Register.find()
+    res.json({
+        data : men
+    })
+})
 
 module.exports=router

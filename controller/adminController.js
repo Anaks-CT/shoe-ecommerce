@@ -23,13 +23,7 @@ async function adminsignin(req, res) {
   }
 }
 
-function adminsignin2(req, res) {
-  if (req.session.admin) {
-    res.render("adminwelcome");
-  } else {
-    res.redirect("/adminlogin");
-  }
-}
+
 
 function adminPostSignin(req, res) {
   try {
@@ -37,7 +31,7 @@ function adminPostSignin(req, res) {
     const password = 123;
     if (email == req.body.email && password == req.body.password) {
       req.session.admin = req.body.email;
-      res.redirect("/adminredirect");
+      res.redirect("/adminDashboard");
     } else {
       res.render("adminsignin", { error: "invalid login details" });
     }
@@ -264,7 +258,7 @@ async function deactivateCoupon(req, res) {
   res.redirect("/coupons");
 }
 async function orderList(req, res) {
-  const orderDetails = await order.find({}).populate("customer");
+  const orderDetails = await order.find({}).populate("customer")
   res.render("admin-orderList", { orderDetails });
 }
 async function orderDetail(req, res) {
@@ -285,11 +279,34 @@ async function orderDelivered(req, res) {
 }
 
 async function adminDashboard(req, res) {
-  res.render("admin-dashboard");
+  const customerCount = await Register.find()
+  const productCount = await newProduct.find()
+  const orderCount = await order.find().populate("orderItems.productID")
+  let totalAmount=0
+  // console.log(orderCount[1].orderItems[0].productID.Category);
+  orderCount.forEach(element => { 
+    totalAmount = element.paidAmount+totalAmount
+  });
+  let menTotalAmount = 0
+  let womenTotalAmount = 0
+  console.log(orderCount.length);
+  if(orderCount.length!=0){ 
+    for(let i=0; i<orderCount.length; i++){
+      for(let j=0; j<orderCount[i].orderItems.length; j++){
+        if(orderCount[i].orderItems[j].productID.Category=="Men"){
+              menTotalAmount =  orderCount[i].orderItems[j].totalPrice + menTotalAmount
+            }else if (orderCount[i].orderItems[j].productID.Category == "Women"){
+              womenTotalAmount = orderCount[i].orderItems[j].totalPrice + womenTotalAmount
+            }
+      }
+    }
+  }
+  res.render("admin-dashboard",{customerCount,productCount,orderCount,totalAmount,womenTotalAmount,menTotalAmount});
 }
 
 async function bannerPage(req, res) {
   const banners = await banner.find({}).populate("product");
+  
   res.render("admin-banner", { banners });
 }
 async function addToBanner(req, res) {
@@ -437,7 +454,6 @@ async function listProduct(req, res) {
 
 module.exports = {
   adminsignin,
-  adminsignin2,
   adminPostSignin,
   userdetails,
   productDetail,

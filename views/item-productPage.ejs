@@ -19,6 +19,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="col-md-6">
                             <div class="product p-4">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -58,9 +60,67 @@
                                         
                                     </div>
                                 </form>
-                                    <div class="cart mt-4 align-items-center">
+                                    <div class="cart mt-4 d-flex justify-content-between align-items-center">
                                         <button class="btn btn-danger text-uppercase mr-2 px-4" onclick="addToCart('<%= productDetails._id %>')">Add to cart</button>
-                                      <i class="fa fa-share-alt text-muted"></i> </div>
+                                        <!-- Button trigger modal -->
+                                        <%if(userPresent){%>
+                                            <button type="button" class="btn btn-danger text-uppercase mr-2 px-4" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                Add Review
+                                            </button>
+                                        <%}%>
+                                        
+                                        
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Ratings and Review</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body d-flex justify-content-center flex-column">
+                                                   <form action="" id="reviewForm">
+                                                        <div class="rating d-flex py-3">
+                                                            <input type="radio" name="star5"/><span class="star"> </span>
+                                                            <input type="radio" name="star4"/><span class="star"> </span>
+                                                            <input type="radio" name="star3"/><span class="star"> </span>
+                                                            <input type="radio" name="star2"/><span class="star"> </span>
+                                                            <input type="radio" name="star1"/><span class="star"> </span><span class="emo"> </span>
+                                                            
+                                                        </div>
+                                                        <div>
+                                                            <div class="form-group">
+                                                                <textarea id="form_message" name="review" class="form-control" placeholder="Share your genuine review of our product" rows="4"  data-error="Please, leave us a message."></textarea>                                                
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitReview('<%= productDetails._id %>')">Submit Review</button>
+                                                </div>
+                                                    </form>
+                                                    <script>
+                                                         function submitReview(id){
+                                                            $.ajax({
+                                                            url: "/productPage?productId="+id,
+                                                            method: "put",
+                                                            data: $("#reviewForm").serialize(), 
+                                                            success: (res) => {               
+                                                                if(res.data == 1){
+                                                                    window.location.replace('/login')
+                                                                }else{
+                                                                    location.reload()
+                                                                    // $("#reviewDiv").load(location.href + " #reviewDiv");
+                                                                    // $("#staticBackdrop").load(location.href + " #staticBackdrop");
+                                                                }
+                                                            }
+                                                            })
+                                                        }
+                                                    </script>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -122,9 +182,51 @@
         </div>
     </div>
 </div>
+<% if(reviewDetails.length!=0){ %>
+<div class="container my-3" id="reviewDiv">
+    <div class="row bg-white p-5 shadow rounded">
+        <div class="col-12 mb-5">
+            <div class="col-9"></div>
+            <div class="col-4">
+                <h2 class="text-dark text-center m-0"><%= avgReview %> <i class="fa-solid text-warning fa-star"></i></h2>
+                <p class="text-center m-0"><%= reviewDetails.length%> Ratings &</p>
+                <p class="text-center m-0"><%= reviewDetails.length%> Reviews</p>
+            </div>
+        </div>
+        <hr>  
+            <% reviewDetails.forEach((item,i)=>{ %> 
+                <div class="col-12 d-flex">
+                    <div class="col-1">
+                        <p class="text-center"><%= i+1 %>.</p>
+                    </div>
+                    <div class="col-11">
+                        <div class="d-flex">
+                            <% for(let j=0; j<5 ; j++){ %>
+                                <%if(j<item.rating){%>
+                                    <i class="fa-solid text-warning fa-star"></i>
+                                <%}else{%>
+                                    <i class="fa-solid text-secondary fa-star"></i>
+                                <%}}%>
+                        </div>
+                        <p><%= item.review %></p>
+                        <div class="d-flex justify-content-between">
+                            <p class="text-secondary mx-2"><%= item.userId.firstname %> <i class="fa-solid fa-circle-check"></i></p>
+                            <p class="text-secondary"><%= moment(item.date).format('DD-MM-YYYY');%></p>
+                        </div>
+                    </div> 
+                </div>
+                <hr>
+            <%})%>
+        
+        <div class="col-12">
+
+        </div>
+    </div>
+</div>
+<%}%>
 <style>
 .card{border:none}
-.product{background-color: #eee}
+.product{background-color: #a9cedc;}
 .brand{font-size: 13px}
 .act-price{color:red;font-weight: 700}
 .dis-price{text-decoration: line-through}
@@ -146,4 +248,7 @@ label.radio input:checked+span{border-color: #ff0000;background-color: #ff0000;c
             document.addEventListener("DOMContentLoaded", function(event) {
             });
 </script>
+<script src="/public/zoomassets/js/jquery-3.6.0.min.js"></script>
+<script src="/public/zoomassets/js/bootstrap.bundle.min.js"></script>
+<script src="/public/zoomassets/js/xzoom.min.js"></script>
 <%- include('./layouts/userfooter.ejs') %> 

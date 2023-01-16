@@ -15,13 +15,17 @@ const product = new mongoose.Schema({
   Color: {
     type: String,
   },
-  stock : {
-    small : Number,
-    medium : Number,
-    large : Number,
-    x_large : Number,
-    xx_large : Number,
-    total : Number
+  stock: {
+    small: Number,
+    medium: Number,
+    large: Number,
+    x_large: Number,
+    xx_large: Number,
+    total: Number,
+  },
+  rating: {
+    type: Number,
+    default: 0,
   },
   Image1: {
     type: String,

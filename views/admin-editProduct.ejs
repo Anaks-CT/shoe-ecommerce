@@ -52,7 +52,10 @@
                                             <select id="form_need" name="category" class="form-control" required="required" data-error="Please specify size.">
                                                 <option ><%= product.Category %></option>
                                                 <% category.forEach((item)=>{ %>
-                                                <option ><%= item.Name %></option>
+                                                    <% if(item.active==true) { %>
+                                                        <option ><%= item.Name %></option>
+                                                    <% }else { %>
+                                                        <% } %>
                                                 <% }) %>
                                             </select>                                            
                                         </div>

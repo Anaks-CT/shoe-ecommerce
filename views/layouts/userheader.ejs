@@ -16,7 +16,71 @@
     <link rel="stylesheet" href="/stylesheet/review.css">
 </head>
 <body>
-    <div class="container-fluid header_container">
+
+    <!-- <div class="container-fluid header_container d-flex flex-column justify-content-center">
+        <div class="row  d-flex justify-content-center">
+            <div class="col-3 col-md-4"><a class="navbar-brand" href="/"><img class="logo" src="/images/RIS Logo 3 Horizontal Clear.png" alt=""></a></div>
+            <div class="col-2  d-flex justify-content-center align-items-center">
+                <a class="text-white mx-2" aria-current="page" href="/men">Men</a>
+                <a class="text-white mx-2" aria-current="page" href="/women">Women</a>
+            </div>
+            <div class="d-flex col-3 align-items-center justify-content-end">
+                <div class=" nav-icon "><a href="/products"><i class="fa-solid fa-magnifying-glass"></i></a> </div>
+                <div class=" nav-icon mx-3"><a href="/wishlist"><i class="fa-sharp fa-solid fa-heart"></i></a></div>
+                <div class=" nav-icon"><a href="/cart"><i class="fa-solid fa-cart-shopping"></i><span id="cart-count" class=" translate-middle badge rounded-pill text-danger">
+                    <%= cartDetails %></span>
+                    <span class="visually-hidden">unread messages</span></a></div>
+                <div class=" nav-icon mx-3"><a href="/login3"><i class="fa-solid fa-user"></i></a></div>
+            </div>
+            
+            
+                
+        </div>
+    </div> -->
+<div class="container-fluid header_container">
+    <nav
+        class="container navbar navbar-expand-lg py-3 px-2 line-break" style="background: #58a3bb;">
+        <div class="container-fluid justify-content-around">
+            <div class="col-3 col-md-5"><a class="navbar-brand" href="/"><img class="logo" src="/images/RIS Logo 3 Horizontal Clear.png" alt=""></a></div>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarText"
+        aria-controls="navbarText"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <div class="col-6 mx-auto">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center">
+                <li class="nav-item mx-4 ms-lg-5">
+                  <a class="nav-link text-white" href="/men">Men</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white" href="/women">Women</a>
+                </li>
+              </ul>
+        </div>
+        
+        <div class="d-flex col-6 mx-auto align-items-center justify-content-end" style="padding-right: 23px;">
+            <div class=" nav-icon icon-group"><a href="/products"><i class="fa-solid fa-magnifying-glass"></i></a> </div>
+            <div class=" nav-icon mx-3 icon-group"><a href="/wishlist"><i class="fa-sharp fa-solid fa-heart"></i></a></div>
+            <div class=" nav-icon icon-group" ><a href="/cart"><i class="fa-solid fa-cart-shopping"></i><span id="cart-count" class=" translate-middle badge rounded-pill text-danger">
+                <%= cartDetails %></span>
+                <span class="visually-hidden">unread messages</span></a></div>
+            <div class=" nav-icon mx-3 icon-group"><a href="/login3"><i class="fa-solid fa-user"></i></a></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+    
+
+    <!-- <div class="container-fluid header_container">
         <div class="row header justify-content-center">
                 <div class="col-md-10"> 
                     <nav class="navbar navbar-expand-lg " style="margin-top: -9px;">
@@ -47,5 +111,5 @@
                     </nav>
                 </div>
         </div>
-    </div>
+    </div> -->
     

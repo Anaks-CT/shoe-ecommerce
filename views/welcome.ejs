@@ -68,7 +68,7 @@
         <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <% if(product != ''){ %>
+                <% if(product != '' && product.length>3){ %>
                   <% if(product != null){ %>
                 <div class="cards-wrapper card_wrap">
                     <div class="card cardMargin">
@@ -98,8 +98,8 @@
         
                 
               </div>
-              <% 
-              for(i=0;i<length-6;i=i+3){ %>
+              <% if(product.length>6){%>
+              <% for(i=0;i<length-6;i=i+3){ %>
                 <div class="carousel-item ">
                     <div class="cards-wrapper card_wrap">
                         <div class="card cardMargin">
@@ -126,6 +126,7 @@
                     </div>
             
                   </div>
+              <% } %> 
               <% } %> 
         
             </div>

@@ -45,11 +45,11 @@
               </ul>
         </div>
         
-        <div class="d-flex col-6 mx-auto align-items-center justify-content-end" style="padding-right: 23px;">
+        <div class="d-flex col-6 mx-auto align-items-center justify-content-end headerIconDiv">
             <div class=" nav-icon icon-group"><a href="/products"><i class="fa-solid fa-magnifying-glass"></i></a> </div>
             <div class=" nav-icon mx-3 icon-group"><a href="/wishlist"><i class="fa-sharp fa-solid fa-heart"></i></a></div>
-            <div class=" nav-icon icon-group" ><a href="/cart"><i class="fa-solid fa-cart-shopping"></i><span id="cart-count" class=" translate-middle badge rounded-pill text-danger">
-                <%= cartDetails %></span>
+            <div class=" nav-icon icon-group" ><a href="/cart"><i class="fa-solid fa-cart-shopping"></i>
+                <span id="cart-count" class=" translate-middle badge rounded-pill text-danger" style="position: absolute;"><%= cartDetails %></span>
                 <span class="visually-hidden">unread messages</span></a></div>
             <div class=" nav-icon mx-3 icon-group"><a href="/login3"><i class="fa-solid fa-user"></i></a></div>
         </div>

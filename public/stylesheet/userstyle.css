@@ -204,14 +204,26 @@ header {
 .nullclass {
   height: 148px;
 }
+.headerIconDiv{
+  
+}
 @media all and (max-width: 767px) {
   .frontpagebanner {
     width: -webkit-fill-available;
     margin-top: -176px;
   }
+  .headerIconDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
+
+
 /* login page  */
+
+
 
 .login-container {
   display: flex;

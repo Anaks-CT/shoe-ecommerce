@@ -28,7 +28,7 @@ async function adminsignin(req, res) {
 function adminPostSignin(req, res) {
   try {
     const email = "admin@gmail.com";
-    const password = 123;
+    const password = 9349883260;
     if (email == req.body.email && password == req.body.password) {
       req.session.admin = req.body.email;
       res.redirect("/adminDashboard");

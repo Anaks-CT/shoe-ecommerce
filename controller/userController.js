@@ -728,7 +728,6 @@ async function deleteAddress(req, res) {
 
 async function men(req, res) {
   try {
-    
     const productDetails = await newProduct.find({
       Category: "Men",
       active: true,
@@ -1032,21 +1031,28 @@ async function productPage(req, res) {
     const user = await Register.findOne({ Email: req.session.user });
     const productId = req.query.id;
     const productDetails = await newProduct.findOne({ _id: productId });
-    const reviewDetails = await review.find({productId : productId}).sort({_id : -1}).populate('productId').populate('userId')
+    const reviewDetails = await review
+      .find({ productId: productId })
+      .sort({ _id: -1 })
+      .populate("productId")
+      .populate("userId");
     console.log(reviewDetails);
-    let totalReview = 0
-    let avgReview
-    if(reviewDetails!=''){
-      for(let i=0;i<reviewDetails.length; i++){
-        totalReview=reviewDetails[i].rating+totalReview
+    let totalReview = 0;
+    let avgReview;
+    if (reviewDetails != "") {
+      for (let i = 0; i < reviewDetails.length; i++) {
+        totalReview = reviewDetails[i].rating + totalReview;
       }
-      avgReview=totalReview/reviewDetails.length
+      avgReview = totalReview / reviewDetails.length;
       console.log(avgReview);
-      await newProduct.updateOne({_id : productId},{
-        $set : {
-          rating : avgReview
+      await newProduct.updateOne(
+        { _id: productId },
+        {
+          $set: {
+            rating: avgReview,
+          },
         }
-      })
+      );
     }
     let productsInWishlist;
     let cartDetails;
@@ -1063,27 +1069,27 @@ async function productPage(req, res) {
     if (cartDetails == 0) {
       cartDetails = null;
     }
-    let userReviewCheck = await review.find({productId : productId})
-    let userPresent 
-    if(req.session.user){
-      console.log('hi');
-      if (userReviewCheck!='') {
-        for(let k=0; k<userReviewCheck.length; k++){
-          if(mongoose.Types.ObjectId(userReviewCheck[k].userId)===user._id){
-            console.log('hiihi');
-            userPresent = false
+    let userReviewCheck = await review.find({ productId: productId });
+    let userPresent;
+    if (req.session.user) {
+      console.log("hi");
+      if (userReviewCheck != "") {
+        for (let k = 0; k < userReviewCheck.length; k++) {
+          if (mongoose.Types.ObjectId(userReviewCheck[k].userId) === user._id) {
+            console.log("hiihi");
+            userPresent = false;
             break;
-          }else{
+          } else {
             console.log(user._id);
             console.log(mongoose.Types.ObjectId(userReviewCheck[k].userId));
-            userPresent = true
+            userPresent = true;
           }
         }
       } else {
-        userPresent = true
+        userPresent = true;
       }
-    }else{
-      userPresent =false
+    } else {
+      userPresent = false;
     }
     const products = await newProduct.find({ active: true });
     res.render("item-productPage", {
@@ -1520,7 +1526,7 @@ async function postCheckout(req, res) {
       couponCode: couponId,
     });
     if (req.body.payment == "Cash On Delivery") {
-      req.session.payment = true
+      req.session.payment = true;
       res.redirect("/checkout/placeOrder/" + orderDetials._id);
     } else {
       res.redirect(
@@ -1538,102 +1544,102 @@ async function postCheckout(req, res) {
 async function orderResult(req, res) {
   if (req.session.payment) {
     await orderDetials.save();
-  const cartinfo = await Register.findOne({
-    Email: req.session.user,
-  }).populate("cart.items.productId");
-  for (let j = 0; j < cartinfo.cart.items.length; j++) {
-    await order.updateOne(
-      { _id: orderDetials._id },
-      {
-        $push: {
-          orderItems: {
-            productID: cartinfo.cart.items[j].productId._id,
-            productName: cartinfo.cart.items[j].productId.Name,
-            productImage: cartinfo.cart.items[j].productId.Image1,
-            productSize: cartinfo.cart.items[j].size,
-            productPrice: cartinfo.cart.items[j].productId.Price,
-            productQty: cartinfo.cart.items[j].quantity,
-            totalPrice: cartinfo.cart.items[j].price,
+    const cartinfo = await Register.findOne({
+      Email: req.session.user,
+    }).populate("cart.items.productId");
+    for (let j = 0; j < cartinfo.cart.items.length; j++) {
+      await order.updateOne(
+        { _id: orderDetials._id },
+        {
+          $push: {
+            orderItems: {
+              productID: cartinfo.cart.items[j].productId._id,
+              productName: cartinfo.cart.items[j].productId.Name,
+              productImage: cartinfo.cart.items[j].productId.Image1,
+              productSize: cartinfo.cart.items[j].size,
+              productPrice: cartinfo.cart.items[j].productId.Price,
+              productQty: cartinfo.cart.items[j].quantity,
+              totalPrice: cartinfo.cart.items[j].price,
+            },
           },
+        }
+      );
+      if (cartinfo.cart.items[j].size == "Small") {
+        await newProduct.updateOne(
+          { _id: cartinfo.cart.items[j].productId },
+          {
+            $inc: {
+              "stock.small": -cartinfo.cart.items[j].quantity,
+              "stock.total": -cartinfo.cart.items[j].quantity,
+            },
+          }
+        );
+      } else if (cartinfo.cart.items[j].size == "Medium") {
+        await newProduct.updateOne(
+          { _id: cartinfo.cart.items[j].productId },
+          {
+            $inc: {
+              "stock.medium": -cartinfo.cart.items[j].quantity,
+              "stock.total": -cartinfo.cart.items[j].quantity,
+            },
+          }
+        );
+      } else if (cartinfo.cart.items[j].size == "Large") {
+        await newProduct.updateOne(
+          { _id: cartinfo.cart.items[j].productId },
+          {
+            $inc: {
+              "stock.large": -cartinfo.cart.items[j].quantity,
+              "stock.total": -cartinfo.cart.items[j].quantity,
+            },
+          }
+        );
+      } else if (cartinfo.cart.items[j].size == "X-Large") {
+        await newProduct.updateOne(
+          { _id: cartinfo.cart.items[j].productId },
+          {
+            $inc: {
+              "stock.x_large": -cartinfo.cart.items[j].quantity,
+              "stock.total": -cartinfo.cart.items[j].quantity,
+            },
+          }
+        );
+      } else if (cartinfo.cart.items[j].size == "XX-Large") {
+        await newProduct.updateOne(
+          { _id: cartinfo.cart.items[j].productId },
+          {
+            $inc: {
+              "stock.xx_large": -cartinfo.cart.items[j].quantity,
+              "stock.total": -cartinfo.cart.items[j].quantity,
+            },
+          }
+        );
+      }
+    }
+    await Register.updateOne(
+      { Email: req.session.user },
+      {
+        $set: { "cart.items": [], "cart.totalPrice": 0, "cart.totalQty": 0 },
+        $push: {
+          order: [mongoose.Types.ObjectId(orderDetials._id)],
         },
       }
     );
-    if (cartinfo.cart.items[j].size == "Small") {
-      await newProduct.updateOne(
-        { _id: cartinfo.cart.items[j].productId },
-        {
-          $inc: {
-            "stock.small": -cartinfo.cart.items[j].quantity,
-            "stock.total": -cartinfo.cart.items[j].quantity,
-          },
-        }
-      );
-    } else if (cartinfo.cart.items[j].size == "Medium") {
-      await newProduct.updateOne(
-        { _id: cartinfo.cart.items[j].productId },
-        {
-          $inc: {
-            "stock.medium": -cartinfo.cart.items[j].quantity,
-            "stock.total": -cartinfo.cart.items[j].quantity,
-          },
-        }
-      );
-    } else if (cartinfo.cart.items[j].size == "Large") {
-      await newProduct.updateOne(
-        { _id: cartinfo.cart.items[j].productId },
-        {
-          $inc: {
-            "stock.large": -cartinfo.cart.items[j].quantity,
-            "stock.total": -cartinfo.cart.items[j].quantity,
-          },
-        }
-      );
-    } else if (cartinfo.cart.items[j].size == "X-Large") {
-      await newProduct.updateOne(
-        { _id: cartinfo.cart.items[j].productId },
-        {
-          $inc: {
-            "stock.x_large": -cartinfo.cart.items[j].quantity,
-            "stock.total": -cartinfo.cart.items[j].quantity,
-          },
-        }
-      );
-    } else if (cartinfo.cart.items[j].size == "XX-Large") {
-      await newProduct.updateOne(
-        { _id: cartinfo.cart.items[j].productId },
-        {
-          $inc: {
-            "stock.xx_large": -cartinfo.cart.items[j].quantity,
-            "stock.total": -cartinfo.cart.items[j].quantity,
-          },
-        }
-      );
-    }
-  }
-  await Register.updateOne(
-    { Email: req.session.user },
-    {
-      $set: { "cart.items": [], "cart.totalPrice": 0, "cart.totalQty": 0 },
-      $push: {
-        order: [mongoose.Types.ObjectId(orderDetials._id)],
-      },
-    }
-  );
 
-  if (couponId) {
-    const usedCoupon = await Register.findOne({
-      Email: req.session.user,
-      couponUsed: couponId,
-    });
-    console.log("ishdfidiuh");
-    if (!usedCoupon) {
-      await Register.updateOne(
-        { Email: req.session.user },
-        { $push: { couponUsed: [mongoose.Types.ObjectId(couponId)] } }
-      );
+    if (couponId) {
+      const usedCoupon = await Register.findOne({
+        Email: req.session.user,
+        couponUsed: couponId,
+      });
+      console.log("ishdfidiuh");
+      if (!usedCoupon) {
+        await Register.updateOne(
+          { Email: req.session.user },
+          { $push: { couponUsed: [mongoose.Types.ObjectId(couponId)] } }
+        );
+      }
     }
-  }
-  let cartDetails;
+    let cartDetails;
     if (req.session.user) {
       const user = await Register.findOne({ Email: req.session.user });
       cartDetails = user.cart.totalQty;
@@ -1643,12 +1649,11 @@ async function orderResult(req, res) {
     if (cartDetails == 0) {
       cartDetails = null;
     }
-    req.session.payment = false
-  res.render('user-paymentSuccess',{cartDetails});
-  }else{
-    res.redirect('/cart')
+    req.session.payment = false;
+    res.render("user-paymentSuccess", { cartDetails });
+  } else {
+    res.redirect("/cart");
   }
-  
 }
 async function orderPage(req, res) {
   try {
@@ -1855,75 +1860,113 @@ async function search(req, res) {
     success: 1,
   });
 }
-async function addReview (req,res){
+async function addReview(req, res) {
   try {
     if (req.session.user) {
-        const user = await Register.findOne({Email : req.session.user})
+      const user = await Register.findOne({ Email: req.session.user });
       console.log(req.query.productId);
-      let currentReview
-      if (req.body.star1 == 'on') {
-        console.log('what fo oyoodsifj ');
+      let currentReview;
+      if (req.body.star1 == "on") {
+        console.log("what fo oyoodsifj ");
         currentReview = new review({
-          userId : user._id,
-          productId : req.query.productId,
-          rating : 1,
-          review : req.body.review
-        })
-      } else if(req.body.star2 == 'on'){
+          userId: user._id,
+          productId: req.query.productId,
+          rating: 1,
+          review: req.body.review,
+        });
+      } else if (req.body.star2 == "on") {
         currentReview = new review({
-          userId : user._id,
-          productId : req.query.productId,
-          rating : 2,
-          review : req.body.review
-        })
-      } else if(req.body.star3 == 'on'){
+          userId: user._id,
+          productId: req.query.productId,
+          rating: 2,
+          review: req.body.review,
+        });
+      } else if (req.body.star3 == "on") {
         currentReview = new review({
-          userId : user._id,
-          productId : req.query.productId,
-          rating : 3,
-          review : req.body.review
-        })
-      } else if(req.body.star4 == 'on'){
+          userId: user._id,
+          productId: req.query.productId,
+          rating: 3,
+          review: req.body.review,
+        });
+      } else if (req.body.star4 == "on") {
         currentReview = new review({
-          userId : user._id,
-          productId : req.query.productId,
-          rating : 4,
-          review : req.body.review
-        })
-      } else if(req.body.star5 == 'on'){
+          userId: user._id,
+          productId: req.query.productId,
+          rating: 4,
+          review: req.body.review,
+        });
+      } else if (req.body.star5 == "on") {
         currentReview = new review({
-          userId : user._id,
-          productId : req.query.productId,
-          rating : 5,
-          review : req.body.review
-        })
-      }else {
+          userId: user._id,
+          productId: req.query.productId,
+          rating: 5,
+          review: req.body.review,
+        });
+      } else {
         currentReview = new review({
-          userId : user._id,
-          productId : req.query.productId,
-          rating : 0,
-          review : req.body.review
-        })
+          userId: user._id,
+          productId: req.query.productId,
+          rating: 0,
+          review: req.body.review,
+        });
       }
 
-      await currentReview.save()
+      await currentReview.save();
       console.log(req.body);
       res.json({
-        success : true
-      })
+        success: true,
+      });
     } else {
       res.json({
-        data : 1
-      })
+        data: 1,
+      });
     }
-    
   } catch (error) {
     res.redirect("/500/ErrorPage");
   }
+}
+
+async function passwordCheck(req, res) {
+  const user = await Register.findOne({ Email: req.session.user });
+  const inputPassword = req.query.password;
+  const comparepassword = await bcrypt.compare(inputPassword, user.Password);
+  if (comparepassword) {
+    res.json({
+      data: true,
+    });
+  } else {
+    res.json({
+      data: false,
+    });
+  }
+}
+
+async function changePassword(req, res) {
+  try {
+    console.log(req.body);
+    const newPassword = await bcrypt.hash(req.body.password, 10);
+  await Register.updateOne(
+    { Email: req.session.user },
+    {
+      $set: {
+        Password: newPassword,
+      },
+    }
+  );
+  res.json({
+    data: true,
+  });
+  } catch (error) {
+    console.log(error);
+    res.json({
+      data : false
+    })
+  }
   
-  
-} 
+}
 module.exports = {
+  passwordCheck,
+  changePassword,
   addReview,
   orderResult,
   search,

@@ -204,9 +204,14 @@ header {
 .nullclass {
   height: 148px;
 }
-.headerIconDiv{
-  
-}
+
+/* @media all and (min-width: 767px) { */
+  /* .headerIconDiv{
+    display: flex;
+    justify-content: end;
+  } */
+/* } */
+
 @media all and (max-width: 767px) {
   .frontpagebanner {
     width: -webkit-fill-available;
@@ -233,7 +238,7 @@ header {
 }
 .login-div {
   width: 345px;
-  height: 549px;
+  
   background: #91c4d4;
   border-radius: 40px;
 }
@@ -326,7 +331,7 @@ header {
   height: 420px;
 }
 .newPassworddiv {
-  height: 459px;
+  /* height: 459px; */
   margin-top: 46px;
 }
 .logout-btn {

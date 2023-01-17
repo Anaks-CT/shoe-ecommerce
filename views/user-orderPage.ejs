@@ -3,15 +3,46 @@
 <div class="container">
     <div class="row">
         <div class="col-12 py-5">
-            <div>
-                <h1 class="yourAccount">YOUR ORDERS</h1>
+            <div class="d-flex">
+                <button class="btn d-block d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><h1>&#9776</h1></button>
+
+                <div class="offcanvas offcanvas-start show text-bg-dark" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                    <div class="offcanvas-header row d-flex">
+                        <div class="col-10 text-center"><h2 class="offcanvas-title ps-5" id="offcanvasWithBothOptionsLabel">YOUR ACCOUNT</h2></div>
+                        <div class="col-2"><button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button></div>
+                    </div>
+                    <div class="offcanvas-body">
+                        <div class="col-12 col-md-12 text-center">
+                            <div class="my-4">
+                                <a class="text-white" href="/accountDetails">ACCOUNT DETAILS</a>
+                            </div>
+                            <hr>
+                            <div class="my-4">
+                                <a class="text-white" href="/userAddress">ADDRESS</a>
+                            </div>
+                            <hr>
+                            <div class="my-4">
+                                <a  href="/order">ORDERS</a>
+                            </div>
+                            <hr>
+                            <div class="my-4">
+                                <a class="text-white" href="/wishlist">WISHLIST</a>
+                            </div>
+                            <hr>
+                            <div class="my-5">
+                                <a class="text-white logout-btn" href="/logout"><H2>LOGOUT</H2></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h1 class="yourAccount d-flex align-items-center">YOUR ORDERS</h1>
             </div>
         </div>
     </div>
 </div>
 <div class="container" id="orderDetails">
-    <div class="row">
-        <div class="col-3 col-md-2">
+    <div class="row ">
+        <div class="col-3 col-md-2 d-none d-lg-block">
             <div>
                 <a class="text-dark" href="/accountDetails">Account details</a>
             </div>
@@ -32,14 +63,14 @@
                 <a class="text-dark logout-btn" href="/logout">LOGOUT</a>
             </div>
         </div>
-        <div class = "vertical col-1"></div>
-        <div class="col-8 col-md-9" >
+        <div class = "vertical col-1 p-0 d-none d-lg-block"></div>
+        <div class="col-12 col-md-9 mx-auto" >
             <% if(orderItems.length==0){ %>
                 <h3 class="text-center text-secondary">There haven't purchased any product yet !!</h3>
                 <div class="d-flex justify-content-center py-5"><button class="login-button signup-button text-center" >Continue Shopping</button></a></div>
             <% } %>
             <% orderItems.reverse().forEach(function(orderItems){ %>
-            <div class="col-12 col-md-10 bg-light shadow rounded my-4">
+            <div class="col-12 col-md-12 bg-light shadow rounded my-4">
                 <div id="status<" class="col-12 d-flex justify-content-between px-4 pb-2 pt-3">
                     <P style="font-size: 11px;">ORDER ID #<%= orderItems._id %></P>
                     <% if(orderItems.cancelStatus==false){ %>
@@ -54,8 +85,8 @@
                 </div>
                 <hr class="m-0">
                 <% orderItems.orderItems.forEach(function(product){ %>
-                <div class="col-12 col-md-10 d-flex justify-content-center my-1">
-                    <div class="col-6 col-md-5 d-flex justify-content-center"><a href="/productPage?id=<%= product.productID %>"><img style="max-width: 112px;" src="/images/productImage/<%= product.productImage %>" alt=""></a></div>
+                <div class="col-12 col-md-12 d-flex justify-content-center my-1">
+                    <div class="col-6 col-md-5 d-flex justify-content-center"><a href="/productPage?id=<%= product.productID %>"><img style="max-width: 106px;" src="/images/productImage/<%= product.productImage %>" alt=""></a></div>
                     <div class="col-5 col-md-5 d-flex justify-content-center flex-column">
                         <a href="/productPage?id=<%= product.productID %>"><p><%= product.productName %></p></a>
                         <p>size : <%= product.productSize %></p>
@@ -67,10 +98,12 @@
                 <% }) %>
                 <%if(orderItems.deliveryStatus == false){%>
                     <%if(orderItems.cancelStatus == false){%>
-                    <div class="col-12 d-flex justify-content-between px-4 py-2">
-                        <P style="font-size: 13px;">Order placed on : <%= moment(orderItems.orderDate).format('DD-MM-YYYY');%></P>
-                        <P style="font-size: 13px;">Total Price : $<%= orderItems.paidAmount %></P>
-                        <div id="cancelButton"><button type="button" onclick="cancelOrder('<%= orderItems._id %>')" class="btn bg-dark text-danger text-center" >Cancel</button></div>
+                    <div class="row d-flex px-4 py-2">
+                        <div class="col-12 col-md-9">
+                            <P style="font-size: 13px;">Order placed on : <%= moment(orderItems.orderDate).format('DD-MM-YYYY');%></P>
+                            <P style="font-size: 13px;">Total Price : $<%= orderItems.paidAmount %></P>
+                        </div>
+                        <div class="col-12 col-md-3  d-flex justify-content-end align-items-center"id="cancelButton"><button type="button" onclick="cancelOrder('<%= orderItems._id %>')" class="btn bg-dark text-danger text-center" >Cancel</button></div>
                     </div>
                     <%}else{%>
                         <div class="col-12 d-flex justify-content-between px-4 py-2">

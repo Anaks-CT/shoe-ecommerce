@@ -47,17 +47,8 @@ async function adminPostSignin(req, res) {
       res.render("adminsignin", { error: "invalid login details",cartDetails });
     }
   } catch (error) {
-    let cartDetails;
-      if (req.session.user) {
-        const user = await Register.findOne({ Email: req.session.user });
-        cartDetails = user.cart.totalQty;
-      } else {
-        cartDetails = null;
-      }
-      if (cartDetails == 0) {
-        cartDetails = null;
-      }
-    res.render("adminsignin", { error: "invalid login details",cartDetails });
+    console.log(error);
+    res.redirect("/500/ErrorPage");
   }
 }
 

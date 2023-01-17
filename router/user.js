@@ -21,6 +21,7 @@ router.post('/forgotPassword-OTP',userController.postForgotPasswordOTP)
 router.get('/userNewPassword',userController.userNewPassword)
 router.post('/userNewPassword',userController.postUserNewPassword)
 router.get("/accountDetails", userController.accountDetails);
+router.route('/accountDetails/passwordCheck').put(userMiddleware,userController.passwordCheck).patch(userMiddleware,userController.changePassword)
 router.get('/userAddress',userController.userAddress)
 router.get('/addAddress',userController.addAddress)
 router.post('/addAddress',userController.postAddAddress)

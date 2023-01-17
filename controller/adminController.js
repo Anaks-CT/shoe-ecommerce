@@ -25,18 +25,39 @@ async function adminsignin(req, res) {
 
 
 
-function adminPostSignin(req, res) {
+async function adminPostSignin(req, res) {
   try {
     const email = "admin@gmail.com";
     const password = 9349883260;
+    let cartDetails;
+      if (req.session.user) {
+        const user = await Register.findOne({ Email: req.session.user });
+        cartDetails = user.cart.totalQty;
+      } else {
+        cartDetails = null;
+      }
+      if (cartDetails == 0) {
+        cartDetails = null;
+      }
     if (email == req.body.email && password == req.body.password) {
       req.session.admin = req.body.email;
       res.redirect("/adminDashboard");
     } else {
-      res.render("adminsignin", { error: "invalid login details" });
+      
+      res.render("adminsignin", { error: "invalid login details",cartDetails });
     }
   } catch (error) {
-    res.render("adminsignin", { error: "invalid login details" });
+    let cartDetails;
+      if (req.session.user) {
+        const user = await Register.findOne({ Email: req.session.user });
+        cartDetails = user.cart.totalQty;
+      } else {
+        cartDetails = null;
+      }
+      if (cartDetails == 0) {
+        cartDetails = null;
+      }
+    res.render("adminsignin", { error: "invalid login details",cartDetails });
   }
 }
 

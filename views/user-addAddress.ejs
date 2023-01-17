@@ -3,15 +3,45 @@
 <div class="container">
     <div class="row">
         <div class="col-12 py-5">
-            <div>
-                <h1 class="yourAccount">YOUR ACCOUNT</h1>
+            <div class="d-flex">
+                <button class="btn d-block d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><h1>&#9776</h1></button>
+                <div class="offcanvas offcanvas-start  text-bg-dark" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                    <div class="offcanvas-header row d-flex">
+                        <div class="col-10 text-center"><h2 class="offcanvas-title ps-5" id="offcanvasWithBothOptionsLabel">YOUR ACCOUNT</h2></div>
+                        <div class="col-2"><button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button></div>
+                    </div>
+                    <div class="offcanvas-body">
+                        <div class="col-12 col-md-12 text-center">
+                            <div class="my-4">
+                                <a class="text-white" href="/accountDetails">ACCOUNT DETAILS</a>
+                            </div>
+                            <hr>
+                            <div class="my-4">
+                                <a  href="/userAddress">ADDRESS</a>
+                            </div>
+                            <hr>
+                            <div class="my-4">
+                                <a class="text-white" href="/order">ORDERS</a>
+                            </div>
+                            <hr>
+                            <div class="my-4">
+                                <a class="text-white" href="/wishlist">WISHLIST</a>
+                            </div>
+                            <hr>
+                            <div class="my-5">
+                                <a class="text-white logout-btn" href="/logout"><H2>LOGOUT</H2></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h1 class="yourAccount d-flex align-items-center">YOUR ADDRESS</h1>
             </div>
         </div>
     </div>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col-3 col-md-2">
+<div class="container" id="orderDetails">
+    <div class="row ">
+        <div class="col-3 col-md-2 d-none d-lg-block">
             <div>
                 <a class="text-dark" href="/accountDetails">Account details</a>
             </div>
@@ -21,7 +51,7 @@
             </div>
             <hr>
             <div>
-                <a class="text-dark" href="order">Orders</a>
+                <a class="text-dark" href="/order">Orders</a>
             </div>
             <hr>
             <div>
@@ -32,8 +62,8 @@
                 <a class="text-dark logout-btn" href="/logout">LOGOUT</a>
             </div>
         </div>
-        <div class = "vertical col-1"></div>
-        <div class="col-8 col-md-9">
+        <div class = "vertical col-1 p-0 d-none d-lg-block"></div>
+        <div class="col-12 col-md-9">   
             <div class="container">
                 <div class="row ">
                     <div class="col-lg-6">
@@ -53,9 +83,10 @@
                                 
                         
                     </div>
-                    <div class="col-12">
+                    <div class="col-12 d-flex justify-content-between">
                         <button class="login-button signup-button my-3 " type="submit">SUBMIT</button>
                     </form>
+                    <a href="/userAddress"><button class="login-button signup-button my-3 ">CANCEL</button></a>
                     </div>
                 </div>            
             </div>

@@ -1945,25 +1945,25 @@ async function changePassword(req, res) {
   try {
     console.log(req.body);
     const newPassword = await bcrypt.hash(req.body.password, 10);
-  await Register.updateOne(
-    { Email: req.session.user },
-    {
-      $set: {
-        Password: newPassword,
-      },
-    }
-  );
-  res.json({
-    data: true,
-  });
+    await Register.updateOne(
+      { Email: req.session.user },
+      {
+        $set: {
+          Password: newPassword,
+        },
+      }
+    );
+    res.json({
+      data: true,
+    });
   } catch (error) {
     console.log(error);
     res.json({
-      data : false
-    })
+      data: false,
+    });
   }
-  
 }
+
 module.exports = {
   passwordCheck,
   changePassword,

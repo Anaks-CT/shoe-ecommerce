@@ -21,7 +21,7 @@ const paypalgate = async (req,res) =>{
           "payment_method": "paypal"
         },
         "redirect_urls": {
-      "return_url": "https://runinstyle.co/checkout/placeOrder/"+orderDetialsId,
+      "return_url": "http://runinstyle.co/checkout/placeOrder/"+orderDetialsId,
           "cancel_url": "http://runinstyle.co/checkoutPage"
         },
         "transactions": [{

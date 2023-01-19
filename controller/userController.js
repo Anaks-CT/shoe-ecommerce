@@ -1097,16 +1097,20 @@ async function viewWishlist(req, res) {
     const wishlists = await wishlist
       .findOne({ userId: user._id })
       .populate("products");
-    for (let i = 0; i < wishlists.products.length; i++) {
-      if (wishlists.products[i].active == false) {
-        const del = await wishlist.updateOne(
-          { userId: user._id },
-          {
-            $pull: { products: wishlists.products[i]._id },
+      
+      if(wishlists){
+        for (let i = 0; i < wishlists.products.length; i++) {
+          if (wishlists.products[i].active == false) {
+            await wishlist.updateOne(
+              { userId: user._id },
+              {
+                $pull: { products: wishlists.products[i]._id },
+              }
+            );
           }
-        );
+        }
       }
-    }
+    
     const currentWishlists = await wishlist
       .findOne({ userId: user._id })
       .populate("products");
@@ -1142,13 +1146,28 @@ async function addToWishlist(req, res) {
   try {
     const productId = req.query.id;
     const user = await Register.findOne({ Email: req.session.user });
+    const wishlistCheck = await wishlist.findOne({
+      userId : user._id,
+    })
     const productExist = await wishlist.findOne({
       userId: user._id,
       products: productId,
     });
-    if (productExist) {
-      res.redirect("/productPage?id=" + productId);
-    } else {
+    if(wishlistCheck){
+      if (productExist) {
+        res.redirect("/productPage?id=" + productId);
+      } else {
+        await wishlist.updateOne(
+          { userId: user._id },
+          {
+            $push: {
+              products: [productId],
+            },
+          }
+        );
+        res.redirect("/productPage?id=" + productId);
+      }
+    }else{
       await wishlist.updateOne(
         { userId: user._id },
         {
@@ -1159,6 +1178,7 @@ async function addToWishlist(req, res) {
       );
       res.redirect("/productPage?id=" + productId);
     }
+    
   } catch (error) {
     console.log(error);
     res.redirect("/500/ErrorPage");

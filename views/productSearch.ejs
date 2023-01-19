@@ -46,32 +46,39 @@
                         method : 'patch',
                         success:(res) => {
                             $("#products").load(location.href + " #products");
-
-                            console.log('hiosdhfohds');
                         }
                         })
+            }
+            function sortBy(order){
+                $.ajax({
+                    url : '/products',
+                    method : 'post',
+                    data : {
+                        order : order
+                    },
+                    success : (res)=>{
+                        $("#products").load(location.href + " #products");
+                    }
+                })
             }
         </script>
     
         <div class="col-12 d-flex justify-content-between align-items-center">
             <div class="d-flex">
-                <div><p class=" my-0 mx-2" style="padding-top: 6px; color: #58a3bb;"> <b>Sort By</b> <i class="fa-solid fa-arrow-up-short-wide"></i></p></div>
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                      Dropdown button
+                    <button class="btn bg-transparent btn-sm dropdown-toggle d-flex align-items-center" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <h4>Sort By </h4>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                      <li><button onclick="sortByPriceDes('descending')" class="btn text-white">High to low</button></li>
-                      <li><button onclick="sortByPriceDes('ascending')" class="btn text-white">Low to high</button></li>
+                      <li><button onclick="sortBy('descending')" class="btn text-white">High to low</button></li>
+                      <li><button onclick="sortBy('ascending')" class="btn text-white">Low to high</button></li>
                     </ul>
                 </div>
             </div>
             <div class="d-flex">
-                <p class=" my-0 mx-2" style="padding-top: 6px; color: #58a3bb;"> <b>Filter By</b> <i class="fa-solid fa-arrow-up-short-wide"></i></p>
-              
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                      Dropdown button
+                    <button class="btn bg-transparent btn-sm dropdown-toggle d-flex align-items-center" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <h4>Filter By</h4>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
                         <% category.forEach((item)=>{ %>
@@ -97,25 +104,7 @@
                 
             </script>
 
-            <!-- <select id="form_need" name="color" class="form-control mx-2" required="required"  style="width: 116px;height: 42px;">
-                <option class="text-center" value="" selected disabled>--Color--</option>
-                <option value="">All</option>
-                <option >Black</option>
-                <option >Blue</option>
-                <option >Brown</option>
-                <option >Green</option>
-                <option >Grey</option>
-                <option >Orange</option>
-                <option >Pink</option>
-                <option >Purple</option>
-                <option >Red</option>
-                <option >White</option>
-                <option >Yellow</option>
-                <option >Muti-color</option>
-            </select> -->
-            <!-- <button class="btn btn-info btn-sm m-2 px-4" style="background-color: #58a3bb;"> 
-                <p class="text-white m-0 p-2">Search</p>
-            </button> -->
+            
         </div>
     </div>
 </div>

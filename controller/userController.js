@@ -1786,6 +1786,10 @@ async function productSearch(req, res) {
 
 let currentFilter;
 async function filterBy(req, res) {
+
+  if(currentFilter){
+    products = await newProduct.find({active : true})
+  }
   switch (req.query.filter) {
     case "Men":
       currentFilter = products.filter((product) => product.Category == "Men");
@@ -1805,6 +1809,37 @@ async function filterBy(req, res) {
     success: 1,
   });
 }
+async function sort (req,res){
+  if(!products){
+    products = await newProduct.find({active : true})
+    
+  }
+  if(req.body.order == "ascending"){
+    products = products.sort((a, b) => a.Price - b.Price);
+    res.json({
+      message : products
+    })
+  }else if (req.body.order == "descending"){
+    products = products.sort((a, b) => b.Price - a.Price);
+    res.json({
+      message : products
+    })
+  }else if (req.body.order == "newReleases") {
+    console.log('new e+re');
+    products = products.sort((a, b) => {
+      const idA = a._id.toString();
+      const idB = b._id.toString();
+      if (idA < idB) { 
+        return 1;
+      }
+      if (idA > idB) {
+        return -1;
+      }
+      return 0;
+    });
+}
+}
+
 async function search(req, res) {
   let searchResult = [];
   const regex = new RegExp(req.query.search, "i");
@@ -1926,6 +1961,7 @@ async function changePassword(req, res) {
 }
 
 module.exports = {
+  sort,
   passwordCheck,
   changePassword,
   addReview,

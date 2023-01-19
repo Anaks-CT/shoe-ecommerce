@@ -10,7 +10,6 @@ const order = require("../src/models/order");
 const moment = require("moment");
 const banner = require("../src/models/banner");
 const review = require("../src/models/productReview");
-// const sweetAlert = require("sweetalert");
 
 async function welcome(req, res) {
   try {
@@ -25,7 +24,6 @@ async function welcome(req, res) {
       cartDetails = null;
     }
     const product = await newProduct.find({ active: true });
-    console.log(product.length);
     const length = product.length;
     const product2 = await newProduct.find({ active: true }).skip(6);
     const product3 = await newProduct.find({ active: true }).skip(12);
@@ -241,7 +239,6 @@ async function login(req, res) {
       if (cartDetails == 0) {
         cartDetails = null;
       }
-      console.log(cartDetails);
       res.render("login", { cartDetails });
     }
   } catch (error) {
@@ -364,8 +361,6 @@ async function postforgotPassword(req, res) {
     if (emailCheck.Email == req.body.email) {
       // otpgenerate
       forgotpasswordotp = Math.floor(1000 + Math.random() * 9000);
-      console.log(forgotpasswordotp);
-      // email
       var transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -506,9 +501,7 @@ async function setasdefault(req, res) {
   try {
     const email = req.session.user;
     i = req.query.i;
-    console.log(i);
     const addressid = req.query.addressid;
-    console.log(addressid);
     await Register.updateMany(
       { Email: email, "mainAddress.status": true },
       {
@@ -784,7 +777,6 @@ async function cart(req, res) {
       Email: req.session.user,
       active: true,
     }).populate("cart.items.productId");
-    // console.log(productcheck[0].cart);
 
     for (let i = 0; i < productcheck[0].cart.items.length; i++) {
       if (productcheck[0].cart.items[i].productId.active == false) {
@@ -809,7 +801,6 @@ async function cart(req, res) {
             },
           }
         );
-        console.log(current);
       }
     }
     const email = req.session.user;
@@ -841,7 +832,6 @@ async function addToCart(req, res) {
       const email = req.session.user;
       const id = req.query.id;
       const value = req.query.size;
-      console.log(typeof value);
       const productDetails = await newProduct.findOne({
         _id: id,
         active: true,
@@ -857,8 +847,6 @@ async function addToCart(req, res) {
         { $project: { size: "$cart.items.size" } },
         { $unwind: "$size" },
       ]);
-      console.log(details);
-      console.log(sizeDetails.size);
       let size;
       if (req.query.size == "size=L") {
         size = "Large";
@@ -875,7 +863,6 @@ async function addToCart(req, res) {
       }
       let flag;
       if (user.cart.totalQty == 0) {
-        console.log("entered first if condition");
         await Register.updateOne(
           { Email: email },
           {
@@ -975,7 +962,6 @@ async function addToCart(req, res) {
             { $unwind: "$qty,price" },
             { $match: { "productId._id": id } },
           ]);
-          console.log(currentProduct);
           const count = currentUser.cart.totalQty;
           const itemInCartCheck = await Register.findOne({
             Email: email,
@@ -1036,7 +1022,6 @@ async function productPage(req, res) {
       .sort({ _id: -1 })
       .populate("productId")
       .populate("userId");
-    console.log(reviewDetails);
     let totalReview = 0;
     let avgReview;
     if (reviewDetails != "") {
@@ -1044,7 +1029,6 @@ async function productPage(req, res) {
         totalReview = reviewDetails[i].rating + totalReview;
       }
       avgReview = totalReview / reviewDetails.length;
-      console.log(avgReview);
       await newProduct.updateOne(
         { _id: productId },
         {
@@ -1072,16 +1056,12 @@ async function productPage(req, res) {
     let userReviewCheck = await review.find({ productId: productId });
     let userPresent;
     if (req.session.user) {
-      console.log("hi");
       if (userReviewCheck != "") {
         for (let k = 0; k < userReviewCheck.length; k++) {
           if (mongoose.Types.ObjectId(userReviewCheck[k].userId) === user._id) {
-            console.log("hiihi");
             userPresent = false;
             break;
           } else {
-            console.log(user._id);
-            console.log(mongoose.Types.ObjectId(userReviewCheck[k].userId));
             userPresent = true;
           }
         }
@@ -1103,7 +1083,7 @@ async function productPage(req, res) {
       productsInWishlist,
     });
   } catch (error) {
-    console.log("hsdfdsvndf newof wve ne omcew" + error);
+    console.log(error);
     res.redirect("/productPage/pageNotFound");
   }
 }
@@ -1125,7 +1105,6 @@ async function viewWishlist(req, res) {
             $pull: { products: wishlists.products[i]._id },
           }
         );
-        console.log(del);
       }
     }
     const currentWishlists = await wishlist
@@ -1162,7 +1141,6 @@ async function viewWishlist(req, res) {
 async function addToWishlist(req, res) {
   try {
     const productId = req.query.id;
-    console.log(productId);
     const user = await Register.findOne({ Email: req.session.user });
     const productExist = await wishlist.findOne({
       userId: user._id,
@@ -1224,7 +1202,6 @@ async function addCartCount(req, res) {
   try {
     const id = req.query.id;
     const size = req.query.size;
-    console.log(size);
     const email = req.session.user;
     const productDetails = await newProduct.findOne({ _id: id });
     await Register.updateMany(
@@ -1282,7 +1259,6 @@ async function subractCartCount(req, res) {
         },
       },
     ]);
-    console.log(productCount[0].quantity);
     if (productCount[0].quantity > 1) {
       await Register.updateMany(
         {
@@ -1383,7 +1359,6 @@ async function checkoutPage(req, res) {
       if (cartDetails == 0) {
         cartDetails = null;
       }
-      console.log(address);
       res.render("user-checkout", {
         cartDetails,
         address,
@@ -1401,7 +1376,6 @@ async function selectAddress(req, res) {
   try {
     const email = req.session.user;
     const addressid = req.body.address;
-    // console.log(addressid);
     await Register.updateMany(
       { Email: email, "mainAddress.status": true },
       {
@@ -1439,10 +1413,8 @@ async function couponCheck(req, res) {
           Email: req.session.user,
           couponUsed: couponDetails._id,
         });
-        console.log(usedCoupon);
         if (!usedCoupon) {
           let discount = (totalPrice * couponDetails.discount) / 100;
-          console.log(discount);
           let finalPrice = totalPrice - discount;
           res.json({
             data: {
@@ -1537,7 +1509,7 @@ async function postCheckout(req, res) {
       );
     }
   } catch (error) {
-    console.log(error + "hihihi");
+    console.log(error );
     res.redirect("/500/ErrorPage");
   }
 }
@@ -1631,7 +1603,6 @@ async function orderResult(req, res) {
         Email: req.session.user,
         couponUsed: couponId,
       });
-      console.log("ishdfidiuh");
       if (!usedCoupon) {
         await Register.updateOne(
           { Email: req.session.user },
@@ -1699,7 +1670,6 @@ async function newAddress(req, res) {
     );
     const user = await Register.findOne({ Email: req.session.user });
     const addressid = user.mainAddress[addressLength]._id;
-    console.log(addressid);
     await Register.updateMany(
       { Email: req.session.user, "mainAddress.status": true },
       {
@@ -1725,7 +1695,6 @@ async function newAddress(req, res) {
 async function nextBanner(req, res) {
   try {
     const bannerDetails = await banner.find({ list: true }).populate("product");
-    console.log(bannerDetails);
     res.json({
       data: bannerDetails,
     });
@@ -1819,7 +1788,6 @@ let currentFilter;
 async function filterBy(req, res) {
   switch (req.query.filter) {
     case "Men":
-      console.log("men");
       currentFilter = products.filter((product) => product.Category == "Men");
       break;
     case "Women":
@@ -1830,10 +1798,8 @@ async function filterBy(req, res) {
       break;
 
     default:
-      console.log("entered invalid search entry");
       break;
   }
-  console.log(currentFilter);
   products = currentFilter;
   res.json({
     success: 1,
@@ -1841,7 +1807,6 @@ async function filterBy(req, res) {
 }
 async function search(req, res) {
   let searchResult = [];
-  console.log(req.query.search);
   const regex = new RegExp(req.query.search, "i");
   if (currentFilter) {
     currentFilter.map((product) => {
@@ -1864,10 +1829,8 @@ async function addReview(req, res) {
   try {
     if (req.session.user) {
       const user = await Register.findOne({ Email: req.session.user });
-      console.log(req.query.productId);
       let currentReview;
       if (req.body.star1 == "on") {
-        console.log("what fo oyoodsifj ");
         currentReview = new review({
           userId: user._id,
           productId: req.query.productId,
@@ -1912,7 +1875,6 @@ async function addReview(req, res) {
       }
 
       await currentReview.save();
-      console.log(req.body);
       res.json({
         success: true,
       });
@@ -1943,7 +1905,6 @@ async function passwordCheck(req, res) {
 
 async function changePassword(req, res) {
   try {
-    console.log(req.body);
     const newPassword = await bcrypt.hash(req.body.password, 10);
     await Register.updateOne(
       { Email: req.session.user },

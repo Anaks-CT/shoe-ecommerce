@@ -18,10 +18,10 @@
                             const inputPhone = $('#phone').val()
                             if(!inputPhone.match(/^[0-9]{10,10}$/)){
                                 $('#phoneErrorMessage').text('10 digit number required')
-                                $('#registerButton').css('pointer-events','none')
+                                $("#registerButton").prop("disabled", true);
                             }else{
                                 $('#phoneErrorMessage').text('')
-                                $('#registerButton').css('pointer-events','')
+                                $("#registerButton").prop("disabled", false);
                             }
                         }
 
@@ -29,10 +29,11 @@
                             const inputMail = $('#email').val()
                             if(!inputMail.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
                                 $('#emailErrorMessage').text('Invalid Email')
-                                $('#registerButton').css('pointer-events','none')
+                                $("#registerButton").prop("disabled", true);
                             }else{
                                 $('#emailErrorMessage').text('')
-                                $('#registerButton').css('pointer-events','')
+                                $("#registerButton").prop("disabled", false);
+
                             }
                         }
 
@@ -40,10 +41,10 @@
                             const inputPassword = $('#password').val()
                             if(!inputPassword.match(/^(?=.*?[A-Za-z])(?=.*?[0-9]).{8,}$/)){
                                 $('#passwordErrorMessage').text('Password should be atleast 8 characters')
-                                $('#registerButton').css('pointer-events','none')
+                                $("#registerButton").prop("disabled", true);
                             }else{
                                 $('#passwordErrorMessage').text('')
-                                $('#registerButton').css('pointer-events','')
+                                $("#registerButton").prop("disabled", false);
                             }
                         }
                     </script>               

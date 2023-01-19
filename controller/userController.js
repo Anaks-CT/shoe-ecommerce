@@ -192,19 +192,17 @@ async function postsignupotp(req, res) {
     if (otpgen == req.body.otp) {
       // Register.insertMany([user]);
       await user.save()
-      res.redirect("/login");
       console.log(user);
-      const User = await Register.findOne({ Email: user.Email });
-      console.log(User);
       const userWishlist = new wishlist({
-        userId: User._id,
+        userId: user._id,
       });
       await userWishlist.save();
-      await Register.findByIdAndUpdate(User._id, {
+      await Register.findByIdAndUpdate(user._id, {
         $set: {
           wishlist: userWishlist._id,
         },
       });
+      res.redirect("/login");
     } else {
       let cartDetails;
       if (req.session.user) {

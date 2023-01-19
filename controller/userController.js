@@ -69,12 +69,12 @@ async function postRegister(req, res) {
     const useremail = Register.findOne({ Email: email });
     const userphone = Register.findOne({ Phone: Phone });
     if (password === cpassword) {
-      user = {
+      user = new Register ({
         firstname: firstname,
         Phone: Phone,
         Email: email,
         Password: hashedPassword,
-      };
+      });
 
       if (email != useremail.Email) {
         if (Phone != userphone.Phone) {
@@ -190,9 +190,12 @@ async function signupotp(req, res) {
 async function postsignupotp(req, res) {
   try {
     if (otpgen == req.body.otp) {
-      Register.insertMany([user]);
+      // Register.insertMany([user]);
+      await user.save()
       res.redirect("/login");
+      console.log(user);
       const User = await Register.findOne({ Email: user.Email });
+      console.log(User);
       const userWishlist = new wishlist({
         userId: User._id,
       });

@@ -22,7 +22,7 @@ const paypalgate = async (req,res) =>{
         },
         "redirect_urls": {
       "return_url": "https://runinstyle.co/checkout/placeOrder/"+orderDetialsId,
-          "cancel_url": "http://runinstyle.co/checkoutPage"
+          "cancel_url": "https://runinstyle.co/checkoutPage"
         },
         "transactions": [{
           "item_list": {

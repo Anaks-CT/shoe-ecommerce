@@ -8,7 +8,24 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="images p-3">
-                                <div class="text-center p-4"> <img id="main-image" src="/images/productImage/<%= productDetails.Image1 %>" width="250" /> </div>
+                                <div class="text-center p-4"> 
+                                    <div class="containerr">
+                                        <img id="main-image" src="/images/productImage/<%= productDetails.Image1 %>" width="250" />
+
+                                    </div>
+                                    <style>
+                                        .containerr {
+                                            border: 1px solid black;
+                                            overflow: hidden;
+                                            }
+                                            .containerr img {
+                                                transition: all 2s ease-in-out;
+                                            }
+                                            .containerr:hover img {
+                                                transform: scale(2,2)
+                                            }
+                                    </style>
+                                </div>
                                 <div class="thumbnail text-center">
                                      <img onclick="change_image(this)" src="/images/productImage/<%= productDetails.Image1 %>" width="70"> 
                                      <img onclick="change_image(this)" src="/images/productImage/<%= productDetails.Image2 %>" width="70">

@@ -11,7 +11,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-            <div class="container">
+            <div class="container" id="cartItemsDiv">
                 
                 <% product.forEach(function(product,i){ %>
                 <div class="row">
@@ -58,7 +58,7 @@
                 <div class="row d-flex flex-column align-items-center bg-light p-4" style="border-radius: 9px;">
                     <div class="col-12 d-flex justify-content-between">
                         <div><p>SUBTOTAL</p></div>
-                        <div><p class="subtotal">$<%= totalPrice.totalPrice %></p></div>
+                        <div  id="checkOutDiv"><p class="subtotal">$<%= totalPrice.totalPrice %></p></div>
                     </div>
                     <div class="col-12 text-center my-4"><a href="/checkoutPage"><button class="login-button signup-button" >CHECKOUT</button></a></div>
                     <div class="col-12 text-center"><p>Shipping is calculated at checkout</p></div>

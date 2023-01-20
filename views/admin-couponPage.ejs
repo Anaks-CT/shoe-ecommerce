@@ -27,8 +27,8 @@
               <td><%= item.name %></td>
               <td><%= item.code %></td>
               <td><%= item.discount %>%</td>
-              <td><%= item.startingDate %></td>
-              <td><%= item.expiryDate %></td>
+              <td><%= moment(item.startingDate).format('MMMM Do YYYY, h:mm:ss a') %></td>
+              <td><%= moment(item.expiryDate).format('MMMM Do YYYY, h:mm:ss a') %></td>
               <td>
                 <% if (item.active==true) { %>
                   <div class="box-2">

@@ -18,7 +18,7 @@
           <% orderDetails.forEach(function(item,i){ %>
             <tr>
               <td><%= item._id %></td>
-              <td><%= item.orderDate %></td>
+              <td><%=  moment(item.orderDate).format('MMMM Do YYYY, h:mm:ss a') %></td>
               <td><%= item.shippingAddress.addressLine1 %>, <br><%= item.shippingAddress.addressLine2 %>,<%= item.shippingAddress.state %>,<br><%= item.shippingAddress.country %>,<%= item.shippingAddress.pin %></td>
               <td><%= item.customer.Email %></td>
               <td>$<%= item.paidAmount %></td>

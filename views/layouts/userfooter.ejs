@@ -62,7 +62,8 @@
     method : 'get',
     success:(res) => {
         count = res.status;
-        location.reload()
+        $("#cartItemsDiv").load(location.href + " #cartItemsDiv")
+        $("#checkOutDiv").load(location.href + " #checkOutDiv")
     }
     })
     }
@@ -74,7 +75,9 @@
     method : 'get',
     success:(res) => {
         count = res.status;
-        location.reload()
+        $("#cartItemsDiv").load(location.href + " #cartItemsDiv")
+        $("#checkOutDiv").load(location.href + " #checkOutDiv")
+        
     }
     })
     }

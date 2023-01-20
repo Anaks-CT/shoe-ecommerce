@@ -4,6 +4,7 @@ const newCategory = require("../src/models/category");
 const coupon = require("../src/models/coupon");
 const order = require("../src/models/order");
 const banner = require("../src/models/banner");
+const moment = require('moment')
 
 async function adminsignin(req, res) {
   try {
@@ -317,7 +318,7 @@ async function unblockCategory(req, res) {
 async function couponPage(req, res) {
   try {
     const coupons = await coupon.find({});
-    res.render("admin-couponPage", { coupons });
+    res.render("admin-couponPage", { coupons,moment });
   } catch (error) {
     console.log(error);
     res.redirect("/500/ErrorPage");
@@ -370,7 +371,7 @@ async function deactivateCoupon(req, res) {
 async function orderList(req, res) {
   try {
     const orderDetails = await order.find({}).populate("customer");
-    res.render("admin-orderList", { orderDetails });
+    res.render("admin-orderList", { orderDetails,moment });
   } catch (error) {
     console.log(error);
     res.redirect("/500/ErrorPage");
@@ -382,7 +383,7 @@ async function orderDetail(req, res) {
     const orderDetails = await order
       .findOne({ _id: orderID })
       .populate("customer");
-    res.render("admin-orderDetail", { orderDetails });
+    res.render("admin-orderDetail", { orderDetails,moment });
   } catch (error) {
     console.log(error);
     res.redirect("/500/ErrorPage");
@@ -404,37 +405,19 @@ async function orderDelivered(req, res) {
 
 async function adminDashboard(req, res) {
   try {
-    const customerCount = await Register.find();
-    const productCount = await newProduct.find();
-    const orderCount = await order.find().populate("orderItems.productID");
+    const customerCount = await Register.find().count()
+    const productCount = await newProduct.find().count()
+    const orders = await order.find().populate("orderItems.productID");
     let totalAmount = 0;
-    orderCount.forEach((element) => {
+    orders.forEach((element) => {
       totalAmount = element.paidAmount + totalAmount;
     });
-    let menTotalAmount = 0;
-    let womenTotalAmount = 0;
-    if (orderCount.length != 0) {
-      for (let i = 0; i < orderCount.length; i++) {
-        for (let j = 0; j < orderCount[i].orderItems.length; j++) {
-          if (orderCount[i].orderItems[j].productID.Category == "Men") {
-            menTotalAmount =
-              orderCount[i].orderItems[j].totalPrice + menTotalAmount;
-          } else if (
-            orderCount[i].orderItems[j].productID.Category == "Women"
-          ) {
-            womenTotalAmount =
-              orderCount[i].orderItems[j].totalPrice + womenTotalAmount;
-          }
-        }
-      }
-    }
+    
     res.render("admin-dashboard", {
       customerCount,
       productCount,
-      orderCount,
+      orders,
       totalAmount,
-      womenTotalAmount,
-      menTotalAmount,
     });
   } catch (error) {
     console.log(error);
@@ -674,9 +657,30 @@ async function graphData(req, res) {
         $sort: { "_id.month": 1 },
       },
     ]);
+    const orders = await order.find().populate("orderItems.productID");
+    let menTotalAmount = 0;
+    let womenTotalAmount = 0;
+    if (orders.length != 0) {
+      for (let i = 0; i < orders.length; i++) {
+        for (let j = 0; j < orders[i].orderItems.length; j++) {
+          if (orders[i].orderItems[j].productID.Category == "Men") {
+            menTotalAmount =
+              orders[i].orderItems[j].totalPrice + menTotalAmount;
+          } else if (
+            orders[i].orderItems[j].productID.Category == "Women"
+          ) {
+            womenTotalAmount =
+              orders[i].orderItems[j].totalPrice + womenTotalAmount;
+          }
+        }
+      }
+    }
+    console.log(menTotalAmount+'women'+womenTotalAmount);
     res.json({
       data: {
         orderData,
+        menTotalAmount,
+        womenTotalAmount
       },
     });
   } catch (error) {

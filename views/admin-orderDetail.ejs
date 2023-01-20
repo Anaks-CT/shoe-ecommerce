@@ -48,7 +48,7 @@
             <div class="col-12 d-flex justify-content-between my-5">
                 <div class="col-3 d-flex flex-column">
                     <h5>ORDER DATE</h5>
-                    <p><%= orderDetails.orderDate %></p>
+                    <p><%=   moment(orderDetails.orderDate).format('MMMM Do YYYY, h:mm:ss a')%></p>
                 </div>
                 <div class="col-4 d-flex flex-column">
                     <h5 >ADDRESS</h5>

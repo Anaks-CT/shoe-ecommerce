@@ -10,6 +10,8 @@ const order = require("../src/models/order");
 const moment = require("moment");
 const banner = require("../src/models/banner");
 const review = require("../src/models/productReview");
+const paypal = require("paypal-rest-sdk");
+
 
 async function welcome(req, res) {
   try {
@@ -1518,16 +1520,63 @@ async function postCheckout(req, res) {
       paymentMethod: req.body.payment,
       couponCode: couponId,
     });
+    let finalPrice = userinfo.cart.totalPrice - req.body.discount
     if (req.body.payment == "Cash On Delivery") {
       req.session.payment = true;
       res.redirect("/checkout/placeOrder/" + orderDetials._id);
     } else {
-      res.redirect(
-        "/checkout/paypal?discount=" +
-          discount +
-          "&orderDetials=" +
-          orderDetials._id
-      );
+    
+          paypal.configure({
+            mode: "sandbox", //sandbox or live
+            client_id:
+              "AeflmT1fGOp74rfgOjw8wYVZ4YEwriS0i9UUPR1mN3abCNAUkYskayR-JgjVlXuoUrzzas9-Y-BpgCT-",
+            client_secret:
+              "EBIA-bqkG62DwwwGoZ0tZdkv4efKmKSqhU5yQo4DlNPvb5jaAWvU8JquoPr6rpgxHjS1dtIvADvvR8jF",
+          });
+          
+          
+          
+            const create_payment_json = {
+              intent: "sale",
+              payer: {
+                payment_method: "paypal",
+              },
+              redirect_urls: {
+                return_url: `https://runinstyle.co/checkout/placeOrder/${orderDetials._id}`,
+                cancel_url: "https://runinstyle.co/checkoutPage",
+              },
+              transactions: [
+                {
+                  item_list: {
+                    items: [
+                      {
+                        name: `Order Number-${orderDetials._id}`,
+                        sku: `Order Number-${orderDetials._id}`,
+                        price: finalPrice,
+                        currency: "USD",
+                        quantity: 1,
+                      },
+                    ],
+                  },
+                  amount: {
+                    currency: "USD",
+                    total: finalPrice,
+                  },
+                  description: "runinstyle.",
+                },
+              ],
+            };
+            paypal.payment.create(create_payment_json, async function (error, payment) {
+              if (error) {
+                throw error;
+              } else {
+                for (let i = 0; i < payment.links.length; i++) {
+                  if (payment.links[i].rel === "approval_url") {
+                    res.redirect(payment.links[i].href);
+                  }
+                }
+              }
+            });
     }
   } catch (error) {
     console.log(error );

@@ -4,9 +4,9 @@ const coupon = require("../src/models/coupon");
 paypal.configure({
   mode: "sandbox", //sandbox or live
   client_id:
-    "AXxgb385M9x9huQ92gVjkdAZlsJlfjuOaQimQQlIE68VTIFJBu6l7EZZPlrwcMV9BWjtlc3HUT6dlEBp",
+    "AeflmT1fGOp74rfgOjw8wYVZ4YEwriS0i9UUPR1mN3abCNAUkYskayR-JgjVlXuoUrzzas9-Y-BpgCT-",
   client_secret:
-    "EE8XlipR2U1Omg1Z-Bm0OeZbMpFfFNb5OU4p-qM-1ZJezOBUCJysWGL6xw72lzRbaa9x1Tlzqv_wnzpq",
+    "EBIA-bqkG62DwwwGoZ0tZdkv4efKmKSqhU5yQo4DlNPvb5jaAWvU8JquoPr6rpgxHjS1dtIvADvvR8jF",
 });
 
 const paypalgate = async (req, res) => {
